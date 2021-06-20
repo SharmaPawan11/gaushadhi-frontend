@@ -9,7 +9,7 @@
     "test": "ng test",
     "format:write": "prettier ./**/*.{ts,json,md,scss} --write",
     "format:test": "prettier ./**/*.{ts,json,md,scss} --list-different",
-    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/customer-manager/stats-es2015.json"
+    "analyze": "ng build --stats-json && webpack-bundle-analyzer ./dist/gaushadhi-frontend/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +23,9 @@
     "@angular/platform-browser": "~12.0.2",
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
+    "@apollo/client": "^3.3.19",
+    "apollo-angular": "^2.6.0",
+    "graphql": "^15.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

@@ -2,6 +2,11 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreComponent } from './core.component';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { InMemoryCache } from '@apollo/client/core';
+import { HttpLink } from 'apollo-angular/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { DefaultInterceptor } from './providers/interceptors/default-interceptor.service';
 
 @NgModule({
   declarations: [CoreComponent],
@@ -9,11 +14,24 @@ import { CoreComponent } from './core.component';
     // Angular
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
   ],
-  exports: [
-    BrowserModule,
-    BrowserAnimationsModule
-  ]
+  exports: [BrowserModule, BrowserAnimationsModule],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: 'http://localhost:3000/shop-api',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
 })
 export class CoreModule {
   // To ensure that CoreModule is imported only once.

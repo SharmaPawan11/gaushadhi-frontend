@@ -5,10 +5,10 @@ export const routes: Route[] = [
   {
     path: '',
     component: CoreComponent,
-    // children: [
-    //   {
-    //     path: 'home',
-    //   },
-    // ],
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
 ];
