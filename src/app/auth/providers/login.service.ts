@@ -2,13 +2,24 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 import { gql } from 'apollo-angular';
 import { SignIn } from '../../common/vendure-types';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
+import { UserService } from '../../core/providers/user.service';
 
 @Injectable()
 export class LoginService {
   LOGIN_MUTATION = gql`
-    mutation ($emailAddress: String!, $password: String!) {
-      login(username: $emailAddress, password: $password, rememberMe: false) {
+    mutation (
+      $emailAddress: String!
+      $password: String!
+      $rememberMe: Boolean
+    ) {
+      login(
+        username: $emailAddress
+        password: $password
+        rememberMe: $rememberMe
+      ) {
         __typename
         ... on CurrentUser {
           id
@@ -20,26 +31,19 @@ export class LoginService {
             permissions
           }
         }
-        ... on InvalidCredentialsError {
-          errorCode
-          message
-          authenticationError
-        }
-        ... on NotVerifiedError {
-          errorCode
-          message
-        }
-        ... on NativeAuthStrategyError {
-          errorCode
-          message
-        }
+        ...ErrorResult
       }
     }
+    ${ERROR_RESULT_FRAGMENT}
   `;
 
   constructor(private requestor: RequestorService) {}
 
-  login(emailAddress: string, password: string, rememberMe?: boolean) {
+  login(
+    emailAddress: string,
+    password: string,
+    rememberMe?: boolean
+  ): Observable<any> {
     const loginMutationVariable = {
       emailAddress,
       password,

@@ -46,8 +46,10 @@ export class VerifyAccountComponent implements OnInit, OnDestroy {
             case 'CurrentUser':
               console.log(res);
               this.userId = res.id;
-              this.userService.currentUserId = this.userId;
-            // this.router.navigate(['/account']);
+              this.userService.setUserDetails(this.userId);
+              setTimeout(() => {
+                this.router.navigate(['account']);
+              }, 2000);
           }
         });
     }

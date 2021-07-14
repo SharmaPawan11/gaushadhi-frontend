@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 import { Register, RegisterCustomerInput } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
+import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 
 @Injectable()
 export class RegisterService {
@@ -13,16 +14,10 @@ export class RegisterService {
         ... on Success {
           success
         }
-        ... on MissingPasswordError {
-          errorCode
-          message
-        }
-        ... on NativeAuthStrategyError {
-          errorCode
-          message
-        }
+        ...ErrorResult
       }
     }
+    ${ERROR_RESULT_FRAGMENT}
   `;
   constructor(private requestor: RequestorService) {}
 

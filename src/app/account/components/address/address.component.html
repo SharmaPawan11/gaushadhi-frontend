@@ -1,0 +1,152 @@
+<p>address works!</p>
+
+<div
+  *ngFor="let address of customerAddresses"
+  style="border: 1px solid darkred"
+>
+  <h6>{{ address.streetLine1 }}</h6>
+  <h6>{{ address.postalCode }}</h6>
+  <h6>{{ address.phoneNumber }}</h6>
+  <h6>{{ address.fullName }}</h6>
+  <h6>{{ address.city }}</h6>
+  <h6>{{ address.province }}</h6>
+  <button
+    (click)="onDeleteAddress(address.id)"
+    mat-raised-button
+    color="primary"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="addAddressForm" (ngSubmit)="onAddNewAddress()">
+  <mat-form-field appearance="outline">
+    <mat-label>FullName</mat-label>
+    <input
+      formControlName="fullName"
+      matInput
+      placeholder="Enter Full Name"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Company</mat-label>
+    <input
+      formControlName="company"
+      matInput
+      placeholder="Enter Company"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Street Line 1</mat-label>
+    <input
+      formControlName="streetLine1"
+      matInput
+      placeholder="Enter Street Line 1"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="streetLine1?.hasError('required')">
+      Street Line 1 is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Street Line 2</mat-label>
+    <input
+      formControlName="streetLine2"
+      matInput
+      placeholder="Enter Street Line 2"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <input
+      formControlName="city"
+      matInput
+      placeholder="Enter City"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="city?.hasError('required')">
+      City is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>State</mat-label>
+    <input
+      formControlName="province"
+      matInput
+      placeholder="Enter State"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="province?.hasError('required')">
+      State is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Country</mat-label>
+    <mat-select formControlName="countryCode" [(value)]="detectedCountry">
+      <mat-option></mat-option>
+      <mat-option [value]="country?.code" *ngFor="let country of countries">{{
+        country?.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--  <p *ngFor="let country of countries">{{country.countryCode}}</p>-->
+
+  <mat-form-field appearance="outline">
+    <mat-label>Zip Code</mat-label>
+    <input
+      formControlName="postalCode"
+      matInput
+      placeholder="Enter Zip Code"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="postalCode?.hasError('required')">
+      Zip Code is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="postalCode?.hasError('pattern')">
+      Please enter a valid Zip code.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone Number</mat-label>
+    <input
+      formControlName="phoneNumber"
+      matInput
+      placeholder="Enter Phone Number"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="phoneNumber?.hasError('required')">
+      Phone Number is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="phoneNumber?.hasError('pattern')">
+      Please enter a valid phone number.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="defaultShippingAddress"
+    >Set as default shipping address</mat-slide-toggle
+  >
+
+  <mat-slide-toggle formControlName="defaultBillingAddress"
+    >Set as default billing address</mat-slide-toggle
+  >
+
+  <button
+    [disabled]="addAddressForm.invalid"
+    type="submit"
+    mat-raised-button
+    color="primary"
+  >
+    Add Address
+  </button>
+</form>

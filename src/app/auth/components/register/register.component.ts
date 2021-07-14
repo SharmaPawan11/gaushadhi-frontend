@@ -1,11 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegisterService } from '../../providers/register.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  childrenEqualValidator,
-  ConfirmValidParentMatcher,
-} from '../../validators/childrenEqual.validator';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { ErrorResult } from '../../../common/vendure-types';
 import { Subscription } from 'rxjs';
 
@@ -22,19 +17,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registrationForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    passwordGroup: this.fb.group(
-      {
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
-      },
-      { validators: childrenEqualValidator }
-    ),
+    passwordGroup: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     phoneNumber: ['', Validators.pattern('^([+]91)?[789]\\d{9}$')],
   });
-
-  passwordEqualityMatcher: ErrorStateMatcher = new ConfirmValidParentMatcher();
 
   get firstName() {
     return this.registrationForm.get('firstName');
@@ -44,9 +31,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   get email() {
     return this.registrationForm.get('email');
-  }
-  get password() {
-    return this.registrationForm.get('passwordGroup.password');
   }
   get phoneNumber() {
     return this.registrationForm.get('phoneNumber');
@@ -75,7 +59,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password: formData.passwordGroup.password,
       firstName: formData.firstName,
       lastName: formData.lastName,
-      phoneNumber: formData.phoneNumber || ''
+      phoneNumber: formData.phoneNumber || '',
     };
     this.registrationSubscription = this.registerService
       .registerUser(data)

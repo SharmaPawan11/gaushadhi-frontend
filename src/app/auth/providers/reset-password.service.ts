@@ -7,6 +7,7 @@ import {
   ResetPassword,
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
+import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,10 @@ export class ResetPasswordService {
         ... on Success {
           success
         }
-        ... on NativeAuthStrategyError {
-          errorCode
-          message
-        }
+        ...ErrorResult
       }
     }
+    ${ERROR_RESULT_FRAGMENT}
   `;
 
   RESET_PASSWORD_MUTATION = gql`
@@ -41,20 +40,10 @@ export class ResetPasswordService {
             permissions
           }
         }
-        ... on NativeAuthStrategyError {
-          errorCode
-          message
-        }
-        ... on PasswordResetTokenInvalidError {
-          errorCode
-          message
-        }
-        ... on PasswordResetTokenExpiredError {
-          errorCode
-          message
-        }
+        ...ErrorResult
       }
     }
+    ${ERROR_RESULT_FRAGMENT}
   `;
 
   constructor(private requestor: RequestorService) {}

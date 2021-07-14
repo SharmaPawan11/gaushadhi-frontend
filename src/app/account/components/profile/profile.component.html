@@ -1,0 +1,83 @@
+<ng-template #editSaveIconTemplate let-watchEditOn>
+  <button
+    (click)="onEditStart(watchEditOn)"
+    *ngIf="currentlyEditing !== watchEditOn"
+    color="primary"
+    mat-raised-button
+    type="button"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button
+    (click)="onEditDone(watchEditOn)"
+    *ngIf="currentlyEditing === watchEditOn"
+    [disabled]="!isControlValid(watchEditOn)"
+    color="primary"
+    mat-raised-button
+    type="button"
+  >
+    <mat-icon>save</mat-icon>
+  </button>
+</ng-template>
+
+<form [formGroup]="userProfileForm">
+  <em>title</em>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <input formControlName="title"/>
+  <ng-container
+    [ngTemplateOutletContext]="{
+      $implicit: 'title'
+    }"
+    [ngTemplateOutlet]="editSaveIconTemplate"
+  ></ng-container>
+  <br/>
+  <em>firstName</em>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <input formControlName="firstName"/>
+  <ng-container
+    [ngTemplateOutletContext]="{
+      $implicit: 'firstName'
+    }"
+    [ngTemplateOutlet]="editSaveIconTemplate"
+  ></ng-container>
+  <br/>
+  <em>lastName</em>&nbsp;&nbsp;&nbsp;&nbsp;
+  <input formControlName="lastName"/>
+
+  <ng-container
+    [ngTemplateOutletContext]="{
+      $implicit: 'lastName'
+    }"
+    [ngTemplateOutlet]="editSaveIconTemplate"
+  ></ng-container>
+  <br/>
+  <em>emailAddress</em>&nbsp;&nbsp;&nbsp;&nbsp;
+  <input formControlName="emailAddress"/>
+  <ng-container
+    [ngTemplateOutletContext]="{
+      $implicit: 'emailAddress'
+    }"
+    [ngTemplateOutlet]="editSaveIconTemplate"
+  ></ng-container>
+  <input [formControl]="password"/>
+  <br/>
+  <em>phoneNumber</em>&nbsp;&nbsp;&nbsp;&nbsp;
+  <input formControlName="phoneNumber"/>
+  <ng-container
+    [ngTemplateOutletContext]="{
+      $implicit: 'phoneNumber'
+    }"
+    [ngTemplateOutlet]="editSaveIconTemplate"
+  ></ng-container>
+  <br/>
+
+  <button
+    [disabled]="userProfileForm.invalid"
+    color="primary"
+    mat-raised-button
+    type="submit"
+  >
+    Update
+  </button>
+</form>

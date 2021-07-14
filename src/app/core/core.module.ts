@@ -1,20 +1,22 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreComponent } from './core.component';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { InMemoryCache } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DefaultInterceptor } from './providers/interceptors/default-interceptor.service';
+import { ShellComponent } from './components/shell/shell.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [CoreComponent],
+  declarations: [ShellComponent],
   imports: [
     // Angular
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule,
   ],
   exports: [BrowserModule, BrowserAnimationsModule],
   providers: [
@@ -26,7 +28,13 @@ import { DefaultInterceptor } from './providers/interceptors/default-interceptor
           cache: new InMemoryCache(),
           link: httpLink.create({
             uri: 'http://localhost:3000/shop-api',
+            withCredentials: true,
           }),
+          // defaultOptions: {
+          //   watchQuery: {
+          //     errorPolicy: 'ignore'
+          //   }
+          // }
         };
       },
       deps: [HttpLink],

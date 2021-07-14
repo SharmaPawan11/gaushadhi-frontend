@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { VerifyService } from './providers/verify.service';
 import { ResetPasswordService } from './providers/reset-password.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -22,17 +24,21 @@ import { ResetPasswordService } from './providers/reset-password.service';
     VerifyAccountComponent,
     ResetPasswordComponent,
   ],
-  imports: [
-    // Angular
-    CommonModule,
-    RouterModule.forChild(routes),
+    imports: [
+        // Angular
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
 
-    // Angular Material
-    MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
+        // Angular Material
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCheckboxModule,
+
+        // Gaushadhi
+        SharedModule
+    ],
   providers: [
     LoginService,
     RegisterService,

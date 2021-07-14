@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { CurrentUser, ErrorResult } from '../../../common/vendure-types';
 import { UserService } from '../../../core/providers/user.service';
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'gaushadhi-login',
@@ -11,6 +13,7 @@ import { FormBuilder, NgForm, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  redirectUrl: string = '/account';
   userId!: string;
   loginError!: ErrorResult;
   loginSubscription!: Subscription;
@@ -18,6 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     {
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
+      rememberMe: [''],
     },
     {
       // updateOn: "blur"
@@ -33,10 +37,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams
+      .pipe(filter((params) => params.redirectTo))
+      .subscribe((params) => {
+        this.redirectUrl = params['redirectTo'];
+      });
+  }
 
   ngOnDestroy() {
     if (this.loginSubscription) {
@@ -49,8 +61,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     const formData = this.loginForm.value;
+    console.log(formData);
     this.loginSubscription = this.loginService
-      .login(formData.email, formData.password)
+      .login(formData.email, formData.password, formData.rememberMe)
       .subscribe((res) => {
         switch (res.__typename) {
           case 'NotVerifiedError':
@@ -62,7 +75,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           case 'CurrentUser':
             console.log(res.id);
             this.userId = res.id;
-            this.userService.currentUserId = this.userId;
+            this.userService.setUserDetails(this.userId);
+            this.router.navigateByUrl(this.redirectUrl);
         }
       });
   }

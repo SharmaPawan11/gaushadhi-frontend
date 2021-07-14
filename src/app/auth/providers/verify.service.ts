@@ -3,6 +3,7 @@ import { RequestorService } from '../../core/providers/requestor.service';
 import { Verify } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { gql } from 'apollo-angular';
+import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 
 @Injectable()
 export class VerifyService {
@@ -20,28 +21,10 @@ export class VerifyService {
             permissions
           }
         }
-        ... on VerificationTokenInvalidError {
-          errorCode
-          message
-        }
-        ... on VerificationTokenExpiredError {
-          errorCode
-          message
-        }
-        ... on MissingPasswordError {
-          errorCode
-          message
-        }
-        ... on NativeAuthStrategyError {
-          errorCode
-          message
-        }
-        ... on PasswordAlreadySetError {
-          errorCode
-          message
-        }
+        ...ErrorResult
       }
     }
+    ${ERROR_RESULT_FRAGMENT}
   `;
 
   constructor(private requestor: RequestorService) {}

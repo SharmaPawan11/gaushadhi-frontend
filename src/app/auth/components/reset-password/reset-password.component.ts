@@ -10,11 +10,12 @@ import {
 import {
   childrenEqualValidator,
   ConfirmValidParentMatcher,
-} from '../../validators/childrenEqual.validator';
-import { Subscription } from 'rxjs';
+} from '../../../common/validators/childrenEqual.validator';
+import { Subject, Subscription } from 'rxjs';
 import { ErrorResult } from '../../../common/vendure-types';
 import { UserService } from '../../../core/providers/user.service';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'gaushadhi-reset-password',
@@ -22,35 +23,22 @@ import { ErrorStateMatcher } from '@angular/material/core';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   // Request reset variables
   progressState: 'emailStep' | 'passwordStep' = 'emailStep';
   email = new FormControl(null, [Validators.required, Validators.email]);
   requestResetError!: ErrorResult;
   resetEmailSentSuccessfully: boolean = false;
-  requestResetSubscription!: Subscription;
 
   // Change password variables
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
   token: string = '';
   userId: string = '';
-  resetSubscription!: Subscription;
-  newPasswordForm: FormGroup = this.fb.group(
-    {
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
-    },
-    { validators: childrenEqualValidator }
-  );
+  newPasswordForm: FormControl = new FormControl(null);
 
   passwordEqualityMatcher: ErrorStateMatcher = new ConfirmValidParentMatcher();
-
-  get password() {
-    return this.newPasswordForm.get('password');
-  }
-  get confirmPassword() {
-    return this.newPasswordForm.get('confirmPassword');
-  }
 
   constructor(
     private route: ActivatedRoute,
@@ -68,12 +56,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.requestResetSubscription) {
-      this.requestResetSubscription.unsubscribe();
-    }
-    if (this.resetSubscription) {
-      this.resetSubscription.unsubscribe();
-    }
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   onRequestReset() {
@@ -81,8 +65,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       return;
     }
     const enteredEmail = this.email.value;
-    this.requestResetSubscription = this.resetService
+    this.resetService
       .requestResetPassword(enteredEmail)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (res?.__typename === 'NativeAuthStrategyError') {
           console.log(res.message);
@@ -97,8 +82,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       return;
     }
     const formData = this.newPasswordForm.value;
-    this.resetSubscription = this.resetService
+    this.resetService
       .resetPassword(this.token, formData.password)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         switch (res.__typename) {
           case 'PasswordResetTokenInvalidError':
@@ -110,7 +96,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           case 'CurrentUser':
             console.log(res.id);
             this.userId = res.id;
-            this.userService.currentUserId = this.userId;
+            this.userService.setUserDetails(this.userId);
         }
       });
   }

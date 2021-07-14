@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { NetworkStatus, WatchQueryFetchPolicy } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import { DocumentNode } from 'graphql';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +28,7 @@ export class RequestorService {
         fetchPolicy: fetchPolicy || 'cache-and-network',
       })
       .valueChanges.pipe(
+        tap((result) => console.log(result)),
         filter((result) => result.networkStatus === NetworkStatus.ready),
         map((response) => response.data)
       );

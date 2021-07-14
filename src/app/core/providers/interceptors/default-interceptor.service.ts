@@ -7,8 +7,8 @@ import {
   HttpResponse,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -44,6 +44,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   private notifyOnError(response: HttpResponse<any> | HttpErrorResponse) {
     if (response instanceof HttpErrorResponse) {
       if (response.status === 0) {
+        console.log(response);
         this.displayErrorNotification('Could not connect to server!');
       } else {
         this.displayErrorNotification(response.toString());
