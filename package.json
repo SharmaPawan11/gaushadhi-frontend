@@ -9,7 +9,7 @@
     "test": "ng test",
     "format:write": "prettier ./**/*.{ts,json,md,scss} --write",
     "format:test": "prettier ./**/*.{ts,json,md,scss} --list-different",
-    "analyze": "ng build --stats-json && webpack-bundle-analyzer ./dist/gaushadhi-frontend/stats.json"
+    "analyze": "ng build --aot --build-optimizer --optimization --configuration production --stats-json && webpack-bundle-analyzer ./dist/gaushadhi-frontend/stats.json"
   },
   "private": true,
   "dependencies": {

@@ -6,7 +6,7 @@ import {
   CreateAddressInput,
   GetAvailableCountries,
   GetCustomerAddresses,
-  Success,
+  Success, UpdateAddress, UpdateAddressInput,
 } from '../../common/vendure-types';
 import { catchError, map, share, take, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -47,6 +47,14 @@ export class AddressService {
     }
   `;
 
+  UPDATE_CUSTOMER_ADDRESS_MUTATION = gql`
+    mutation updateCustomerAddress($updateAddressInput: UpdateAddressInput!) {
+    updateCustomerAddress(input: $updateAddressInput) {
+      id
+    }
+  }
+  `
+
   constructor(private requestor: RequestorService) {}
 
   addAddress(createAddressDataObject: CreateAddressInput) {
@@ -63,6 +71,14 @@ export class AddressService {
         id: addressId,
       })
       .pipe(map((res) => res.deleteCustomerAddress));
+  }
+
+  updateAddress(updateAddressDataObject: UpdateAddressInput) {
+    return this.requestor
+      .mutate<UpdateAddress.Mutation>(this.UPDATE_CUSTOMER_ADDRESS_MUTATION, {
+        updateAddressInput: updateAddressDataObject
+      })
+      .pipe(map((res)=> res.updateCustomerAddress))
   }
 
   getAddresses() {

@@ -10,12 +10,20 @@
   <h6>{{ address.fullName }}</h6>
   <h6>{{ address.city }}</h6>
   <h6>{{ address.province }}</h6>
+  <h6>{{ address.country.code }}</h6>
   <button
     (click)="onDeleteAddress(address.id)"
     mat-raised-button
     color="primary"
   >
     <mat-icon>delete</mat-icon>
+  </button>
+  <button
+    (click)="onEditAddress(address.id)"
+    mat-raised-button
+    color="primary"
+  >
+    <mat-icon>edit</mat-icon>
   </button>
 </div>
 
@@ -141,7 +149,7 @@
     >Set as default billing address</mat-slide-toggle
   >
 
-  <button
+  <button *ngIf="!editMode"
     [disabled]="addAddressForm.invalid"
     type="submit"
     mat-raised-button
@@ -149,4 +157,21 @@
   >
     Add Address
   </button>
+  <button *ngIf="editMode"
+    type="button"
+    [disabled]="addAddressForm.invalid"
+    (click)="onSaveAddress()"
+    mat-raised-button
+    color="primary"
+  >
+    Save
+  </button>
+  <button *ngIf="editMode"
+    (click)="onCancelAddressEdit()"
+    mat-raised-button
+    color="primary"
+  >
+    Cancel
+  </button>
+
 </form>
