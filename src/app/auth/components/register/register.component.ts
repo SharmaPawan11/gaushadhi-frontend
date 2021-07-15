@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registrationForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    passwordGroup: [''],
+    password: ['', [Validators.required]],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     phoneNumber: ['', Validators.pattern('^([+]91)?[789]\\d{9}$')],
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const formData = this.registrationForm.value;
     const data = {
       emailAddress: formData.email,
-      password: formData.passwordGroup.password,
+      password: formData.password,
       firstName: formData.firstName,
       lastName: formData.lastName,
       phoneNumber: formData.phoneNumber || '',

@@ -84,9 +84,9 @@ export class AddressComponent implements OnInit, OnDestroy {
         this.countries = countryCodeRes;
         if (geoLocationRes.status === 'success') {
           this.userGeolocationData = geoLocationRes;
-          this.city?.setValue(geoLocationRes.city);
-          this.postalCode?.setValue(geoLocationRes.zip);
-          this.province?.setValue(geoLocationRes.regionName);
+          if (!this.city?.dirty) this.city?.setValue(geoLocationRes.city);
+          if (!this.province?.dirty) this.province?.setValue(geoLocationRes.regionName);
+          if (!this.postalCode?.dirty) this.postalCode?.setValue(geoLocationRes.zip);
         }
 
         if (Array.isArray(countryCodeRes) && countryCodeRes.length) {
@@ -94,7 +94,7 @@ export class AddressComponent implements OnInit, OnDestroy {
             return country.code === geoLocationRes.countryCode;
           });
           if (detectedCountry) {
-            this.countryCode?.setValue(detectedCountry.code);
+            if (!this.countryCode?.dirty) this.countryCode?.setValue(detectedCountry.code);
           }
         }
       });
@@ -102,7 +102,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 
   onAddNewAddress() {

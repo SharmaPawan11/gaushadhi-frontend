@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../providers/profile.service';
 import { ActivatedRoute } from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'gaushadhi-profile',
@@ -12,7 +17,7 @@ export class ProfileComponent implements OnInit {
   userProfileData!: any;
   userProfileForm!: FormGroup;
   currentlyEditing: string = '';
-  password!: FormControl
+  password!: FormControl;
 
   constructor(
     private profileService: ProfileService,
@@ -21,9 +26,9 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userProfileData = {...this.route.snapshot.data['profile']};
+    this.userProfileData = { ...this.route.snapshot.data['profile'] };
 
-    this.password = new FormControl('')
+    this.password = new FormControl('');
     this.userProfileForm = this.fb.group({
       title: [this.userProfileData.title],
       firstName: [
@@ -60,19 +65,21 @@ export class ProfileComponent implements OnInit {
   }
 
   onEditDone(controlEdited: string) {
-    console.log(controlEdited)
+    console.log(controlEdited);
     if (!this.userProfileForm.controls[controlEdited].pristine) {
       if (controlEdited === 'emailAddress') {
-        console.log(this.password.value)
+        console.log(this.password.value);
       } else {
-        this.profileService.updateCustomerProfile(
-          controlEdited,
-          this.userProfileForm.controls[controlEdited].value
-        ).subscribe((res) => {
-          console.log(res)
-          this.userProfileData[controlEdited] = res[controlEdited]
-          this.currentlyEditing = '';
-        });
+        this.profileService
+          .updateCustomerProfile(
+            controlEdited,
+            this.userProfileForm.controls[controlEdited].value
+          )
+          .subscribe((res) => {
+            console.log(res);
+            this.userProfileData[controlEdited] = res[controlEdited];
+            this.currentlyEditing = '';
+          });
       }
     }
   }

@@ -16,6 +16,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ChangeEmailAddressComponent } from './components/change-email-address/change-email-address.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -27,19 +28,20 @@ import { ChangeEmailAddressComponent } from './components/change-email-address/c
     AddressComponent,
     ChangeEmailAddressComponent,
   ],
-  imports: [
-    // Angular
-    CommonModule,
-    RouterModule.forChild(routes),
+    imports: [
+        // Angular
+        CommonModule,
+        RouterModule.forChild(routes),
 
-    // Angular Material
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+        // Angular Material
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatIconModule,
+        SharedModule,
+    ],
 })
 export class AccountModule {}

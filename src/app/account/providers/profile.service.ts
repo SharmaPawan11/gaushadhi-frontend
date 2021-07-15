@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 
 import {
+  ChangeEmailAddress,
   GetAccountOverview,
-  UpdateCustomerDetails,
+  UpdateCustomerDetails, VerifyChangeEmailAddress,
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -31,6 +32,40 @@ export class ProfileService {
     }
   `;
 
+  REQUEST_EMAIL_ADDRESS_UPDATE_MUTATION = gql`
+    mutation requestChangeEmailAddress(
+      $password: String!
+      $newEmailAddress: String!
+    ) {
+      requestUpdateCustomerEmailAddress(
+        password: $password
+        newEmailAddress: $newEmailAddress
+      ) {
+        ... on Success {
+          success
+        }
+        ... on ErrorResult {
+          errorCode
+          message
+        }
+      }
+    }
+  `;
+
+  VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION = gql`
+  mutation changeEmailAddress($token: String!) {
+  updateCustomerEmailAddress(token: $token) {
+    ... on Success {
+      success
+    }
+    ... on ErrorResult {
+      message
+      errorCode
+    }
+  }
+}
+  `
+
   constructor(private requestor: RequestorService) {}
 
   getProfileData(): Observable<any> {
@@ -47,16 +82,16 @@ export class ProfileService {
     fieldEdited: string,
     fieldNewValue: string
   ): Observable<any> {
-
     const updateProfileMutationVariable: any = {
       updateCustomerInput: {},
       hasUpdatedTitle: false,
       hasUpdatedFirstName: false,
       hasUpdatedLastName: false,
-      hasUpdatedPhoneNumber: false
-    }
+      hasUpdatedPhoneNumber: false,
+    };
 
-    updateProfileMutationVariable.updateCustomerInput[fieldEdited] = fieldNewValue
+    updateProfileMutationVariable.updateCustomerInput[fieldEdited] =
+      fieldNewValue;
 
     switch (fieldEdited) {
       case 'firstName':
@@ -73,12 +108,26 @@ export class ProfileService {
         break;
     }
 
-    return this.requestor.mutate<UpdateCustomerDetails.Mutation, UpdateCustomerDetails.Variables>(
-      this.UPDATE_CUSTOMER_PROFILE_MUTATION, updateProfileMutationVariable
-    ).pipe(map((res) => res.updateCustomer));
+    return this.requestor
+      .mutate<UpdateCustomerDetails.Mutation, UpdateCustomerDetails.Variables>(
+        this.UPDATE_CUSTOMER_PROFILE_MUTATION,
+        updateProfileMutationVariable
+      )
+      .pipe(map((res) => res.updateCustomer));
   }
 
-  requestEmailAddressUpdate() {
+  requestEmailUpdate({password, newEmailAddress}: {password: string, newEmailAddress: string}) {
+    const requestEmailUpdateMutationVariable: any = {
+      password,
+      newEmailAddress
+    };
 
+    return this.requestor.mutate<ChangeEmailAddress.Mutation>(this.REQUEST_EMAIL_ADDRESS_UPDATE_MUTATION, requestEmailUpdateMutationVariable)
+      .pipe(map((res) => res.requestUpdateCustomerEmailAddress))
+  }
+
+  changeEmail(token: string) {
+    return this.requestor.mutate<VerifyChangeEmailAddress.Mutation, VerifyChangeEmailAddress.Variables>(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, {token})
+      .pipe(map((res) => res.updateCustomerEmailAddress))
   }
 }

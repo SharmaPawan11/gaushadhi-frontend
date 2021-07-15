@@ -7,6 +7,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AddressComponent } from './components/address/address.component';
 import { AddressResolver } from './providers/resolvers/address.resolver';
 import { ProfileResolver } from './providers/resolvers/profile.resolver';
+import {ChangeEmailAddressComponent} from "./components/change-email-address/change-email-address.component";
 
 export const routes: Route[] = [
   {
@@ -44,6 +45,15 @@ export const routes: Route[] = [
           addresses: AddressResolver,
         },
       },
+      {
+        path: 'update',
+        children: [
+          {
+            path: 'email',
+            component: ChangeEmailAddressComponent
+          }
+        ]
+      }
     ],
   },
 ];

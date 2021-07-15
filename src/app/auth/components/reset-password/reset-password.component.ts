@@ -1,20 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordService } from '../../providers/reset-password.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  childrenEqualValidator,
-  ConfirmValidParentMatcher,
-} from '../../../common/validators/childrenEqual.validator';
-import { Subject, Subscription } from 'rxjs';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { ErrorResult } from '../../../common/vendure-types';
 import { UserService } from '../../../core/providers/user.service';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -36,9 +26,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   hideConfirmPassword: boolean = true;
   token: string = '';
   userId: string = '';
-  newPasswordForm: FormControl = new FormControl(null);
-
-  passwordEqualityMatcher: ErrorStateMatcher = new ConfirmValidParentMatcher();
+  newPassword: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(
     private route: ActivatedRoute,
@@ -57,7 +45,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 
   onRequestReset() {
@@ -78,12 +66,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   onReset() {
-    if (this.newPasswordForm.invalid) {
+    if (this.newPassword.invalid) {
       return;
     }
-    const formData = this.newPasswordForm.value;
+    const formData = this.newPassword.value;
     this.resetService
-      .resetPassword(this.token, formData.password)
+      .resetPassword(this.token, formData)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         switch (res.__typename) {

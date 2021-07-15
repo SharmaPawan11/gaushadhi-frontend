@@ -1,92 +1,50 @@
-<!--<ng-container-->
-<!--  *ngIf="progressState === 'emailStep'; then emailStep; else passwordStep"-->
-<!--&gt;-->
-<!--</ng-container>-->
+<ng-container
+  *ngIf="progressState === 'newEmailStep'; then newEmailStep; else verificationStep"
+>
+</ng-container>
 
-<!--<ng-template #emailStep>-->
-<!--  <ng-container *ngIf="!resetEmailSentSuccessfully">-->
-<!--    <mat-form-field appearance="outline">-->
-<!--      <mat-label>Email</mat-label>-->
-<!--      <input-->
-<!--        [formControl]="email"-->
-<!--        matInput-->
-<!--        placeholder="Enter Your Email"-->
-<!--        autocomplete="off"-->
-<!--      />-->
-<!--      <mat-error-->
-<!--        *ngIf="email?.hasError('email') && !email?.hasError('required')"-->
-<!--      >-->
-<!--        Please enter a valid email address-->
-<!--      </mat-error>-->
-<!--      <mat-error *ngIf="email?.hasError('required')">-->
-<!--        Email is <strong>required</strong>-->
-<!--      </mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <button-->
-<!--      [disabled]="email.invalid"-->
-<!--      (click)="onRequestReset()"-->
-<!--      mat-raised-button-->
-<!--      color="primary"-->
-<!--    >-->
-<!--      Next-->
-<!--    </button>-->
-<!--  </ng-container>-->
-<!--  <ng-container *ngIf="resetEmailSentSuccessfully">-->
-<!--    <p>-->
-<!--      Email sent successfully. Please check your inbox for instructions on how-->
-<!--      to reset your password.-->
-<!--    </p>-->
-<!--  </ng-container>-->
-<!--</ng-template>-->
+<ng-template #newEmailStep>
+  <ng-container *ngIf="!changeEmailSentSuccessfully">
+    <form [formGroup]="requestChangeEmailGroup" (ngSubmit)="onRequestChange()" autocomplete="off">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          matInput
+          placeholder="Enter Your Password"
+          autocomplete="off"
+        />
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+        </button>
+        <mat-error *ngIf="requestChangeEmailGroup.get('password')?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <gaushadhi-confirm-input formControlName="newEmailAddress"></gaushadhi-confirm-input>
+      <button
+        [disabled]="requestChangeEmailGroup.invalid"
+        type="submit"
+        mat-raised-button
+        color="primary"
+      >
+        Change Email Address
+      </button>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="changeEmailSentSuccessfully">
+    <p>
+      Email sent successfully. Please check your inbox for instructions on how
+      to update your email address.
+    </p>
+  </ng-container>
+</ng-template>
 
-<!--<ng-template #passwordStep>-->
-<!--  <form [formGroup]="newPasswordForm" (ngSubmit)="onReset()" autocomplete="off">-->
-<!--    <mat-form-field appearance="outline">-->
-<!--      <mat-label>Password</mat-label>-->
-<!--      <input-->
-<!--        [type]="hidePassword ? 'password' : 'text'"-->
-<!--        formControlName="password"-->
-<!--        matInput-->
-<!--        placeholder="Enter Your Password"-->
-<!--        autocomplete="off"-->
-<!--      />-->
-<!--      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">-->
-<!--        <mat-icon>{{-->
-<!--          hidePassword ? "visibility_off" : "visibility"-->
-<!--          }}</mat-icon>-->
-<!--      </button>-->
-<!--      <mat-error *ngIf="password?.hasError('required')">-->
-<!--        Password is <strong>required</strong>-->
-<!--      </mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field appearance="outline">-->
-<!--      <mat-label>Confirm Password</mat-label>-->
-<!--      <input-->
-<!--        [type]="hideConfirmPassword ? 'password' : 'text'"-->
-<!--        formControlName="confirmPassword"-->
-<!--        matInput-->
-<!--        placeholder="Confirm Password"-->
-<!--        [errorStateMatcher]="passwordEqualityMatcher"-->
-<!--        autocomplete="off"-->
-<!--      />-->
-<!--      <button-->
-<!--        mat-icon-button-->
-<!--        matSuffix-->
-<!--        (click)="hideConfirmPassword = !hideConfirmPassword"-->
-<!--      >-->
-<!--        <mat-icon>{{-->
-<!--          hideConfirmPassword ? "visibility_off" : "visibility"-->
-<!--          }}</mat-icon>-->
-<!--      </button>-->
-<!--      <mat-error> Password didn't <strong>match</strong> </mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <button-->
-<!--      [disabled]="newPasswordForm.invalid"-->
-<!--      type="submit"-->
-<!--      mat-raised-button-->
-<!--      color="primary"-->
-<!--    >-->
-<!--      Change Password-->
-<!--    </button>-->
-<!--  </form>-->
-<!--</ng-template>-->
+<ng-template #verificationStep>
+  <p>
+    {{updateText}}
+  </p>
+</ng-template>
