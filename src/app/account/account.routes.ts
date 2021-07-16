@@ -5,9 +5,9 @@ import { OrderListComponent } from './components/order-list/order-list.component
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddressComponent } from './components/address/address.component';
-import { AddressResolver } from './providers/resolvers/address.resolver';
+import { AddressResolver } from '../core/providers/resolvers/address.resolver';
 import { ProfileResolver } from './providers/resolvers/profile.resolver';
-import {ChangeEmailAddressComponent} from "./components/change-email-address/change-email-address.component";
+import { ChangeEmailAddressComponent } from './components/change-email-address/change-email-address.component';
 
 export const routes: Route[] = [
   {
@@ -50,10 +50,10 @@ export const routes: Route[] = [
         children: [
           {
             path: 'email',
-            component: ChangeEmailAddressComponent
-          }
-        ]
-      }
+            component: ChangeEmailAddressComponent,
+          },
+        ],
+      },
     ],
   },
 ];

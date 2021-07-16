@@ -3,7 +3,8 @@ import {
   forwardRef,
   Input,
   OnDestroy,
-  OnInit, Self,
+  OnInit,
+  Self,
   TemplateRef,
 } from '@angular/core';
 import {
@@ -12,7 +13,8 @@ import {
   FormBuilder,
   FormGroup,
   NG_VALIDATORS,
-  NG_VALUE_ACCESSOR, NgControl,
+  NG_VALUE_ACCESSOR,
+  NgControl,
   ValidationErrors,
   Validator,
   Validators,
@@ -24,13 +26,13 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {FormcontrolToLabelPipe} from "../../pipes/formcontrol-to-label.pipe";
+import { FormcontrolToLabelPipe } from '../../pipes/formcontrol-to-label.pipe';
 
 @Component({
   selector: 'gaushadhi-confirm-input',
   templateUrl: './confirm-input.component.html',
   styleUrls: ['./confirm-input.component.scss'],
-  providers: [FormcontrolToLabelPipe]
+  providers: [FormcontrolToLabelPipe],
 })
 export class ConfirmInputComponent
   implements OnInit, ControlValueAccessor, OnDestroy
@@ -50,28 +52,35 @@ export class ConfirmInputComponent
   inputType: string = 'text';
 
   formInitialized = false;
-  confirmPasswordGroup!: FormGroup
+  confirmPasswordGroup!: FormGroup;
   inputEqualityMatcher: ErrorStateMatcher = new ConfirmValidParentMatcher();
-  errorMessageMap = new Map()
+  errorMessageMap = new Map();
 
-  constructor(@Self() public controlDir: NgControl,
-              private fb: FormBuilder,
-              private formControlToLabelPipe: FormcontrolToLabelPipe
-              ) {
+  constructor(
+    @Self() public controlDir: NgControl,
+    private fb: FormBuilder,
+    private formControlToLabelPipe: FormcontrolToLabelPipe
+  ) {
     controlDir.valueAccessor = this;
   }
 
   ngOnInit(): void {
     // TODO: Make 'required' and 'invalid' bold. Currently applying <b> on it doesn't work.
     this.errorMessageMap.set('required', (formControlName: string) => {
-      return `${this.formControlToLabelPipe.transform(formControlName)} is required`
-    })
+      return `${this.formControlToLabelPipe.transform(
+        formControlName
+      )} is required`;
+    });
     this.errorMessageMap.set('email', (formControlName: string) => {
-      return `${this.formControlToLabelPipe.transform(formControlName)} is invalid`
-    })
+      return `${this.formControlToLabelPipe.transform(
+        formControlName
+      )} is invalid`;
+    });
     this.errorMessageMap.set('pattern', (formControlName: string) => {
-      return `Invalid ${this.formControlToLabelPipe.transform(formControlName)}`
-    })
+      return `Invalid ${this.formControlToLabelPipe.transform(
+        formControlName
+      )}`;
+    });
 
     // Get access to underlying form control
     const underlyingControl = this.controlDir.control;
@@ -81,18 +90,23 @@ export class ConfirmInputComponent
     this.firstControlName = this.controlDir.name as string;
     if (!this.firstControlName) {
       if (!this.formCtrlName) {
-        console.error('Must wrap isolated formControl inside formGroup or provide formControlName via Input property')
-        this.firstControlName = 'unrecognisedFormControl' as string
+        console.error(
+          'Must wrap isolated formControl inside formGroup or provide formControlName via Input property'
+        );
+        this.firstControlName = 'unrecognisedFormControl' as string;
       }
-      this.firstControlName = this.formCtrlName
+      this.firstControlName = this.formCtrlName;
     }
-    this.secondControlName = 'confirm' + this.firstControlName.slice(0, 1).toUpperCase() + this.firstControlName.slice(1)
+    this.secondControlName =
+      'confirm' +
+      this.firstControlName.slice(0, 1).toUpperCase() +
+      this.firstControlName.slice(1);
 
     // Getting applied validators on underlying formControl so that we can apply
     // on formControls in this component
     let appliedValidators = underlyingControl?.validator;
     if (!appliedValidators) {
-      appliedValidators = Validators.required
+      appliedValidators = Validators.required;
     }
 
     // Initializing form with underlying formControl's validators and name.
@@ -104,8 +118,8 @@ export class ConfirmInputComponent
       { validators: childrenEqualValidator }
     );
 
-    if (this.firstControlName.toUpperCase().indexOf("PASSWORD") !== -1) {
-      this.inputType = 'password'
+    if (this.firstControlName.toUpperCase().indexOf('PASSWORD') !== -1) {
+      this.inputType = 'password';
       this.hideInput = true;
       this.hideConfirmInput = true;
     }
@@ -142,22 +156,24 @@ export class ConfirmInputComponent
   }
 
   getErrors(formControlName: string) {
-    let formControl
-    if (!(formControl = this.confirmPasswordGroup.get(formControlName)) ) {
-      return []
+    let formControl;
+    if (!(formControl = this.confirmPasswordGroup.get(formControlName))) {
+      return [];
     }
 
-    const { errors } = formControl
+    const { errors } = formControl;
     if (!errors) {
-      return []
+      return [];
     }
     return Object.keys(errors).map((key) => {
-      return this.errorMessageMap.has(key) ? this.errorMessageMap.get(key)(formControlName) : <string>errors[key] || key
-    })
+      return this.errorMessageMap.has(key)
+        ? this.errorMessageMap.get(key)(formControlName)
+        : <string>errors[key] || key;
+    });
   }
 
   writeValue(obj: any): void {
-    console.log(obj)
+    console.log(obj);
   }
 
   registerOnChange(fn: any): void {

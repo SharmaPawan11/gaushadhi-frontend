@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { RequestorService } from '../../core/providers/requestor.service';
+import { RequestorService } from './requestor.service';
 import { gql } from 'apollo-angular';
 import {
   CreateAddress,
   CreateAddressInput,
   GetAvailableCountries,
   GetCustomerAddresses,
-  Success, UpdateAddress, UpdateAddressInput,
+  Success,
+  UpdateAddress,
+  UpdateAddressInput,
 } from '../../common/vendure-types';
 import { catchError, map, share, take, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { ADDRESS_FRAGMENT } from '../../common/framents.graph';
 import {
   GET_ACTIVE_CUSTOMER,
@@ -49,11 +51,11 @@ export class AddressService {
 
   UPDATE_CUSTOMER_ADDRESS_MUTATION = gql`
     mutation updateCustomerAddress($updateAddressInput: UpdateAddressInput!) {
-    updateCustomerAddress(input: $updateAddressInput) {
-      id
+      updateCustomerAddress(input: $updateAddressInput) {
+        id
+      }
     }
-  }
-  `
+  `;
 
   constructor(private requestor: RequestorService) {}
 
@@ -76,9 +78,9 @@ export class AddressService {
   updateAddress(updateAddressDataObject: UpdateAddressInput) {
     return this.requestor
       .mutate<UpdateAddress.Mutation>(this.UPDATE_CUSTOMER_ADDRESS_MUTATION, {
-        updateAddressInput: updateAddressDataObject
+        updateAddressInput: updateAddressDataObject,
       })
-      .pipe(map((res)=> res.updateCustomerAddress))
+      .pipe(map((res) => res.updateCustomerAddress));
   }
 
   getAddresses() {

@@ -4,7 +4,8 @@ import { RequestorService } from '../../core/providers/requestor.service';
 import {
   ChangeEmailAddress,
   GetAccountOverview,
-  UpdateCustomerDetails, VerifyChangeEmailAddress,
+  UpdateCustomerDetails,
+  VerifyChangeEmailAddress,
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -53,18 +54,18 @@ export class ProfileService {
   `;
 
   VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION = gql`
-  mutation changeEmailAddress($token: String!) {
-  updateCustomerEmailAddress(token: $token) {
-    ... on Success {
-      success
+    mutation changeEmailAddress($token: String!) {
+      updateCustomerEmailAddress(token: $token) {
+        ... on Success {
+          success
+        }
+        ... on ErrorResult {
+          message
+          errorCode
+        }
+      }
     }
-    ... on ErrorResult {
-      message
-      errorCode
-    }
-  }
-}
-  `
+  `;
 
   constructor(private requestor: RequestorService) {}
 
@@ -116,18 +117,32 @@ export class ProfileService {
       .pipe(map((res) => res.updateCustomer));
   }
 
-  requestEmailUpdate({password, newEmailAddress}: {password: string, newEmailAddress: string}) {
+  requestEmailUpdate({
+    password,
+    newEmailAddress,
+  }: {
+    password: string;
+    newEmailAddress: string;
+  }) {
     const requestEmailUpdateMutationVariable: any = {
       password,
-      newEmailAddress
+      newEmailAddress,
     };
 
-    return this.requestor.mutate<ChangeEmailAddress.Mutation>(this.REQUEST_EMAIL_ADDRESS_UPDATE_MUTATION, requestEmailUpdateMutationVariable)
-      .pipe(map((res) => res.requestUpdateCustomerEmailAddress))
+    return this.requestor
+      .mutate<ChangeEmailAddress.Mutation>(
+        this.REQUEST_EMAIL_ADDRESS_UPDATE_MUTATION,
+        requestEmailUpdateMutationVariable
+      )
+      .pipe(map((res) => res.requestUpdateCustomerEmailAddress));
   }
 
   changeEmail(token: string) {
-    return this.requestor.mutate<VerifyChangeEmailAddress.Mutation, VerifyChangeEmailAddress.Variables>(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, {token})
-      .pipe(map((res) => res.updateCustomerEmailAddress))
+    return this.requestor
+      .mutate<
+        VerifyChangeEmailAddress.Mutation,
+        VerifyChangeEmailAddress.Variables
+      >(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, { token })
+      .pipe(map((res) => res.updateCustomerEmailAddress));
   }
 }

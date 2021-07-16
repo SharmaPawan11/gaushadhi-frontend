@@ -20,4 +20,10 @@ export const routes: Route[] = [
     loadChildren: () =>
       import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
+    canActivate: [AccountGuard],
+  },
 ];

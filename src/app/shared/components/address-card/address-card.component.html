@@ -1,0 +1,11 @@
+<div style="border: 1px solid darkred">
+  <h1 *ngIf="address.defaultShippingAddress"> DEFAULT SHIPPING ADDRESS</h1>
+  <h1 *ngIf="address.defaultBillingAddress"> DEFAULT BILLING ADDRESS</h1>
+  <h6>{{ address.streetLine1 }}</h6>
+  <h6>{{ address.postalCode }}</h6>
+  <h6>{{ address.phoneNumber }}</h6>
+  <h6>{{ address.fullName }}</h6>
+  <h6>{{ address.city }}</h6>
+  <h6>{{ address.province }}</h6>
+  <h6>{{ address.country.code }}</h6>
+</div>
