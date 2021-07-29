@@ -7,7 +7,7 @@ import {
   UpdateCustomerDetails,
   VerifyChangeEmailAddress,
 } from '../../common/vendure-types';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GET_ACTIVE_CUSTOMER } from '../../common/documents.graph';
 import { gql } from 'apollo-angular';
@@ -76,7 +76,19 @@ export class ProfileService {
         includeProfile: true,
         includeOrder: false,
       })
-      .pipe(map((res) => res.activeCustomer));
+      .pipe(
+        map((res) => res.activeCustomer),
+        tap((res) => {
+          if (res?.emailAddress) {
+            localStorage.setItem('customerName', res.firstName + res.lastName);
+            localStorage.setItem('customerEmail', res.emailAddress);
+            localStorage.setItem(
+              'customerPhNo',
+              (res as any).phoneNumber || undefined
+            );
+          }
+        })
+      );
   }
 
   updateCustomerProfile(

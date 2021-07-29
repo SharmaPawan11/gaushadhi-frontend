@@ -8,17 +8,24 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DefaultInterceptor } from './providers/interceptors/default-interceptor.service';
 import { ShellComponent } from './components/shell/shell.component';
 import { RouterModule } from '@angular/router';
+import {MatIconModule} from "@angular/material/icon";
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CarouselDirective } from './directives/carousel.directive';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { CategorySliderComponent } from './components/category-slider/category-slider.component';
+import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
 
 @NgModule({
-  declarations: [ShellComponent],
-  imports: [
-    // Angular
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterModule,
-  ],
-  exports: [BrowserModule, BrowserAnimationsModule],
+  declarations: [ShellComponent, NavbarComponent, CarouselDirective, CarouselComponent, CategorySliderComponent, FeaturedProductsSliderComponent],
+    imports: [
+        // Angular
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterModule,
+        MatIconModule,
+    ],
+    exports: [BrowserModule, BrowserAnimationsModule, CarouselDirective, CarouselComponent, CategorySliderComponent, FeaturedProductsSliderComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
     {

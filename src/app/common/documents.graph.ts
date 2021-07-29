@@ -1,5 +1,16 @@
 import { gql } from 'apollo-angular';
-import { ADDRESS_FRAGMENT, ASSET_FRAGMENT } from './framents.graph';
+import {
+  ADDRESS_FRAGMENT,
+  ASSET_FRAGMENT,
+  DISCOUNT_FRAGMENT,
+  FACET_VALUE_FRAGMENT,
+  FULFILLMENT_FRAGMENT,
+  ORDER_ADDRESS_FRAGMENT,
+  ORDER_FRAGMENT,
+  ORDER_ITEM_FRAGMENT,
+  TAX_LINE_FRAGMENT,
+  TAX_RATE_FRAGMENT,
+} from './framents.graph';
 
 export const GET_CUSTOMER_ADDRESSES = gql`
   query GetCustomerAddresses {
@@ -91,4 +102,31 @@ export const GET_ACTIVE_CUSTOMER = gql`
   }
   ${ADDRESS_FRAGMENT}
   ${ASSET_FRAGMENT}
+`;
+
+export const GET_ACTIVE_ORDER = gql`
+  query activeOrder(
+    $includeOrderAddress: Boolean!
+    $includeSurcharges: Boolean!
+    $includeDiscounts: Boolean!
+    $includePromotions: Boolean!
+    $includePayments: Boolean!
+    $includeFulfillments: Boolean!
+    $includeShippings: Boolean!
+    $includeTaxSummary: Boolean!
+    $includeHistory: Boolean!
+  ) {
+    activeOrder {
+      ...Order
+    }
+  }
+  ${ORDER_FRAGMENT}
+  ${ASSET_FRAGMENT}
+  ${FACET_VALUE_FRAGMENT}
+  ${DISCOUNT_FRAGMENT}
+  ${TAX_LINE_FRAGMENT}
+  ${ORDER_ITEM_FRAGMENT}
+  ${FULFILLMENT_FRAGMENT}
+  ${ORDER_ADDRESS_FRAGMENT}
+  ${TAX_RATE_FRAGMENT}
 `;

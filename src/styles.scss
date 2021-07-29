@@ -2,9 +2,107 @@
 
 html,
 body {
+  --primary-background: #b38f45;
+  --secondary-background: #9C6C58;
+  --tertiary-background: #E95420;
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: rgb(32, 13, 97);
+  h1 {
+    line-height: 1.1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.03rem;
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+  p {
+    line-height: 0.8rem;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    margin-bottom: 0;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (min-width: 598px) {
+  .slider-header {
+    h1 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.05rem;
+    }
+    p {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: flex-end;
+      margin: 0
+    }
+  }
+}
+
+.slider-container-parent {
+  position: relative;
+
+  .left-slider, .right-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top:50%;
+    padding: var(--slider-size);
+    border-radius: calc(var(--slider-size) * 5);
+    z-index: 2;
+    transform: translateY(-50%);
+    background-color: white;
+    box-shadow: 0 1px 1px 0 #422626;
+    &:hover {
+      cursor: pointer;
+    }
+    &:focus {
+      outline: 1.5px solid var(--tertiary-background);
+      outline-offset: 2px;
+    }
+  }
+
+  .left-slider {
+    left: calc(var(--slider-size) * -5);
+  }
+
+  .right-slider {
+    right: calc(var(--slider-size) * -5);
+  }
+}
+
+.slider-container {
+  display: grid;
+  grid-auto-flow: column;
+  list-style-type: none;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  &::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+  }
 }

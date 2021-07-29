@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 import { gql } from 'apollo-angular';
-import { SignIn } from '../../common/vendure-types';
-import { map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { GetAccountOverview, SignIn } from '../../common/vendure-types';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 import { UserService } from '../../core/providers/user.service';
+import { GET_ACTIVE_CUSTOMER } from '../../common/documents.graph';
 
 @Injectable()
 export class LoginService {
@@ -37,7 +38,10 @@ export class LoginService {
     ${ERROR_RESULT_FRAGMENT}
   `;
 
-  constructor(private requestor: RequestorService) {}
+  constructor(
+    private requestor: RequestorService,
+    private userService: UserService
+  ) {}
 
   login(
     emailAddress: string,
@@ -54,6 +58,46 @@ export class LoginService {
         this.LOGIN_MUTATION,
         loginMutationVariable
       )
-      .pipe(map((res) => res.login));
+      .pipe(
+        map((res) => res.login),
+        switchMap((res) => {
+          switch (res.__typename) {
+            case 'NotVerifiedError':
+            case 'InvalidCredentialsError':
+            case 'NativeAuthStrategyError':
+              console.log(res.message);
+              return of({
+                errorCode: res.errorCode,
+                message: res.message,
+              });
+            case 'CurrentUser':
+              this.userService.setUserDetails(res.id);
+              return this.requestor
+                .query<GetAccountOverview.Query>(GET_ACTIVE_CUSTOMER, {
+                  includeAddress: false,
+                  includeProfile: true,
+                  includeOrder: false,
+                })
+                .pipe(
+                  map((res) => res.activeCustomer),
+                  tap((res) => {
+                    if (res?.emailAddress) {
+                      localStorage.setItem(
+                        'customerName',
+                        res.firstName + res.lastName
+                      );
+                      localStorage.setItem('customerEmail', res.emailAddress);
+                      localStorage.setItem(
+                        'customerPhNo',
+                        (res as any).phoneNumber || undefined
+                      );
+                    }
+                  })
+                );
+            default:
+              return of(null);
+          }
+        })
+      );
   }
 }

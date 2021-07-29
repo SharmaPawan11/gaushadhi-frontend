@@ -28,7 +28,7 @@ export class RequestorService {
         fetchPolicy: fetchPolicy || 'cache-and-network',
       })
       .valueChanges.pipe(
-        tap((result) => console.log(result)),
+        tap(),
         filter((result) => result.networkStatus === NetworkStatus.ready),
         map((response) => response.data)
       );

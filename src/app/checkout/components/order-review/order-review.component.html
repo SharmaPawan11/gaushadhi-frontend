@@ -1,1 +1,34 @@
-<p>order-review works!</p>
+<ng-container *ngFor="let paymentMethod of eligiblePaymentMethods">
+  <button *ngIf="orderDetails.id"
+          (click)="onPayNow(paymentMethod)"
+          mat-raised-button
+          color="primary"
+  >
+    Pay now using {{paymentMethod.name}}
+  </button>
+</ng-container>
+
+<input
+  [formControl]="couponCodeInput"
+  matInput
+  placeholder="Enter Coupon Code"
+  autocomplete="on"
+/>
+<button *ngIf="orderDetails.id"
+        (click)="onAddCoupon()"
+        mat-raised-button
+        color="primary"
+>
+  Add Coupon
+</button>
+
+<mat-chip-list aria-label="Fruit selection">
+  <mat-chip
+    *ngFor="let couponCode of appliedCoupons"
+    [selectable]="false"
+    [removable]="true"
+    (removed)="onRemoveCoupon(couponCode)">
+    {{couponCode}}
+    <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>

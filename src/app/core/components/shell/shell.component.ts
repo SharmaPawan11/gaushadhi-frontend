@@ -16,8 +16,9 @@ import { filter } from 'rxjs/operators';
 })
 export class ShellComponent implements OnInit {
   currentRoute = '';
+  showTopOfferBar: boolean = true;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, public userService: UserService) {
     this.router.events
       .pipe(filter((ev) => ev instanceof NavigationEnd))
       .subscribe((event) => {

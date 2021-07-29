@@ -25,8 +25,9 @@ export class UserService {
   }
 
   removeUserDetails() {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userId');
+    localStorage.clear();
+    // localStorage.removeItem('isAuthenticated');
+    // localStorage.removeItem('userId');
   }
 
   logout() {

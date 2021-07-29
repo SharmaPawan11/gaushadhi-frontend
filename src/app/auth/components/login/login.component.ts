@@ -61,22 +61,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     const formData = this.loginForm.value;
-    console.log(formData);
     this.loginSubscription = this.loginService
       .login(formData.email, formData.password, formData.rememberMe)
       .subscribe((res) => {
-        switch (res.__typename) {
-          case 'NotVerifiedError':
-          case 'InvalidCredentialsError':
-          case 'NativeAuthStrategyError':
-            console.log(res.message);
-            this.loginError = res;
-            break;
-          case 'CurrentUser':
-            console.log(res.id);
-            this.userId = res.id;
-            this.userService.setUserDetails(this.userId);
-            this.router.navigateByUrl(this.redirectUrl);
+        if (res === null) {
+          console.log('UNKNOWN ERROR WHILE TRYING TO LOG IN');
+        } else if (res.errorCode) {
+          console.log(res.errorCode, res.message);
+        } else if (res.id) {
+          console.log(res);
+          this.router.navigate([this.redirectUrl || '/']);
         }
       });
   }

@@ -1,3 +1,9 @@
-<p>shell works!</p>
-<button (click)="logout()">Logout</button>
+<div class="top-offer-bar" *ngIf="showTopOfferBar">
+  <p>10% off on Gaushadhi Soap</p>
+  <mat-icon (click)="showTopOfferBar = false">
+    close
+  </mat-icon>
+</div>
+
+<gaushadhi-navbar></gaushadhi-navbar>
 <router-outlet></router-outlet>

@@ -1,0 +1,32 @@
+<div [hidden]="!carouselLoaded">
+<!--  <div (click)="onPrev()" class="previous-container">-->
+<!--    <button class="previous-btn">-->
+<!--      <mat-icon>keyboard_arrow_left</mat-icon>-->
+<!--    </button>-->
+<!--  </div>-->
+
+<!--  <div (click)="onNext()" class="next-container">-->
+<!--    <button class="next-btn">-->
+<!--      <mat-icon>keyboard_arrow_right</mat-icon>-->
+<!--    </button>-->
+<!--  </div>-->
+
+
+  <div class="carousel-container">
+    <div *ngFor="let url of carouselImagesList;
+          let imageIdx = index"
+         [ngClass]="{'fade-in-image': currentIndex === imageIdx && !firstLoad,
+         'first-load': imageIdx === 0 && firstLoad}"
+          class="image-container">
+      <img
+           [src]="url" alt="carousel_image"
+           (load)="carouselLoaded=true; firstLoad=false;">
+    </div>
+  </div>
+
+<!--  <div class="image-indicator-container">-->
+<!--    <div class="image-indicator" *ngFor="let indicator of carouselImagesList; let index = index" [ngClass]="{'current-image-indicator': index === currentIndex}">-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+

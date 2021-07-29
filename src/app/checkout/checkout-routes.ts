@@ -4,6 +4,8 @@ import { SelectShipmentComponent } from './components/select-shipment/select-shi
 import { OrderReviewComponent } from './components/order-review/order-review.component';
 import { AddressResolver } from '../core/providers/resolvers/address.resolver';
 import { EligibleShipmentMethodsResolver } from './providers/resolver/eligible-shipment-methods.resolver';
+import { CurrentOrderReviewResolver } from './providers/resolver/current-order-review.resolver';
+import { EligiblePaymentMethodsResolver } from './providers/resolver/eligible-payment-methods.resolver';
 
 export const routes: Route[] = [
   {
@@ -23,5 +25,9 @@ export const routes: Route[] = [
   {
     path: 'review',
     component: OrderReviewComponent,
+    resolve: {
+      currentOrderReview: CurrentOrderReviewResolver,
+      eligiblePaymentMethods: EligiblePaymentMethodsResolver,
+    },
   },
 ];
