@@ -11,6 +11,8 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { TextWithToggleComponent } from './components/text-with-toggle/text-with-toggle.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { MatRadioModule } from '@angular/material/radio';
     FormcontrolToLabelPipe,
     AddressCardComponent,
     AddressFormComponent,
+    CheckboxComponent,
+    TextWithToggleComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +33,6 @@ import { MatRadioModule } from '@angular/material/radio';
     MatSelectModule,
   ],
   providers: [],
-  exports: [ConfirmInputComponent, AddressCardComponent, AddressFormComponent],
+  exports: [ConfirmInputComponent, AddressCardComponent, AddressFormComponent, CheckboxComponent, TextWithToggleComponent],
 })
 export class SharedModule {}

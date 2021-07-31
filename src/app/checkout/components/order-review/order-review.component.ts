@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderService } from '../../../core/providers/order.service';
 import { RazorpayService } from '../../providers/razorpay.service';
-import {switchMap, take, takeUntil} from 'rxjs/operators';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { Order } from '../../../common/vendure-types';
 import { ActivatedRoute } from '@angular/router';
-import {FormControl, Validators} from "@angular/forms";
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'gaushadhi-order-review',
@@ -49,29 +49,31 @@ export class OrderReviewComponent implements OnInit, OnDestroy {
   }
 
   onAddCoupon() {
-    this.orderService.addCouponToOrder(this.couponCodeInput.value)
+    this.orderService
+      .addCouponToOrder(this.couponCodeInput.value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         switch (res.__typename) {
-          case "CouponCodeExpiredError":
-          case "CouponCodeInvalidError":
-          case "CouponCodeLimitError":
-            console.log(res)
+          case 'CouponCodeExpiredError':
+          case 'CouponCodeInvalidError':
+          case 'CouponCodeLimitError':
+            console.log(res);
             break;
-          case "Order":
-            this.appliedCoupons.add(this.couponCodeInput.value)
-            console.log(res)
+          case 'Order':
+            this.appliedCoupons.add(this.couponCodeInput.value);
+            console.log(res);
         }
-    })
+      });
   }
 
   onRemoveCoupon(couponCode: string) {
-    this.orderService.removeCouponFromOrder(couponCode)
+    this.orderService
+      .removeCouponFromOrder(couponCode)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-      console.log(res)
-        this.appliedCoupons.delete(couponCode)
-    })
+        console.log(res);
+        this.appliedCoupons.delete(couponCode);
+      });
   }
 
   onPayNow(paymentMethod: any) {

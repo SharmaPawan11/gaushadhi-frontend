@@ -7,11 +7,21 @@ import { AuthComponent } from './auth/auth.component';
 import { SharedModule } from './shared/shared.module';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
 import { CategoryComponent } from './core/components/category/category.component';
-import {MatIconModule} from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, LandingPageComponent, CategoryComponent],
-  imports: [CoreModule, RouterModule.forRoot(routes), SharedModule, MatIconModule],
+  declarations: [
+    AppComponent,
+    AuthComponent,
+    LandingPageComponent,
+    CategoryComponent,
+  ],
+  imports: [
+    CoreModule,
+    RouterModule.forRoot(routes),
+    SharedModule,
+    MatIconModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

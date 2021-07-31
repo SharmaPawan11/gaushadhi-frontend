@@ -8,9 +8,8 @@ describe('FeaturedProductsSliderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeaturedProductsSliderComponent ]
-    })
-    .compileComponents();
+      declarations: [FeaturedProductsSliderComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

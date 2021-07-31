@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-import {RequestorService} from "./requestor.service";
+import { RequestorService } from './requestor.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-
-
-
-  constructor(
-    private requestor: RequestorService
-  ) { }
+  constructor(private requestor: RequestorService) {}
 }

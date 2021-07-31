@@ -1,5 +1,5 @@
 :host {
-  color: #FFF9EE;
+  color: #fff9ee;
   --input-padding: 1rem;
   background-color: var(--primary-background);
   display: grid;
@@ -33,7 +33,7 @@
     display: none;
   }
 
-  div.search{
+  div.search {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +43,7 @@
     input {
       height: 100%;
       width: 100%;
-      padding-left: var(--input-padding)
+      padding-left: var(--input-padding);
     }
   }
 
@@ -81,8 +81,8 @@
 }
 
 @media screen and (min-width: 768px) {
-
-  div:hover, div:focus {
+  div:hover,
+  div:focus {
     cursor: pointer;
     text-align: center;
     color: #fffb00;
@@ -102,18 +102,17 @@
       minmax(0, calc(var(--input-padding) + 1rem))
       auto
       repeat(2, 5rem);
-  ;
-
     div.menu-btn {
       display: none;
     }
 
     div.logo {
-      grid-column-start: 2 ;
+      grid-column-start: 2;
       height: 2.5rem;
     }
-    div.logo:hover, div.logo:focus {
-      outline: none
+    div.logo:hover,
+    div.logo:focus {
+      outline: none;
     }
 
     div.search {
@@ -158,10 +157,11 @@
       }
     }
 
-    div.account-auth:hover, div.account-auth:focus{
+    div.account-auth:hover,
+    div.account-auth:focus {
       outline: none;
       color: white;
-    };
+    }
 
     div.wishlist {
       grid-column-start: 14;
@@ -174,7 +174,7 @@
     div {
       h4 {
         display: inline;
-        margin: 0
+        margin: 0;
       }
     }
   }

@@ -4,7 +4,8 @@
   width: auto;
 }
 
-.previous-container, .next-container {
+.previous-container,
+.next-container {
   z-index: 2;
   position: absolute;
   top: 0;
@@ -21,7 +22,8 @@
   right: 0;
 }
 
-.previous-container:hover, .next-container:hover {
+.previous-container:hover,
+.next-container:hover {
   background-color: #252d31;
   cursor: pointer;
   opacity: 0.5;
@@ -97,23 +99,39 @@
   -o-animation: fadeIn 1.5s forwards;
 }
 @keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-moz-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-o-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .first-load {

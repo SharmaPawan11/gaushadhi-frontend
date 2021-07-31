@@ -3,20 +3,17 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'gaushadhi-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss']
+  styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
-  carouselImagesList = [
-    'https://source.unsplash.com/random/1000x2000',
-  ]
+  carouselImagesList = ['https://source.unsplash.com/random/1000x2000'];
   currentIndex = 0;
   firstLoad = true;
   carouselLoaded = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onNext() {
     this.currentIndex++;
@@ -32,7 +29,5 @@ export class CarouselComponent implements OnInit {
       this.currentIndex = this.carouselImagesList.length - 1;
     }
     if (this.firstLoad) this.firstLoad = false;
-
   }
-
 }

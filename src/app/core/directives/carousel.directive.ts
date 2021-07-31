@@ -1,4 +1,10 @@
-import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  Directive,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 
 export interface CarouselContext {
   $implicit: string;
@@ -11,11 +17,13 @@ export interface CarouselContext {
 }
 
 @Directive({
-  selector: '[gaushadhiCarousel]'
+  selector: '[gaushadhiCarousel]',
 })
-export class CarouselDirective implements OnInit{
-
-  constructor(private tmpl: TemplateRef<CarouselContext>, private vcr: ViewContainerRef) {}
+export class CarouselDirective implements OnInit {
+  constructor(
+    private tmpl: TemplateRef<CarouselContext>,
+    private vcr: ViewContainerRef
+  ) {}
 
   @Input('gaushadhiCarouselFrom') images!: string[];
 
@@ -23,7 +31,6 @@ export class CarouselDirective implements OnInit{
   currentImageIndex: number = 0;
 
   ngOnInit(): void {
-
     this.images.forEach((image, idx) => {
       const context = {
         $implicit: this.images[idx],
@@ -32,11 +39,11 @@ export class CarouselDirective implements OnInit{
           prev: () => this.prev(),
         },
         currentImageIndex: this.currentImageIndex,
-        index: idx
-      }
-      this.contexts.push(context)
+        index: idx,
+      };
+      this.contexts.push(context);
       this.vcr.createEmbeddedView(this.tmpl, context);
-    })
+    });
   }
 
   next(): void {
@@ -45,8 +52,8 @@ export class CarouselDirective implements OnInit{
       this.currentImageIndex = 0;
     }
     this.contexts.forEach((context) => {
-      context.currentImageIndex = this.currentImageIndex
-    })
+      context.currentImageIndex = this.currentImageIndex;
+    });
   }
 
   prev(): void {
@@ -55,7 +62,7 @@ export class CarouselDirective implements OnInit{
       this.currentImageIndex = this.images.length - 1;
     }
     this.contexts.forEach((context) => {
-      context.currentImageIndex = this.currentImageIndex
-    })
+      context.currentImageIndex = this.currentImageIndex;
+    });
   }
 }

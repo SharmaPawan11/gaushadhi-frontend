@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from './requestor.service';
 import { gql } from 'apollo-angular';
 import {
-  AddPayment, ApplyCouponCodeResult,
+  AddPayment,
+  ApplyCouponCodeResult,
   GetActiveOrder,
   GetEligiblePaymentMethods,
   SetShippingAddress,
@@ -11,7 +12,7 @@ import {
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { GET_ACTIVE_ORDER } from '../../common/documents.graph';
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,7 @@ export class OrderService {
   ADD_COUPON_TO_ORDER_MUTATION = gql`
     mutation addCouponToOrder($couponCode: String!) {
       applyCouponCode(couponCode: $couponCode) {
-      __typename
+        __typename
         ... on Order {
           id
         }
@@ -63,7 +64,7 @@ export class OrderService {
   REMOVE_COUPON_FROM_ORDER_MUTATION = gql`
     mutation removeCouponCodeFromOrder($couponCode: String!) {
       removeCouponCode(couponCode: $couponCode) {
-      __typename
+        __typename
         ... on Order {
           id
         }
@@ -181,19 +182,27 @@ export class OrderService {
   }
 
   addCouponToOrder(couponCode: string): Observable<ApplyCouponCodeResult> {
-    return this.requestor.mutate(this.ADD_COUPON_TO_ORDER_MUTATION, {
-      couponCode
-    }).pipe(map((res) => {
-      return res.applyCouponCode
-    }))
+    return this.requestor
+      .mutate(this.ADD_COUPON_TO_ORDER_MUTATION, {
+        couponCode,
+      })
+      .pipe(
+        map((res) => {
+          return res.applyCouponCode;
+        })
+      );
   }
 
   removeCouponFromOrder(couponCode: string): Observable<ApplyCouponCodeResult> {
-    return this.requestor.mutate(this.REMOVE_COUPON_FROM_ORDER_MUTATION, {
-      couponCode
-    }).pipe(map((res) => {
-      return res.removeCouponCode
-    }))
+    return this.requestor
+      .mutate(this.REMOVE_COUPON_FROM_ORDER_MUTATION, {
+        couponCode,
+      })
+      .pipe(
+        map((res) => {
+          return res.removeCouponCode;
+        })
+      );
   }
 
   getEligiblePaymentMethods() {

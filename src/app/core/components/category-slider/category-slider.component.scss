@@ -6,7 +6,7 @@
   grid-auto-columns: var(--grid-column-width);
   grid-template-rows: var(--grid-row-height);
   .category {
-    scroll-snap-stop: always;
+    //scroll-snap-stop: always;
     padding: 1rem 1.5rem 1rem 1.5rem;
     background-image: url("../../../../assets/images/soap-mockup.png");
     background-size: cover;
@@ -55,7 +55,3 @@
     }
   }
 }
-
-
-
-

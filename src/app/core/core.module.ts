@@ -8,24 +8,48 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DefaultInterceptor } from './providers/interceptors/default-interceptor.service';
 import { ShellComponent } from './components/shell/shell.component';
 import { RouterModule } from '@angular/router';
-import {MatIconModule} from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CarouselDirective } from './directives/carousel.directive';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { CategorySliderComponent } from './components/category-slider/category-slider.component';
 import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ProductFilterComponent } from './components/product-filter/product-filter.component';
+import {SharedModule} from "../shared/shared.module";
+import { ProductListComponent } from './components/product-list/product-list.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
-  declarations: [ShellComponent, NavbarComponent, CarouselDirective, CarouselComponent, CategorySliderComponent, FeaturedProductsSliderComponent],
-    imports: [
-        // Angular
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        RouterModule,
-        MatIconModule,
-    ],
-    exports: [BrowserModule, BrowserAnimationsModule, CarouselDirective, CarouselComponent, CategorySliderComponent, FeaturedProductsSliderComponent],
+  declarations: [
+    ShellComponent,
+    NavbarComponent,
+    CarouselDirective,
+    CarouselComponent,
+    CategorySliderComponent,
+    FeaturedProductsSliderComponent,
+    ProductsComponent,
+    ProductFilterComponent,
+    ProductListComponent,
+  ],
+  imports: [
+    // Angular
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RouterModule,
+    MatIconModule,
+    SharedModule,
+    MatChipsModule,
+  ],
+  exports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    CarouselDirective,
+    CarouselComponent,
+    CategorySliderComponent,
+    FeaturedProductsSliderComponent,
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
     {

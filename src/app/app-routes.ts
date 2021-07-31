@@ -2,7 +2,8 @@ import { Route } from '@angular/router';
 import { ShellComponent } from './core/components/shell/shell.component';
 import { AccountGuard } from './core/providers/guards/account.guard';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
-import {CategoryComponent} from "./core/components/category/category.component";
+import { CategoryComponent } from './core/components/category/category.component';
+import { ProductsComponent } from './core/components/products/products.component';
 
 export const routes: Route[] = [
   {
@@ -12,6 +13,10 @@ export const routes: Route[] = [
       {
         path: '',
         component: LandingPageComponent,
+      },
+      {
+        path: 'products',
+        component: ProductsComponent,
       },
       {
         path: 'category/:productCategory',

@@ -1,13 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'gaushadhi-featured-products-slider',
   templateUrl: './featured-products-slider.component.html',
-  styleUrls: ['./featured-products-slider.component.scss']
+  styleUrls: ['./featured-products-slider.component.scss'],
 })
 export class FeaturedProductsSliderComponent implements OnInit {
   //TODO: Indicator Dots
-  @ViewChild('fpContainer', {read:ElementRef}) fpContainer!: ElementRef<HTMLUListElement>;
+  @ViewChild('fpContainer', { read: ElementRef })
+  fpContainer!: ElementRef<HTMLUListElement>;
 
   featuredProducts = [
     {
@@ -19,7 +20,7 @@ export class FeaturedProductsSliderComponent implements OnInit {
       ratingStars: 3,
       rating: 4.5,
       noOfRatings: 20,
-      inStock: 32
+      inStock: 32,
     },
     {
       imageSource: '../../../../assets/images/gaushadhi-soap.png',
@@ -30,7 +31,7 @@ export class FeaturedProductsSliderComponent implements OnInit {
       ratingStars: 1,
       rating: 1.3,
       noOfRatings: 100,
-      inStock: 16
+      inStock: 16,
     },
     {
       imageSource: '../../../../assets/images/gaushadhi-soap.png',
@@ -41,7 +42,7 @@ export class FeaturedProductsSliderComponent implements OnInit {
       ratingStars: 3,
       rating: 4.5,
       noOfRatings: 20,
-      inStock: 8
+      inStock: 8,
     },
     {
       imageSource: '../../../../assets/images/gaushadhi-soap.png',
@@ -52,23 +53,27 @@ export class FeaturedProductsSliderComponent implements OnInit {
       ratingStars: 3,
       rating: 4.5,
       noOfRatings: 20,
-      inStock: 32
+      inStock: 32,
     },
-  ]
+  ];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onLeftPress() {
-    const noOfColumns = this.fpContainer.nativeElement.offsetWidth / 210
-    this.fpContainer.nativeElement.scrollBy({ left: -(210 * noOfColumns), behavior: 'smooth' })
+    const noOfColumns = this.fpContainer.nativeElement.offsetWidth / 210;
+    this.fpContainer.nativeElement.scrollBy({
+      left: -(210 * noOfColumns),
+      behavior: 'smooth',
+    });
   }
 
   onRightPress() {
-    const noOfColumns = this.fpContainer.nativeElement.offsetWidth / 210
-    this.fpContainer.nativeElement.scrollBy({ left: 210 * noOfColumns, behavior: 'smooth' })
+    const noOfColumns = this.fpContainer.nativeElement.offsetWidth / 210;
+    this.fpContainer.nativeElement.scrollBy({
+      left: 210 * noOfColumns,
+      behavior: 'smooth',
+    });
   }
-
 }

@@ -18,12 +18,12 @@
   scroll-padding: 0.4rem;
   .featured-product {
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    // TODO: Scroll Snap Stop
+    //scroll-snap-stop: always;
     padding: 1rem;
-    box-shadow: 6px 6px 10px 0 #f2f2f2,
-                -6px -3px 10px 0 #f2f2f2;
+    box-shadow: 6px 6px 10px 0 #f2f2f2, -6px -3px 10px 0 #f2f2f2;
 
-    >* {
+    > * {
       margin: 0;
       padding: 0 0.5rem 1rem 0.5rem;
     }
@@ -45,8 +45,8 @@
       padding: 0 0.5rem 1rem 0.5rem;
       display: flex;
       justify-content: flex-start;
-      >* {
-        margin: 0
+      > * {
+        margin: 0;
       }
       .current-price {
         font-size: 1.5rem;
@@ -67,7 +67,8 @@
       display: flex;
       gap: 0.5rem;
 
-      .add-to-cart, .add-to-wishlist {
+      .add-to-cart,
+      .add-to-wishlist {
         color: #d3d76a;
         background-color: rgb(67, 67, 102);
         box-shadow: 0 0 0 2px black;
@@ -91,27 +92,7 @@
       }
     }
 
-    .rating-star-container {
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-      mat-icon {
-        font-size: 1rem;
-        height: 1.2rem;
-        width: 0.7rem;
-        color: orange;
-      }
-      p {
-        font-size: 0.8rem;
-      }
-      p.rating {
-        margin: 0 0 0 0.35rem;
-      }
-      p.no-of-ratings {
-        margin: 0 0.5rem 0 0;
-        font-weight: 600;
-      }
-    }
+
 
     .stock-indicator-container {
       display: flex;
@@ -157,6 +138,5 @@
         background-color: red;
       }
     }
-
   }
 }

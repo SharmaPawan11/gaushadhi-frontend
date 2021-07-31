@@ -10,9 +10,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import {MatInputModule} from "@angular/material/input";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatIconModule} from "@angular/material/icon";
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -20,19 +20,18 @@ import {MatIconModule} from "@angular/material/icon";
     SelectShipmentComponent,
     OrderReviewComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SharedModule,
-        MatButtonModule,
-        MatRadioModule,
-        ReactiveFormsModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatInputModule,
-      MatChipsModule,
-      MatIconModule
-
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    MatButtonModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatInputModule,
+    MatChipsModule,
+    MatIconModule,
+  ],
 })
 export class CheckoutModule {}
