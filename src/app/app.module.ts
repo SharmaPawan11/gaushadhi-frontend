@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     CoreModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
     SharedModule,
     MatIconModule,
   ],

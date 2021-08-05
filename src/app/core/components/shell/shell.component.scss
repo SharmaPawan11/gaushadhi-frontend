@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .top-offer-bar {
   background: var(--secondary-background);
   display: flex;
@@ -5,6 +11,7 @@
   align-items: center;
   position: relative;
   height: 2rem;
+  padding: 1rem;
   mat-icon {
     font-size: 1rem;
     height: 1rem;
@@ -18,4 +25,8 @@
   p {
     margin: 0;
   }
+}
+
+.dynamic-outlet {
+  flex-grow: 1;
 }
