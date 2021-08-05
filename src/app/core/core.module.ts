@@ -16,9 +16,16 @@ import { CategorySliderComponent } from './components/category-slider/category-s
 import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
-import {SharedModule} from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import {MatChipsModule} from "@angular/material/chips";
+import { MatChipsModule } from '@angular/material/chips';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FooterComponent } from './components/footer/footer.component';
+import { PlaygroundComponent } from './components/playground/playground.component';
+import {MatBadgeModule} from "@angular/material/badge";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -31,6 +38,9 @@ import {MatChipsModule} from "@angular/material/chips";
     ProductsComponent,
     ProductFilterComponent,
     ProductListComponent,
+    ProductDetailComponent,
+    FooterComponent,
+    PlaygroundComponent,
   ],
   imports: [
     // Angular
@@ -41,6 +51,10 @@ import {MatChipsModule} from "@angular/material/chips";
     MatIconModule,
     SharedModule,
     MatChipsModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatBadgeModule,
+    MatButtonModule
   ],
   exports: [
     BrowserModule,

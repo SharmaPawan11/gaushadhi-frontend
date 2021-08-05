@@ -7,146 +7,42 @@
   <div class="sort-button">Price: High To Low</div>
 </div>
 <div class="product-grid">
-  <div class="product">
+  <div class="product" *ngFor="let product of products" [routerLink]="['./1']">
     <div class="wishlist-button">
       <mat-icon>favorite</mat-icon>
     </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
+    <img [src]="product.imageSource" alt="Gaushadhi-Soap">
+    <p class="brand-name">{{product.brandName | uppercase}}</p>
+    <h4>{{product.variantName}}</h4>
     <div class="rating-star-container">
       <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
+        {{i > product.ratingStars ? 'star_outline': 'star'}}
       </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
+      <p class="rating">{{product.rating}}</p>
+      <p class="no-of-ratings">({{product.noOfRatings}})</p>
+    </div>
+    <div class="price-label">
+      <p>Price</p>
     </div>
     <div class="action-bar">
       <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
+        <p class="strikethrough-price">{{product.strikethroughPrice | currency: 'INR': 'symbol'}}</p>
+        <p>{{product.currentPrice | currency: 'INR': 'symbol'}}</p>
       </div>
       <div class="add-to-cart-btn">
         Add to cart
       </div>
     </div>
-  </div>
-
-  <div class="product">
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
-    </div>
-    <div class="action-bar">
-      <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
+    <div class="stock-indicator-container" [ngClass]="{
+        'stock-bar-75': product.inStock >= 32,
+        'stock-bar-50': product.inStock > 8 && product.inStock < 32,
+        'stock-bar-25': product.inStock <= 8
+      }">
+      <div class="stock-bar-total">
+        <div class="stock-bar-fill"></div>
       </div>
-      <div class="add-to-cart-btn">
-        Add to cart
-      </div>
-    </div>
-  </div>
-
-  <div class="product">
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
-    </div>
-    <div class="action-bar">
-      <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
-      </div>
-      <div class="add-to-cart-btn">
-        Add to cart
-      </div>
-    </div>
-  </div>
-
-  <div class="product">
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
-    </div>
-    <div class="action-bar">
-      <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
-      </div>
-      <div class="add-to-cart-btn">
-        Add to cart
-      </div>
-    </div>
-  </div>
-
-  <div class="product">
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
-    </div>
-    <div class="action-bar">
-      <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
-      </div>
-      <div class="add-to-cart-btn">
-        Add to cart
-      </div>
-    </div>
-  </div>
-
-  <div class="product">
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
-    <img src="../../../../assets/images/gaushadhi-soap.png" alt="Gaushadhi-Soap">
-    <h4>Gaushadhi Bathing Soap</h4>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-      <p class="rating">{{'4.5'}}</p>
-      <p class="no-of-ratings">({{40}})</p>
-    </div>
-    <div class="action-bar">
-      <div class="price-container">
-        <p>Price</p>
-        <p>{{100 | currency: 'INR': 'symbol'}}</p>
-      </div>
-      <div class="add-to-cart-btn">
-        Add to cart
+      <div class="stock-text">
+        {{product.inStock}} available in stock
       </div>
     </div>
   </div>

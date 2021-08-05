@@ -33,6 +33,12 @@ import { TextWithToggleComponent } from './components/text-with-toggle/text-with
     MatSelectModule,
   ],
   providers: [],
-  exports: [ConfirmInputComponent, AddressCardComponent, AddressFormComponent, CheckboxComponent, TextWithToggleComponent],
+  exports: [
+    ConfirmInputComponent,
+    AddressCardComponent,
+    AddressFormComponent,
+    CheckboxComponent,
+    TextWithToggleComponent,
+  ],
 })
 export class SharedModule {}

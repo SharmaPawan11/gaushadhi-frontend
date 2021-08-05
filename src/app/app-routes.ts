@@ -4,6 +4,8 @@ import { AccountGuard } from './core/providers/guards/account.guard';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
 import { CategoryComponent } from './core/components/category/category.component';
 import { ProductsComponent } from './core/components/products/products.component';
+import { ProductDetailComponent } from './core/components/product-detail/product-detail.component';
+import {PlaygroundComponent} from "./core/components/playground/playground.component";
 
 export const routes: Route[] = [
   {
@@ -12,15 +14,19 @@ export const routes: Route[] = [
     children: [
       {
         path: '',
-        component: LandingPageComponent,
+        component: LandingPageComponent
+      },
+      {
+        path: 'playground',
+        component: PlaygroundComponent
       },
       {
         path: 'products',
-        component: ProductsComponent,
+        component: ProductsComponent
       },
       {
-        path: 'category/:productCategory',
-        component: CategoryComponent,
+        path: 'products/:slug',
+        component: ProductDetailComponent,
       },
       {
         path: 'account',

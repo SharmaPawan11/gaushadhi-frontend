@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'gaushadhi-product-filter',
   templateUrl: './product-filter.component.html',
-  styleUrls: ['./product-filter.component.scss']
+  styleUrls: ['./product-filter.component.scss'],
 })
 export class ProductFilterComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

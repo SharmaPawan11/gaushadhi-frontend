@@ -45,7 +45,7 @@
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 0.4fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 0.4fr));
   grid-gap: 2rem;
   justify-content: center;
   .product {
@@ -56,6 +56,7 @@
     padding: 1.5rem;
     border: 2px solid #eeeded;
     border-radius: 10px;
+    cursor: pointer;
     .wishlist-button {
       display: flex;
       justify-content: center;
@@ -74,42 +75,57 @@
         align-items: center;
       }
     }
+    .brand-name {
+      color: #9896a6;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
     img {
-      width: 100%;
+      max-width: 100%;
       justify-self: center;
+      max-height: 156px;
     }
     h4 {
       font-weight: 500;
     }
+    .price-label {
+      color: #8c7f7f;
+      font-size: 0.8rem;
+    }
     .action-bar {
+      margin-top: -1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.5rem;
       .price-container {
-        p:nth-child(1) {
-          color: #8c7f7f;
-          font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        .strikethrough-price {
+          display: flex;
+          align-items: center;
+          padding-right: 0.4rem;
+          font-size: 0.7rem;
+          color: rgb(154, 152, 168);
+          text-decoration: line-through;
         }
-        p:nth-child(2) {
-          margin-top: 0.3rem;
+        .strikethrough-price + p {
           font-weight: 600;
         }
-
       }
       .add-to-cart-btn {
-        font-size: 0.9rem;
-        font-weight: 600;
-        padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.6rem 0.8rem 0.6rem 0.8rem;
         border: 2px solid #eeeded;
         border-radius: 15px;
         cursor: pointer;
-        transition: box-shadow 200ms ease-in,
-                    background-color 200ms ease-in;
+        transition: box-shadow 200ms ease-in, background-color 200ms ease-in;
         &:hover {
           background-color: #ddd;
-          box-shadow: 0 3px 1px 0 #ddd;
+          box-shadow: 0.5px 0.5px 0.5px 0.5px #ddd,
+            -0.5px -0.5px 0.5px 0.5px #ddd;
         }
         &:active {
           background-color: unset;
@@ -117,7 +133,49 @@
         }
       }
     }
+    .stock-indicator-container {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1em;
+      align-items: center;
+      .stock-bar-total {
+        width: 20%;
+        height: 4px;
+        background-color: #b7aeae;
+        border-radius: 10px;
+        .stock-bar-fill {
+          height: 4px;
+          border-radius: 10px 0 0 10px;
+        }
+      }
+      .stock-text {
+        font-size: 0.6rem;
+        position: relative;
+      }
+    }
   }
 }
 
+.stock-bar-75 {
+  color: #3cb306;
+  .stock-bar-fill {
+    width: 75%;
+    background-color: #3cb306;
+  }
+}
 
+.stock-bar-50 {
+  color: orange;
+  .stock-bar-fill {
+    width: 50%;
+    background-color: orange;
+  }
+}
+
+.stock-bar-25 {
+  color: red;
+  .stock-bar-fill {
+    width: 25%;
+    background-color: red;
+  }
+}
