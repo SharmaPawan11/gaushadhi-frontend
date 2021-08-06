@@ -341,7 +341,7 @@
         border: 1px solid #fdcb00;
 
         .add-remove-container {
-          --btn-color: #a29c9c;
+          --btn-color: #eee;
           background-position: center;
           transition: background 0.8s;
           display: flex;
@@ -352,10 +352,10 @@
           background-color: var(--btn-color);
           cursor: pointer;
           &:hover {
-            background-color: scale-color(#a29c9c, $lightness: -20%);
+            background-color: scale-color(#eee, $lightness: -10%);
           }
           &:active {
-            background-color: scale-color(#a29c9c, $lightness: -40%);
+            background-color: scale-color(#eee, $lightness: -20%);
             background-size: 100%;
             transition: background 0s;
           }
