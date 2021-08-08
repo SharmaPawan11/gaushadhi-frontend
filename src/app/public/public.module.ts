@@ -14,6 +14,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {routes} from "./public-routes";
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {routes} from "./public-routes";
     ProductListComponent,
     ProductDetailComponent,
     PlaygroundComponent,
+    CartComponent,
   ],
   imports: [
     CommonModule,

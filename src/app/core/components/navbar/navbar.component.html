@@ -1,9 +1,9 @@
 <div class="menu-btn">
   <mat-icon>menu</mat-icon>
 </div>
-<div class="logo" tabindex="-1" [routerLink]="['/']">
+<a target="_blank" rel="noopener" class="logo" tabindex="-1" [routerLink]="['/']">
   <img src="assets/images/logo.png" alt="logo" class="logo">
-</div>
+</a>
 <div class="search">
   <input placeholder="Search Products"/>
 </div>
@@ -19,11 +19,11 @@
     <mat-icon>keyboard_arrow_down</mat-icon>
   </div>
 </div>
-<div class="wishlist" tabindex="0" [routerLink]="['store', 'products']">
+<a class="wishlist" tabindex="0" [routerLink]="['store', 'products']">
   <mat-icon>favorite</mat-icon>
   <h4>Wishlist</h4>
-</div>
-<div class="cart" tabindex="0">
+</a>
+<a class="cart" tabindex="0" [routerLink]="['store', 'cart']">
   <mat-icon>shopping_cart</mat-icon>
   <h4>Cart</h4>
-</div>
+</a>

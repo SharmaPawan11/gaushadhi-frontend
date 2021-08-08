@@ -7,7 +7,7 @@
   <div class="sort-button">Price: High To Low</div>
 </div>
 <div class="product-grid">
-  <div class="product" *ngFor="let product of products" [routerLink]="['./1']">
+  <a class="product" *ngFor="let product of products" [routerLink]="['./1']">
     <div class="wishlist-button">
       <mat-icon>favorite</mat-icon>
     </div>
@@ -45,5 +45,5 @@
         {{product.inStock}} available in stock
       </div>
     </div>
-  </div>
+  </a>
 </div>

@@ -9,4 +9,4 @@
 <div class="dynamic-outlet">
   <router-outlet></router-outlet>
 </div>
-<gaushadhi-footer></gaushadhi-footer>
+<gaushadhi-footer *ngIf="!footerExcludedRoutes.includes(currentRoute)" ></gaushadhi-footer>

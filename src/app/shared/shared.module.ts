@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { TextWithToggleComponent } from './components/text-with-toggle/text-with-toggle.component';
+import { OrderPriceBreakdownComponent } from './components/order-price-breakdown/order-price-breakdown.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TextWithToggleComponent } from './components/text-with-toggle/text-with
     AddressFormComponent,
     CheckboxComponent,
     TextWithToggleComponent,
+    OrderPriceBreakdownComponent,
   ],
   imports: [
     CommonModule,
@@ -33,12 +35,13 @@ import { TextWithToggleComponent } from './components/text-with-toggle/text-with
     MatSelectModule,
   ],
   providers: [],
-  exports: [
-    ConfirmInputComponent,
-    AddressCardComponent,
-    AddressFormComponent,
-    CheckboxComponent,
-    TextWithToggleComponent,
-  ],
+    exports: [
+        ConfirmInputComponent,
+        AddressCardComponent,
+        AddressFormComponent,
+        CheckboxComponent,
+        TextWithToggleComponent,
+        OrderPriceBreakdownComponent,
+    ],
 })
 export class SharedModule {}

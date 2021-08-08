@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'gaushadhi-footer',
@@ -8,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
   // TODO: Social Media Buttons
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
+
   }
 
 }

@@ -49,6 +49,8 @@
   grid-gap: 2rem;
   justify-content: center;
   .product {
+    text-decoration: none;
+    color: unset;
     position: relative;
     display: grid;
     grid-auto-flow: row;
