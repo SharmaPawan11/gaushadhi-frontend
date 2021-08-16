@@ -14,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { TextWithToggleComponent } from './components/text-with-toggle/text-with-toggle.component';
 import { OrderPriceBreakdownComponent } from './components/order-price-breakdown/order-price-breakdown.component';
+import { ApplyCouponComponent } from './components/apply-coupon/apply-coupon.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { OrderPriceBreakdownComponent } from './components/order-price-breakdown
     CheckboxComponent,
     TextWithToggleComponent,
     OrderPriceBreakdownComponent,
+    ApplyCouponComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { OrderPriceBreakdownComponent } from './components/order-price-breakdown
         CheckboxComponent,
         TextWithToggleComponent,
         OrderPriceBreakdownComponent,
+      ApplyCouponComponent
     ],
 })
 export class SharedModule {}

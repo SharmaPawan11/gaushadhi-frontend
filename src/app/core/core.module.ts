@@ -14,18 +14,8 @@ import { CarouselDirective } from './directives/carousel.directive';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { CategorySliderComponent } from './components/category-slider/category-slider.component';
 import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
-import { ProductsComponent } from '../public/components/products/products.component';
-import { ProductFilterComponent } from '../public/components/product-filter/product-filter.component';
-import { SharedModule } from '../shared/shared.module';
-import { ProductListComponent } from '../public/components/product-list/product-list.component';
-import { MatChipsModule } from '@angular/material/chips';
-import { ProductDetailComponent } from '../public/components/product-detail/product-detail.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatExpansionModule } from '@angular/material/expansion';
+
 import { FooterComponent } from './components/footer/footer.component';
-import { PlaygroundComponent } from '../public/components/playground/playground.component';
-import {MatBadgeModule} from "@angular/material/badge";
-import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -61,7 +51,7 @@ import {MatButtonModule} from "@angular/material/button";
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:3000/shop-api',
+            uri: 'http://192.168.1.9:3000/shop-api',
             withCredentials: true,
           }),
           // defaultOptions: {

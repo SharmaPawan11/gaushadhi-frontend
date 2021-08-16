@@ -11,8 +11,10 @@
 
 .content {
   display: grid;
+  align-content: start;
   grid-gap: 1rem;
   padding: 1rem;
+  box-shadow: 0 1px 6px #ccc5c5;
 }
 
 h3 {
@@ -99,7 +101,7 @@ h3 {
         background-color: #eee;
         margin-left: auto;
         border-radius: 10px;
-        p {
+        label {
           display: none;
         }
       }
@@ -115,6 +117,10 @@ h3 {
 
 gaushadhi-order-price-breakdown {
   height: max-content;
+}
+
+gaushadhi-apply-coupon {
+  margin-right: 0.5rem;
 }
 
 .place-order-bar {
@@ -151,10 +157,12 @@ gaushadhi-order-price-breakdown {
   :host {
     grid-template-columns: 2fr 1fr;
     grid-row-gap: 0;
+    height: 100%;
     gaushadhi-order-price-breakdown, .content {
       box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
     }
     .content {
+      grid-row: 1 / span 4;
       margin: 1.5rem 0 0 1rem;
     }
     .place-order-bar {
@@ -163,9 +171,16 @@ gaushadhi-order-price-breakdown {
     gaushadhi-order-price-breakdown {
       margin: 1.5rem 1rem 0 0;
     }
+    gaushadhi-apply-coupon {
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 1rem;
+      margin-right: 1rem;
+    }
   }
 
   .place-order-bar {
+    grid-row: 5;
     justify-content: flex-end;
     box-shadow: 0 -2px 6px #918787;
     .price-details {
@@ -188,7 +203,7 @@ gaushadhi-order-price-breakdown {
       width: 1.5rem !important;
       height: 1.5rem !important;
     }
-    p {
+    label {
       display: inline !important;
     }
   }

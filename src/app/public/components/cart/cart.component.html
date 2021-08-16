@@ -25,7 +25,7 @@
 
         <button mat-button class="remove-item">
           <mat-icon>delete</mat-icon>
-          <p>Remove</p>
+          <label>Remove</label>
         </button>
 
       </div>
@@ -34,6 +34,7 @@
 
 </div>
 
+<gaushadhi-apply-coupon></gaushadhi-apply-coupon>
 <gaushadhi-order-price-breakdown #scrollPoint></gaushadhi-order-price-breakdown>
 
 <div class="place-order-bar">
@@ -42,7 +43,7 @@
     <p> View price details</p>
   </div>
   <div class="place-order-btn">
-    <button mat-raised-button>
+    <button mat-raised-button [routerLink]="['../../checkout/shipping-info']">
       {{'Place Order'| uppercase}}
     </button>
   </div>

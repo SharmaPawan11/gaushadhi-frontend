@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SelectAddressComponent } from './components/select-address/select-address.component';
+import { ShippingInfoComponent } from './components/shipping-info/shipping-info-component';
 import { SelectShipmentComponent } from './components/select-shipment/select-shipment.component';
 import { OrderReviewComponent } from './components/order-review/order-review.component';
 import { routes } from './checkout-routes';
@@ -13,12 +13,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { CheckoutShellComponent } from './components/checkout-shell/checkout-shell.component';
+import { CheckoutStageIndicatorComponent } from './components/checkout-stage-indicator/checkout-stage-indicator.component';
+import {PlaygroundComponent} from "./playground/playground.component";
+import { ShipmentMethodCardComponent } from './components/shipment-method-card/shipment-method-card.component';
+import { OrderPlacedComponent } from './components/order-placed/order-placed.component';
 
 @NgModule({
   declarations: [
-    SelectAddressComponent,
+    ShippingInfoComponent,
     SelectShipmentComponent,
     OrderReviewComponent,
+    CheckoutShellComponent,
+    CheckoutStageIndicatorComponent,
+    PlaygroundComponent,
+    ShipmentMethodCardComponent,
+    OrderPlacedComponent
   ],
   imports: [
     CommonModule,

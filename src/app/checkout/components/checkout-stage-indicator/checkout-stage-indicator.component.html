@@ -1,0 +1,36 @@
+<div class="steps">
+
+  <div [routerLink]="['/checkout/shipping-info']" class="step shipping" [ngClass]="(currentStage === 'Shipping Info') ? 'current_step' : 'coming_step'">
+    <mat-icon class="material-icons-outlined">
+      local_shipping
+    </mat-icon>
+    <p>
+      Shipping Info
+    </p>
+  </div>
+
+  <hr [ngClass]="{'hr__done': currentStage === 'Order Summary' || currentStage === 'Order Placed'}">
+
+  <div [routerLink]="['/checkout/summary']" class="step payment" [ngClass]="(currentStage === 'Order Summary') ? 'current_step' : 'coming_step'">
+    <mat-icon class="material-icons-outlined">
+      attach_money
+    </mat-icon>
+    <p>
+      Order Summary
+    </p>
+  </div>
+
+  <hr [ngClass]="{'hr__done': currentStage === 'Order Placed'}">
+
+  <div class="step order-placed" [ngClass]="(currentStage === 'Order Placed') ? 'current_step' : 'coming_step'">
+    <mat-icon class="material-icons-outlined">
+      receipt
+    </mat-icon>
+    <p>
+      Order Placed
+    </p>
+  </div>
+
+</div>
+
+

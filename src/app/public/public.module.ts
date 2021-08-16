@@ -3,7 +3,6 @@ import {ProductsComponent} from "./components/products/products.component";
 import {ProductFilterComponent} from "./components/product-filter/product-filter.component";
 import {ProductListComponent} from "./components/product-list/product-list.component";
 import {ProductDetailComponent} from "./components/product-detail/product-detail.component";
-import {PlaygroundComponent} from "./components/playground/playground.component";
 import {RouterModule} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "../shared/shared.module";
@@ -22,7 +21,6 @@ import { CartComponent } from './components/cart/cart.component';
     ProductFilterComponent,
     ProductListComponent,
     ProductDetailComponent,
-    PlaygroundComponent,
     CartComponent,
   ],
   imports: [

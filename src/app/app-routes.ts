@@ -5,7 +5,7 @@ import { LandingPageComponent } from './core/components/landing-page/landing-pag
 import { CategoryComponent } from './core/components/category/category.component';
 import { ProductsComponent } from './public/components/products/products.component';
 import { ProductDetailComponent } from './public/components/product-detail/product-detail.component';
-import {PlaygroundComponent} from "./public/components/playground/playground.component";
+import {PlaygroundComponent} from "./checkout/playground/playground.component";
 
 export const routes: Route[] = [
   {
@@ -38,6 +38,6 @@ export const routes: Route[] = [
     path: 'checkout',
     loadChildren: () =>
       import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
-    canActivate: [AccountGuard],
+    // canActivate: [AccountGuard],
   },
 ];

@@ -1,11 +1,11 @@
-<div style="border: 1px solid darkred">
-  <h1 *ngIf="address.defaultShippingAddress"> DEFAULT SHIPPING ADDRESS</h1>
-  <h1 *ngIf="address.defaultBillingAddress"> DEFAULT BILLING ADDRESS</h1>
-  <h6>{{ address.streetLine1 }}</h6>
-  <h6>{{ address.postalCode }}</h6>
-  <h6>{{ address.phoneNumber }}</h6>
-  <h6>{{ address.fullName }}</h6>
-  <h6>{{ address.city }}</h6>
-  <h6>{{ address.province }}</h6>
-  <h6>{{ address.country.code }}</h6>
+<div class="content" [ngClass]="{'selected-card': isSelected}">
+  <div class="card-top-line">
+    <h3>{{ address.fullName }}</h3>
+    <mat-icon *ngIf="isSelected">
+      check_circle
+    </mat-icon>
+  </div>
+  <p class="ph_no">{{ address.phoneNumber }}</p>
+  <p class="address">{{ address.streetLine1 }}</p>
+  <p class="address">{{ address.city }}, {{ address.province }} - {{ address.postalCode }} | {{ address.country.code }}</p>
 </div>

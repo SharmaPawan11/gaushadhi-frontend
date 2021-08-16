@@ -1,0 +1,42 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 1px #adaaaa;
+  cursor: pointer;
+  gap: 0.5rem;
+  width: 100%;
+  &:hover {
+    background-color: #fff5e9;
+  }
+  >* {
+    white-space: normal;
+  }
+}
+
+.card-top-line {
+  display: flex;
+  align-items: center;
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+  mat-icon {
+    margin-left: auto;
+  }
+}
+
+.ph_no {
+  font-size: 0.8rem;
+}
+
+.address {
+  font-size: 0.9rem;
+}
+
+.selected-card {
+  background-color: #fff5e9;
+  border: 2px solid #f4b868;
+}

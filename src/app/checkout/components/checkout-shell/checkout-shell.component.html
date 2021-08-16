@@ -1,0 +1,21 @@
+<gaushadhi-checkout-stage-indicator [currentStage]="currentStage"></gaushadhi-checkout-stage-indicator>
+
+<div class="dynamic-outlet" [ngClass]="{'full-width': currentRoute === 'order-placed'}">
+  <router-outlet></router-outlet>
+</div>
+
+<gaushadhi-apply-coupon *ngIf="currentRoute !== 'order-placed'"></gaushadhi-apply-coupon>
+<gaushadhi-order-price-breakdown #scrollPoint *ngIf="currentRoute !== 'order-placed'"></gaushadhi-order-price-breakdown>
+
+<div class="checkout-cta-btn" *ngIf="currentRoute !== 'order-placed'" >
+  <div (click)="scrollToProductDetails()" class="price-details">
+    <p>{{'579' | currency : 'INR' : 'symbol'}}</p>
+    <p> View price details</p>
+  </div>
+  <div class="place-order-btn" (click)="nextCheckoutStep()">
+    <button mat-raised-button>
+      {{ctaRouteMap[currentRoute]| uppercase}}
+    </button>
+  </div>
+</div>
+

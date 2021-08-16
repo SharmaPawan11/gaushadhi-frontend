@@ -18,22 +18,23 @@ export class CartComponent implements OnInit {
       quantity: 1,
       image: 'assets/images/gaushadhi-manjan.png'
     },
-    {
-      variantName: 'Gaushadhi Bathing Soap',
-      brandName: 'Gaushadhi',
-      strikethroughPrice: 100,
-      price: 80,
-      quantity: 1,
-      image: 'assets/images/dhoopbatti.png'
-    },
-    {
-      variantName: 'Gaushadhi Bathing Soap',
-      brandName: 'Gaushadhi',
-      strikethroughPrice: 100,
-      price: 80,
-      quantity: 1,
-      image: 'assets/images/gaushadhi-soap.png'
-    },
+    // {
+    //   variantName: 'Gaushadhi Bathing Soap',
+    //   brandName: 'Gaushadhi',
+    //   strikethroughPrice: 100,
+    //   price: 80,
+    //   quantity: 1,
+    //   image: 'assets/images/dhoopbatti.png'
+    // },
+    // {
+    //   variantName: 'Gaushadhi Bathing Soap',
+    //   brandName: 'Gaushadhi',
+    //   strikethroughPrice: 100,
+    //   price: 80,
+    //   quantity: 1,
+    //   image: 'assets/images/gaushadhi-soap.png'
+    // },
+
   ]
   constructor() { }
 

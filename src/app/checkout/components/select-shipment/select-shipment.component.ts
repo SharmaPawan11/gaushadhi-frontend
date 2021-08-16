@@ -41,7 +41,7 @@ export class SelectShipmentComponent implements OnInit, OnDestroy {
             console.log(res.errorCode, res.message);
             break;
           case 'Order':
-            this.router.navigate(['..', 'review'], {
+            this.router.navigate(['..', 'summary'], {
               relativeTo: this.route,
             });
         }

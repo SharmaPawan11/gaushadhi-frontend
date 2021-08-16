@@ -1,0 +1,10 @@
+<div class="content" [ngClass]="{'selected-card': isSelected}">
+  <div class="card-top-line">
+    <h3>{{ method.name }}</h3>
+    <mat-icon *ngIf="isSelected">
+      check_circle
+    </mat-icon>
+  </div>
+  <p class="shipping-price">{{ method.price / 100 | currency: 'INR' : 'symbol' }}</p>
+  <p class="delivery-time" [innerHTML]="method.description"></p>
+</div>

@@ -1,34 +1,72 @@
-<ng-container *ngFor="let paymentMethod of eligiblePaymentMethods">
-  <button *ngIf="orderDetails.id"
-          (click)="onPayNow(paymentMethod)"
-          mat-raised-button
-          color="primary"
-  >
-    Pay now using {{paymentMethod.name}}
-  </button>
-</ng-container>
+<!--<input-->
+<!--  [formControl]="couponCodeInput"-->
+<!--  matInput-->
+<!--  placeholder="Enter Coupon Code"-->
+<!--  autocomplete="on"-->
+<!--/>-->
+<!--<button *ngIf="orderDetails.id"-->
+<!--        (click)="onAddCoupon()"-->
+<!--        mat-raised-button-->
+<!--        color="primary"-->
+<!--&gt;-->
+<!--  Add Coupon-->
+<!--</button>-->
 
-<input
-  [formControl]="couponCodeInput"
-  matInput
-  placeholder="Enter Coupon Code"
-  autocomplete="on"
-/>
-<button *ngIf="orderDetails.id"
-        (click)="onAddCoupon()"
-        mat-raised-button
-        color="primary"
->
-  Add Coupon
-</button>
+<!--<mat-chip-list aria-label="Fruit selection">-->
+<!--  <mat-chip-->
+<!--    *ngFor="let couponCode of appliedCoupons"-->
+<!--    [selectable]="false"-->
+<!--    [removable]="true"-->
+<!--    (removed)="onRemoveCoupon(couponCode)">-->
+<!--    {{couponCode}}-->
+<!--    <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>-->
+<!--  </mat-chip>-->
+<!--</mat-chip-list>-->
 
-<mat-chip-list aria-label="Fruit selection">
-  <mat-chip
-    *ngFor="let couponCode of appliedCoupons"
-    [selectable]="false"
-    [removable]="true"
-    (removed)="onRemoveCoupon(couponCode)">
-    {{couponCode}}
-    <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-  </mat-chip>
-</mat-chip-list>
+<h2>Order Summary</h2>
+<div class="summary">
+  <div class="summary-item cart-summary">
+    <div class="item-header">
+      <h3>My Cart</h3>
+      <a [routerLink]="['../../store/cart']">Edit</a>
+    </div>
+    <div class="cart-items">
+      <div class="cart-item">
+        <div class="image-container">
+          <img src="../../../../assets/images/gaushadhi-soap.png" alt="">
+        </div>
+        <div class="description">
+          <p>Gaushadhi Bathing Soap</p>
+          <p>Quantity: 2</p>
+          <p>Variant: Normal</p>
+        </div>
+        <div class="price">
+          {{'80' | currency : 'INR': 'symbol'}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="summary-item">
+    <div class="item-header">
+      <h3>Shipping Address</h3>
+      <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
+    </div>
+    <div class="address">
+      <h3>Home</h3>
+      C-19/A Rajeev Nagar Ph-2 <br>
+      New Delhi - 110086, Delhi <br>
+      IN
+    </div>
+  </div>
+  <div class="summary-item">
+    <div class="item-header">
+      <h3>Shipping Method</h3>
+      <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
+    </div>
+    <div class="method">
+      <h3>Standard</h3>
+      <p class="shipping-price">{{'45.45' | currency : 'INR' : 'symbol'}}</p>
+      <p>Delivery within 4-5 business days</p>
+    </div>
+  </div>
+</div>

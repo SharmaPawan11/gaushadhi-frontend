@@ -1,0 +1,25 @@
+<h3>{{'Select Shipping Address' | uppercase}}</h3>
+
+<mat-radio-group
+  [formControl]="selectedShippingAddress">
+  <div class="addresses-container">
+    <div class="add-new-address">
+      <mat-icon>add</mat-icon>
+      <p>Add New Address</p>
+    </div>
+    <mat-radio-button class="example-radio-button" *ngFor="let address of customerAddresses" [value]="address" >
+      <gaushadhi-address-card [address]="address" [isSelected]="selectedShippingAddress.value.id === address.id"></gaushadhi-address-card>
+    </mat-radio-button>
+  </div>
+</mat-radio-group>
+
+
+<h3>{{'Select Shipping Method' | uppercase}}</h3>
+<mat-radio-group
+  [formControl]="selectedShippingMethod">
+  <div class="shipmment-method-container">
+    <mat-radio-button class="example-radio-button" *ngFor="let method of eligibleShipmentMethods" [value]="method" >
+      <gaushadhi-shipment-method-card [method]="method" [isSelected]="selectedShippingMethod.value.id === method.id"></gaushadhi-shipment-method-card>
+    </mat-radio-button>
+  </div>
+</mat-radio-group>
