@@ -13,17 +13,17 @@
       </div>
       <div class="item-action-bar">
 
-        <button (click)="item.quantity = item.quantity > 1 ? item.quantity - 1 : item.quantity" mat-button>
+        <button aria-label="decrease_quantity" (click)="item.quantity = item.quantity > 1 ? item.quantity - 1 : item.quantity" mat-button>
           <mat-icon>remove</mat-icon>
         </button>
 
         <label>{{item.quantity}}</label>
 
-        <button (click)="item.quantity = item.quantity + 1" mat-button>
+        <button aria-label="increase_quantity" (click)="item.quantity = item.quantity + 1" mat-button>
           <mat-icon>add</mat-icon>
         </button>
 
-        <button mat-button class="remove-item">
+        <button aria-label="remove_item" mat-button class="remove-item">
           <mat-icon>delete</mat-icon>
           <label>Remove</label>
         </button>

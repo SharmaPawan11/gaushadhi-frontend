@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -74,13 +75,8 @@ export class RazorpayService {
       console.log(response);
     },
     modal: {
-      ondismiss: function () {
-        if (confirm('Are you sure, you want to close the form?')) {
-          console.log('Checkout form closed by the user');
-        } else {
-          console.log('Complete the Payment');
-        }
-      },
+      ondismiss: function () {}
+      ,
     },
   };
 
@@ -113,6 +109,10 @@ export class RazorpayService {
     this._razorpayOptions.handler = cb;
   }
 
+  set razorpayManualCloseCallback(cb: () => void) {
+    this._razorpayOptions.modal.ondismiss = cb;
+  }
+
   loadRazorpayScript() {
     return new Promise((resolve, reject) => {
       if (this.scriptLoaded) {
@@ -131,7 +131,6 @@ export class RazorpayService {
       }
     })
   }
-
   constructor() {}
 
 }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter, switchMap, take, takeUntil} from "rxjs/operators";
 import {of, Subject} from "rxjs";
@@ -22,13 +22,15 @@ export class CheckoutShellComponent implements OnInit {
   currentStage: string = 'Shipping Info';
   customerDetails: any;
   orderDetails: any = {};
+  razorpayFlowActive = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private orderService: OrderService,
-    private razorpayService: RazorpayService,
-    private checkoutService: CheckoutService
+    public razorpayService: RazorpayService,
+    private checkoutService: CheckoutService,
+    private cd: ChangeDetectorRef
   ) {
     this.router.events
       .pipe(filter((ev) => ev instanceof NavigationEnd))
@@ -76,11 +78,11 @@ export class CheckoutShellComponent implements OnInit {
         break;
       case 'summary':
         await this.onPayNow()
-        this.router.navigateByUrl('/checkout/order-placed');
     }
   }
 
   async onPayNow() {
+      this.razorpayFlowActive = true;
       if (!await this.razorpayService.loadRazorpayScript()) {
         console.error('Unable to load razorpay script');
         return
@@ -137,6 +139,8 @@ export class CheckoutShellComponent implements OnInit {
       };
       this.razorpayService.razorpaySuccessCallback =
         this.onRazorpayPaymentSuccess.bind(this);
+      this.razorpayService.razorpayManualCloseCallback =
+        this.onRazorpayManualClose.bind(this);
       const rzp = new Razorpay(this.razorpayService.razorpayOptions);
       rzp.on('payment.failed', (response: any) => {
         console.log(response);
@@ -148,6 +152,8 @@ export class CheckoutShellComponent implements OnInit {
   }
 
   onRazorpayPaymentSuccess(metadata: Object) {
+    this.razorpayFlowActive = false;
+    this.cd.detectChanges();
     this.orderService
       .addRazorpayPaymentToOrder(metadata)
       .pipe(takeUntil(this.destroy$))
@@ -162,7 +168,26 @@ export class CheckoutShellComponent implements OnInit {
           case 'Order':
             console.log('PAYMENT SUCCESSFUL');
             console.log(res);
+            this.router.navigateByUrl('/checkout/order-placed');
         }
       });
+  }
+
+  onRazorpayManualClose() {
+    if (confirm('Are you sure, you want to close the form?')) {
+      console.log('Checkout form closed by the user');
+      this.razorpayFlowActive = false;
+
+      /**
+       * For some reason, angular is not picking up changes when I set
+       * this.razorpayFlowActive to false. Even markForCheck is not working
+       * NO FUCKING IDEA WHY.
+       * So, Using detectChanges for now.
+       * **/
+      this.cd.detectChanges();
+
+    } else {
+      console.log('Complete the Payment');
+    }
   }
 }
