@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {UserService} from "../../../core/providers/user.service";
 
 @Component({
   selector: 'gaushadhi-sidebar',
@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  constructor() {}
+  constructor(
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {}
 }

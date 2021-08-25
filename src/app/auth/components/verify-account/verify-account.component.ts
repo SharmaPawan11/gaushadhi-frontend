@@ -15,6 +15,7 @@ export class VerifyAccountComponent implements OnInit, OnDestroy {
   userId!: string;
   loginError!: ErrorResult;
   verifySubscription!: Subscription;
+  progressState: 'verificationInProgress' | 'verificationFinished' = 'verificationInProgress'
 
   constructor(
     private route: ActivatedRoute,
@@ -41,10 +42,11 @@ export class VerifyAccountComponent implements OnInit, OnDestroy {
             case 'NativeAuthStrategyError':
             case 'PasswordAlreadySetError':
             case 'MissingPasswordError':
+              this.progressState = 'verificationFinished';
               this.loginError = res;
               break;
             case 'CurrentUser':
-              console.log(res);
+              this.progressState = 'verificationFinished';
               this.userId = res.id;
               this.userService.setUserDetails(this.userId);
               setTimeout(() => {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ConfirmInputComponent } from './components/confirm-password/confirm-input.component';
+import { ConfirmInputComponent } from './components/confirm-input/confirm-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { TextWithToggleComponent } from './components/text-with-toggle/text-with-toggle.component';
 import { OrderPriceBreakdownComponent } from './components/order-price-breakdown/order-price-breakdown.component';
 import { ApplyCouponComponent } from './components/apply-coupon/apply-coupon.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,16 +37,17 @@ import { ApplyCouponComponent } from './components/apply-coupon/apply-coupon.com
     MatIconModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatDialogModule
   ],
   providers: [],
-    exports: [
-        ConfirmInputComponent,
-        AddressCardComponent,
-        AddressFormComponent,
-        CheckboxComponent,
-        TextWithToggleComponent,
-        OrderPriceBreakdownComponent,
-      ApplyCouponComponent
-    ],
+  exports: [
+    ConfirmInputComponent,
+    AddressCardComponent,
+    AddressFormComponent,
+    CheckboxComponent,
+    TextWithToggleComponent,
+    OrderPriceBreakdownComponent,
+    ApplyCouponComponent,
+  ],
 })
 export class SharedModule {}

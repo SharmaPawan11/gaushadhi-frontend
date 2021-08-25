@@ -1,23 +1,29 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {filter, switchMap, take, takeUntil} from "rxjs/operators";
-import {of, Subject} from "rxjs";
-import {OrderService} from "../../../core/providers/order.service";
-import {RazorpayService} from "../../providers/razorpay.service";
-import {CheckoutService} from "../../providers/checkout.service";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { OrderService } from '../../../core/providers/order.service';
+import { RazorpayService } from '../../providers/razorpay.service';
+import { CheckoutService } from '../../providers/checkout.service';
 
 @Component({
   selector: 'gaushadhi-checkout-shell',
   templateUrl: './checkout-shell.component.html',
-  styleUrls: ['./checkout-shell.component.scss']
+  styleUrls: ['./checkout-shell.component.scss'],
 })
 export class CheckoutShellComponent implements OnInit {
-  @ViewChild("scrollPoint",  { read: ElementRef }) scrollPoint!: any;
+  @ViewChild('scrollPoint', { read: ElementRef }) scrollPoint!: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   ctaRouteMap: any = {
     'shipping-info': 'Proceed To Payment',
-    'summary': 'Pay Now'
-  }
+    summary: 'Pay Now',
+  };
   currentRoute!: string;
   currentStage: string = 'Shipping Info';
   customerDetails: any;
@@ -59,16 +65,17 @@ export class CheckoutShellComponent implements OnInit {
       email: localStorage.getItem('customerEmail'),
     };
 
-    this.checkoutService.orderData$.pipe(takeUntil(this.destroy$))
+    this.checkoutService.orderData$
+      .pipe(takeUntil(this.destroy$))
       .subscribe((orderDetails) => {
         this.orderDetails = orderDetails;
-      })
+      });
   }
 
   scrollToProductDetails() {
     this.scrollPoint.nativeElement.scrollIntoView({
-      behavior:"smooth"
-    })
+      behavior: 'smooth',
+    });
   }
 
   async nextCheckoutStep() {
@@ -77,42 +84,42 @@ export class CheckoutShellComponent implements OnInit {
         this.router.navigateByUrl('/checkout/summary');
         break;
       case 'summary':
-        await this.onPayNow()
+        await this.onPayNow();
     }
   }
 
   async onPayNow() {
-      this.razorpayFlowActive = true;
-      if (!await this.razorpayService.loadRazorpayScript()) {
-        console.error('Unable to load razorpay script');
-        return
-      }
-      if (this.orderDetails.state !== 'ArrangingPayment') {
-        this.orderService
-          .transitionOrderState('ArrangingPayment')
-          .pipe(
-            switchMap((res) => {
-              if (res?.__typename === 'Order') {
-                return this.orderService.generateRazorpayOrderId(res.id);
-              } else if (res?.__typename === 'OrderStateTransitionError') {
-                console.log(res.errorCode, res.message);
-                return of('TRANSITION ERROR');
-              }
-              return of(null);
-            }),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((res) => {
-            this.onRazorpayIdGeneration(res);
-          });
-      } else {
-        this.orderService
-          .generateRazorpayOrderId(this.orderDetails.id)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((res) => {
-            this.onRazorpayIdGeneration(res);
-          });
-      }
+    this.razorpayFlowActive = true;
+    if (!(await this.razorpayService.loadRazorpayScript())) {
+      console.error('Unable to load razorpay script');
+      return;
+    }
+    if (this.orderDetails.state !== 'ArrangingPayment') {
+      this.orderService
+        .transitionOrderState('ArrangingPayment')
+        .pipe(
+          switchMap((res) => {
+            if (res?.__typename === 'Order') {
+              return this.orderService.generateRazorpayOrderId(res.id);
+            } else if (res?.__typename === 'OrderStateTransitionError') {
+              console.log(res.errorCode, res.message);
+              return of('TRANSITION ERROR');
+            }
+            return of(null);
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((res) => {
+          this.onRazorpayIdGeneration(res);
+        });
+    } else {
+      this.orderService
+        .generateRazorpayOrderId(this.orderDetails.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((res) => {
+          this.onRazorpayIdGeneration(res);
+        });
+    }
   }
 
   onRazorpayIdGeneration(res: any) {
@@ -185,7 +192,6 @@ export class CheckoutShellComponent implements OnInit {
        * So, Using detectChanges for now.
        * **/
       this.cd.detectChanges();
-
     } else {
       console.log('Complete the Payment');
     }

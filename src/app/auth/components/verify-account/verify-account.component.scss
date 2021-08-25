@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+p, mat-spinner {
+  margin-top: 1rem;
+}
+
+.verification-finished {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 1rem;
+  .icon-container {
+    padding: 1rem;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    mat-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      color: #8178ed;
+    }
+  }
+
+  .step-failure {
+    mat-icon {
+      color: red;
+    }
+  }
+
+  .step-success {
+    mat-icon {
+      color: green;
+    }
+  }
+
+  h3 {
+    font-weight: 500;
+  }
+
+  p {
+    color: #a2a2a2;
+    margin-top: unset;
+  }
+}
+

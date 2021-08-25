@@ -8,9 +8,8 @@ describe('ApplyCouponComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApplyCouponComponent ]
-    })
-    .compileComponents();
+      declarations: [ApplyCouponComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

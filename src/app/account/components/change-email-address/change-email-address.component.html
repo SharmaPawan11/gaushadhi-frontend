@@ -1,3 +1,5 @@
+<p class="heading">Change E-mail address</p>
+
 <ng-container
   *ngIf="progressState === 'newEmailStep'; then newEmailStep; else verificationStep"
 >
@@ -5,46 +7,105 @@
 
 <ng-template #newEmailStep>
   <ng-container *ngIf="!changeEmailSentSuccessfully">
-    <form [formGroup]="requestChangeEmailGroup" (ngSubmit)="onRequestChange()" autocomplete="off">
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input
-          [type]="hidePassword ? 'password' : 'text'"
-          formControlName="password"
-          matInput
-          placeholder="Enter Your Password"
-          autocomplete="off"
-        />
-        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" >
-          <mat-icon>{{
-            hidePassword ? "visibility_off" : "visibility"
-            }}</mat-icon>
+    <div class="change-email-content">
+      <p>
+        Enter your current password and new email address and we'll send an email with instructions to change your password.
+      </p>
+      <form [formGroup]="requestChangeEmailGroup" (ngSubmit)="onRequestChange()" autocomplete="off">
+        <div class="form-controls">
+          <mat-form-field appearance="outline">
+            <mat-label>Current Password</mat-label>
+            <input
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              matInput
+              placeholder="Enter Your Password"
+              autocomplete="off"
+            />
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+              <mat-icon>{{
+                hidePassword ? "visibility_off" : "visibility"
+                }}</mat-icon>
+            </button>
+            <mat-error *ngIf="requestChangeEmailGroup.get('password')?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <gaushadhi-confirm-input formControlName="newEmailAddress"></gaushadhi-confirm-input>
+        </div>
+        <button
+          [disabled]="requestChangeEmailGroup.pristine || requestChangeEmailGroup.invalid"
+          type="submit"
+          mat-raised-button
+          color="primary"
+          class="main-cta"
+        >
+          {{'Send Instructions' | uppercase}}
         </button>
-        <mat-error *ngIf="requestChangeEmailGroup.get('password')?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <gaushadhi-confirm-input formControlName="newEmailAddress"></gaushadhi-confirm-input>
-      <button
-        [disabled]="requestChangeEmailGroup.invalid"
-        type="submit"
-        mat-raised-button
-        color="primary"
-      >
-        Change Email Address
-      </button>
-    </form>
+      </form>
+    </div>
   </ng-container>
   <ng-container *ngIf="changeEmailSentSuccessfully">
-    <p>
-      Email sent successfully. Please check your inbox for instructions on how
-      to update your email address.
-    </p>
+    <div class="change-email-content step-finished">
+      <div class="icon-container">
+        <mat-icon>
+          mark_email_unread
+        </mat-icon>
+      </div>
+      <h3>
+        Check your email
+      </h3>
+      <p>
+        Please check your inbox for instructions on how
+        to update your email address.
+      </p>
+    </div>
   </ng-container>
 </ng-template>
 
 <ng-template #verificationStep>
-  <p>
-    {{updateText}}
-  </p>
+  <ng-container *ngIf="updateInProgress">
+    <div class="change-email-content processing-update">
+      <p>
+        Hold On, we are updating your email address...
+      </p>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!updateInProgress">
+
+    <ng-container *ngIf="requestChangeError">
+      <div class="change-email-content step-finished">
+        <div class="icon-container step-failure">
+          <mat-icon>
+            error
+          </mat-icon>
+        </div>
+        <h3>
+          Email update failed
+        </h3>
+        <p>
+          {{this.updateText}}
+        </p>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!requestChangeError">
+      <div class="change-email-content step-finished">
+        <div class="icon-container step-success">
+          <mat-icon>
+            check_circle
+          </mat-icon>
+        </div>
+        <h3>
+          Email address changed successfully
+        </h3>
+        <p>
+          {{this.updateText}}
+        </p>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
 </ng-template>

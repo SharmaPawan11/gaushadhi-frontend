@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RegisterService } from '../../providers/register.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ErrorResult } from '../../../common/vendure-types';
 import { Subscription } from 'rxjs';
+import {SnackbarService} from "../../../core/providers/snackbar.service";
 
 @Component({
   selector: 'gaushadhi-register',
@@ -21,6 +22,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     phoneNumber: ['', Validators.pattern('^([+]91)?[789]\\d{9}$')],
+    terms: ['', [(control: FormControl) => {
+      return !control.value ? { 'required': true } : null;
+    }]]
   });
 
   get firstName() {
@@ -35,10 +39,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   get phoneNumber() {
     return this.registrationForm.get('phoneNumber');
   }
+  get terms() {
+    return this.registrationForm.get('terms');
+  }
 
   constructor(
     private registerService: RegisterService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {}
@@ -71,10 +79,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.registrationError = res;
             break;
           case 'Success':
-            console.log(res.success);
-            if (res.success) {
-              // Navigate
-            }
+            this.snackbarService.openSnackBar('Please check your email to complete registration process', 'Close', 0);
+            this.registrationForm.reset();
+            [this.firstName, this.lastName, this.email, this.registrationForm.get('password')].forEach((control) => {
+              control?.setErrors(null);
+            })
         }
       });
   }

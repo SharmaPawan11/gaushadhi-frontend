@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs";
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -75,8 +75,7 @@ export class RazorpayService {
       console.log(response);
     },
     modal: {
-      ondismiss: function () {}
-      ,
+      ondismiss: function () {},
     },
   };
 
@@ -127,10 +126,8 @@ export class RazorpayService {
         };
         script.onerror = (error: any) => resolve(false);
         document.getElementsByTagName('head')[0].appendChild(script);
-
       }
-    })
+    });
   }
   constructor() {}
-
 }

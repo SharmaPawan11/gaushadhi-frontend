@@ -3,6 +3,7 @@ import { RequestorService } from '../../core/providers/requestor.service';
 
 import {
   ChangeEmailAddress,
+  ChangePassword,
   GetAccountOverview,
   UpdateCustomerDetails,
   VerifyChangeEmailAddress,
@@ -11,6 +12,16 @@ import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GET_ACTIVE_CUSTOMER } from '../../common/documents.graph';
 import { gql } from 'apollo-angular';
+import {
+  ERROR_RESULT_FRAGMENT,
+  SUCCESS_FRAGMENT,
+} from '../../common/framents.graph';
+import UpdateCustomerPassword = ChangePassword.UpdateCustomerPassword;
+
+export type updatedControl = {
+  fieldEdited: string;
+  fieldNewValue: number;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +78,24 @@ export class ProfileService {
     }
   `;
 
+  CHANGE_PASSWORD_MUTATION = gql`
+    mutation updateCustomerPassword(
+      $currentPassword: String!
+      $newPassword: String!
+    ) {
+      updateCustomerPassword(
+        currentPassword: $currentPassword
+        newPassword: $newPassword
+      ) {
+        __typename
+        ...Success
+        ...ErrorResult
+      }
+    }
+    ${SUCCESS_FRAGMENT}
+    ${ERROR_RESULT_FRAGMENT}
+  `;
+
   constructor(private requestor: RequestorService) {}
 
   getProfileData(): Observable<any> {
@@ -92,8 +121,7 @@ export class ProfileService {
   }
 
   updateCustomerProfile(
-    fieldEdited: string,
-    fieldNewValue: string
+    updatedControls: Array<updatedControl>
   ): Observable<any> {
     const updateProfileMutationVariable: any = {
       updateCustomerInput: {},
@@ -103,23 +131,26 @@ export class ProfileService {
       hasUpdatedPhoneNumber: false,
     };
 
-    updateProfileMutationVariable.updateCustomerInput[fieldEdited] =
-      fieldNewValue;
+    updatedControls.forEach((updatedControl) => {
+      updateProfileMutationVariable.updateCustomerInput[
+        updatedControl.fieldEdited
+      ] = updatedControl.fieldNewValue;
 
-    switch (fieldEdited) {
-      case 'firstName':
-        updateProfileMutationVariable.hasUpdatedFirstName = true;
-        break;
-      case 'lastName':
-        updateProfileMutationVariable.hasUpdatedLastName = true;
-        break;
-      case 'phoneNumber':
-        updateProfileMutationVariable.hasUpdatedPhoneNumber = true;
-        break;
-      case 'hasUpdatedTitle':
-        updateProfileMutationVariable.hasUpdatedTitle = true;
-        break;
-    }
+      switch (updatedControl.fieldEdited) {
+        case 'firstName':
+          updateProfileMutationVariable.hasUpdatedFirstName = true;
+          break;
+        case 'lastName':
+          updateProfileMutationVariable.hasUpdatedLastName = true;
+          break;
+        case 'phoneNumber':
+          updateProfileMutationVariable.hasUpdatedPhoneNumber = true;
+          break;
+        case 'title':
+          updateProfileMutationVariable.hasUpdatedTitle = true;
+          break;
+      }
+    });
 
     return this.requestor
       .mutate<UpdateCustomerDetails.Mutation, UpdateCustomerDetails.Variables>(
@@ -156,5 +187,17 @@ export class ProfileService {
         VerifyChangeEmailAddress.Variables
       >(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, { token })
       .pipe(map((res) => res.updateCustomerEmailAddress));
+  }
+
+  changePassword({
+    currentPassword,
+    newPassword,
+  }: Record<'currentPassword' | 'newPassword', string>) {
+    return this.requestor
+      .mutate<ChangePassword.Mutation>(this.CHANGE_PASSWORD_MUTATION, {
+        currentPassword,
+        newPassword,
+      })
+      .pipe(map((res) => res.updateCustomerPassword));
   }
 }

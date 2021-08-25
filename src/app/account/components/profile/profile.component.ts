@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../../providers/profile.service';
+import {
+  ProfileService,
+  updatedControl,
+} from '../../providers/profile.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
@@ -7,6 +10,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../core/providers/snackbar.service';
 
 @Component({
   selector: 'gaushadhi-profile',
@@ -22,69 +27,54 @@ export class ProfileComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
     this.userProfileData = { ...this.route.snapshot.data['profile'] };
 
-    this.password = new FormControl('');
     this.userProfileForm = this.fb.group({
-      title: [this.userProfileData.title],
+      title: [this.userProfileData.title || 'Title'],
       firstName: [
         this.userProfileData.firstName,
-        [Validators.pattern('^[a-zA-Z]{3,20}$')],
+        // [Validators.required, Validators.pattern('^[a-zA-Z]{3,20}$')],
+        [Validators.required]
       ],
       lastName: [
         this.userProfileData.lastName,
-        [Validators.pattern('^[a-zA-Z]{3,20}$')],
+        [Validators.required],
       ],
       phoneNumber: [
         this.userProfileData.phoneNumber,
-        [Validators.pattern('^([+]91)?[789]\\d{9}$')],
+        [Validators.required, Validators.pattern('^([+]91)?[789]\\d{9}$')],
       ],
-      emailAddress: [this.userProfileData.emailAddress, [Validators.email]],
+      emailAddress: {
+        value: this.userProfileData.emailAddress,
+        disabled: true,
+      },
     });
   }
 
-  // onProfileFormSubmit() {
-  //   Object.keys(this.userProfileForm.controls).forEach((formControl) => {
-  //     console.log(this.userProfileForm.controls[formControl]);
-  //   });
-  // }
+  onProfileFormSubmit() {
+    const updatedControls: Array<updatedControl> = [];
 
-  onEditStart(controlBeingEdited: string) {
-    this.userProfileForm.setValue({
-      title: this.userProfileData.title,
-      firstName: this.userProfileData.firstName,
-      lastName: this.userProfileData.lastName,
-      emailAddress: this.userProfileData.emailAddress,
-      phoneNumber: this.userProfileData.phoneNumber,
-    });
-    this.currentlyEditing = controlBeingEdited;
-  }
-
-  onEditDone(controlEdited: string) {
-    console.log(controlEdited);
-    if (!this.userProfileForm.controls[controlEdited].pristine) {
-      if (controlEdited === 'emailAddress') {
-        console.log(this.password.value);
-      } else {
-        this.profileService
-          .updateCustomerProfile(
-            controlEdited,
-            this.userProfileForm.controls[controlEdited].value
-          )
-          .subscribe((res) => {
-            console.log(res);
-            this.userProfileData[controlEdited] = res[controlEdited];
-            this.currentlyEditing = '';
-          });
+    Object.keys(this.userProfileForm.controls).forEach((formControl) => {
+      if (this.userProfileForm.controls[formControl].dirty) {
+        updatedControls.push({
+          fieldEdited: formControl,
+          fieldNewValue: this.userProfileForm.controls[formControl].value,
+        });
       }
-    }
-  }
+    });
 
-  isControlValid(controlName: string) {
-    return this.userProfileForm.controls[controlName].valid;
+    this.profileService
+      .updateCustomerProfile(updatedControls)
+      .subscribe((res) => {
+        if (res.__typename === 'Customer') {
+          this.userProfileForm.markAsPristine();
+          this.snackbarService.openSnackBar('Profile updated successfully');
+        }
+      });
   }
 }

@@ -1,12 +1,12 @@
-import {Route} from "@angular/router";
-import {ProductsComponent} from "./components/products/products.component";
-import {ProductDetailComponent} from "./components/product-detail/product-detail.component";
-import {CartComponent} from "./components/cart/cart.component";
+import { Route } from '@angular/router';
+import { ProductsComponent } from './components/products/products.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CartComponent } from './components/cart/cart.component';
 
 export const routes: Route[] = [
   {
     path: 'products',
-    component: ProductsComponent
+    component: ProductsComponent,
   },
   {
     path: 'products/:slug',
@@ -14,7 +14,6 @@ export const routes: Route[] = [
   },
   {
     path: 'cart',
-    component: CartComponent
+    component: CartComponent,
   },
-
 ];

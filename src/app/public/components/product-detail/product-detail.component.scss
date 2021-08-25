@@ -6,9 +6,9 @@
   grid-template-columns: 1fr;
   grid-gap: 1rem;
   background-image: linear-gradient(
-      to left,
-      rgba(255, 0, 0, 0),
-      var(--background-gradient)
+    to left,
+    rgba(255, 0, 0, 0),
+    var(--background-gradient)
   );
 }
 
@@ -126,7 +126,8 @@
     }
   }
 
-  .price-container__desktop, .action-bar {
+  .price-container__desktop,
+  .action-bar {
     display: none;
   }
 
@@ -185,7 +186,7 @@
           p:nth-child(1) {
             font-size: 0.8rem;
             background-color: #eee;
-            color: #878787
+            color: #878787;
           }
           p:nth-child(2) {
             font-size: 0.9rem;
@@ -284,7 +285,7 @@
 
   .image-section {
     justify-content: flex-start;
-    gap:1rem;
+    gap: 1rem;
     .additional-image-selector {
       img {
         max-width: 100px;
@@ -320,7 +321,7 @@
       h2 {
         font-weight: 600;
       }
-      h2+p {
+      h2 + p {
         position: relative;
         top: -5px;
         align-self: flex-end;
@@ -366,7 +367,7 @@
         }
       }
 
-      >button {
+      > button {
         background-color: #fdcb00;
         border-radius: 10px;
       }

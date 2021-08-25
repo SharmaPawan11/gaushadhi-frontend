@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { RequestorService } from './requestor.service';
 import { gql } from 'apollo-angular';
 import {
@@ -11,12 +11,14 @@ import {
   UpdateAddressInput,
 } from '../../common/vendure-types';
 import { catchError, map, share, take, tap } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, switchMap } from 'rxjs';
 import { ADDRESS_FRAGMENT } from '../../common/framents.graph';
 import {
   GET_ACTIVE_CUSTOMER,
   GET_CUSTOMER_ADDRESSES,
 } from '../../common/documents.graph';
+import { AddressFormComponent } from '../../shared/components/address-form/address-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +59,7 @@ export class AddressService {
     }
   `;
 
-  constructor(private requestor: RequestorService) {}
+  constructor(private requestor: RequestorService, private dialog: MatDialog) {}
 
   addAddress(createAddressDataObject: CreateAddressInput) {
     return this.requestor
@@ -101,5 +103,43 @@ export class AddressService {
         catchError((err) => of(null)),
         share()
       );
+  }
+
+  openAddressDialog(componentToRender: any, addressData: any) {
+    const dialogRef = this.dialog.open(componentToRender, {
+      data: {
+        addressData,
+        newAddress: !(addressData && addressData.id),
+      },
+      width: '90%',
+    });
+
+    return dialogRef.afterClosed().pipe(
+      switchMap((result) => {
+        if (!result.data) {
+          return of({
+            dialogReturnValue: result,
+            obs: null,
+          });
+        }
+
+        if (result.data.defaultShippingAddress) {
+          result.data.defaultBillingAddress = true;
+        }
+
+        if (result.newAddress) {
+          const { id, ...formData } = result.data;
+          return of({
+            dialogReturnValue: result,
+            obs: this.addAddress(formData),
+          });
+        } else {
+          return of({
+            dialogReturnValue: result,
+            obs: this.updateAddress(result.data),
+          });
+        }
+      })
+    );
   }
 }

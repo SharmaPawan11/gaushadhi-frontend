@@ -1,12 +1,12 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'gaushadhi-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
-  @ViewChild("scrollPoint",  { read: ElementRef }) scrollPoint!: any;
+  @ViewChild('scrollPoint', { read: ElementRef }) scrollPoint!: any;
   quantity = 1;
 
   items = [
@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
       strikethroughPrice: 100,
       price: 80,
       quantity: 1,
-      image: 'assets/images/gaushadhi-manjan.png'
+      image: 'assets/images/gaushadhi-manjan.png',
     },
     // {
     //   variantName: 'Gaushadhi Bathing Soap',
@@ -34,17 +34,14 @@ export class CartComponent implements OnInit {
     //   quantity: 1,
     //   image: 'assets/images/gaushadhi-soap.png'
     // },
+  ];
+  constructor() {}
 
-  ]
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   scrollToProductDetails() {
     this.scrollPoint.nativeElement.scrollIntoView({
-      behavior:"smooth"
-    })
+      behavior: 'smooth',
+    });
   }
-
 }

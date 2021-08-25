@@ -5,7 +5,7 @@ import { LandingPageComponent } from './core/components/landing-page/landing-pag
 import { CategoryComponent } from './core/components/category/category.component';
 import { ProductsComponent } from './public/components/products/products.component';
 import { ProductDetailComponent } from './public/components/product-detail/product-detail.component';
-import {PlaygroundComponent} from "./checkout/playground/playground.component";
+import { PlaygroundComponent } from './checkout/playground/playground.component';
 
 export const routes: Route[] = [
   {
@@ -14,12 +14,12 @@ export const routes: Route[] = [
     children: [
       {
         path: '',
-        component: LandingPageComponent
+        component: LandingPageComponent,
       },
       {
-       path: 'store',
-       loadChildren: () =>
-         import('./public/public.module').then((mod) => mod.PublicModule),
+        path: 'store',
+        loadChildren: () =>
+          import('./public/public.module').then((mod) => mod.PublicModule),
       },
       {
         path: 'account',

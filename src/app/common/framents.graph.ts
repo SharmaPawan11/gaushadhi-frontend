@@ -232,6 +232,12 @@ export const ERROR_RESULT_FRAGMENT = gql`
   }
 `;
 
+export const SUCCESS_FRAGMENT = gql`
+  fragment Success on Success {
+    success
+  }
+`;
+
 export const ASSET_FRAGMENT = gql`
   fragment Asset on Asset {
     id

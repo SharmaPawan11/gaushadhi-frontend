@@ -5,6 +5,7 @@ import { SignOut } from '../../common/vendure-types';
 import { catchError, map, share, take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ import { Observable, of } from 'rxjs';
 export class UserService {
   constructor(
     private requestor: RequestorService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router
   ) {}
 
   get isAuthenticated(): boolean {
@@ -44,6 +46,7 @@ export class UserService {
       .subscribe((res) => {
         if (res.success) {
           this.removeUserDetails();
+          this.router.navigate(['login'])
         }
       });
   }

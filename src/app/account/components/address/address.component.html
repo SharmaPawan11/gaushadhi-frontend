@@ -1,48 +1,15 @@
-<p>address works!</p>
+<p class="heading">My Addresses</p>
 
-<div
-  *ngFor="let address of customerAddresses"
->
-  <gaushadhi-address-card [address]="address"></gaushadhi-address-card>
-  <button
-    (click)="onDeleteAddress(address.id)"
-    mat-raised-button
-    color="primary"
+<div class="address-cards-container">
+  <gaushadhi-address-card [addNew]="true" (click)="onAddNewAddress()"></gaushadhi-address-card>
+
+  <div
+    *ngFor="let address of customerAddresses"
   >
-    <mat-icon>delete</mat-icon>
-  </button>
-  <button
-    (click)="onEditAddress(address.id)"
-    mat-raised-button
-    color="primary"
-  >
-    <mat-icon>edit</mat-icon>
-  </button>
+    <gaushadhi-address-card [hoverFeedback]="false" [address]="address" (onDelete)="onDeleteAddress($event)" (onEdit)="onEditAddress($event)"></gaushadhi-address-card>
+  </div>
 </div>
 
-<gaushadhi-address-form [formControl]="addressForm"></gaushadhi-address-form>
 
-  <button *ngIf="!editMode"
-    [disabled]="addressForm.invalid"
-    (click)="onAddNewAddress()"
-    mat-raised-button
-    color="primary"
-  >
-    Add Address
-  </button>
-  <button *ngIf="editMode"
-    type="button"
-    [disabled]="addressForm.invalid"
-    (click)="onSaveAddress()"
-    mat-raised-button
-    color="primary"
-  >
-    Save
-  </button>
-  <button *ngIf="editMode"
-    (click)="onCancelAddressEdit()"
-    mat-raised-button
-    color="primary"
-  >
-    Cancel
-  </button>
+<!--<gaushadhi-address-form [formControl]="addressForm"></gaushadhi-address-form>-->
+

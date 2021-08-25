@@ -10,6 +10,7 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./select-shipment.component.scss'],
 })
 export class SelectShipmentComponent implements OnInit, OnDestroy {
+  // ONLY FOR TS FILE
   eligibleShipmentMethods: Array<any> = [];
   selectedShipment = new FormControl('', [Validators.required]);
   selectShipmentSubscription!: Subscription;

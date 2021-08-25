@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { ErrorResult } from '../../../common/vendure-types';
 import { UserService } from '../../../core/providers/user.service';
 import { takeUntil } from 'rxjs/operators';
+import {SnackbarService} from "../../../core/providers/snackbar.service";
 
 @Component({
   selector: 'gaushadhi-reset-password',
@@ -32,7 +33,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private resetService: ResetPasswordService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackbarService: SnackbarService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,9 +85,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.requestResetError = res;
             break;
           case 'CurrentUser':
-            console.log(res.id);
             this.userId = res.id;
             this.userService.setUserDetails(this.userId);
+            this.snackbarService.openSnackBar('Password successfully changed');
+            this.router.navigate(['../', 'login'])
         }
       });
   }

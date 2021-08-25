@@ -3,12 +3,9 @@
 <mat-radio-group
   [formControl]="selectedShippingAddress">
   <div class="addresses-container">
-    <div class="add-new-address">
-      <mat-icon>add</mat-icon>
-      <p>Add New Address</p>
-    </div>
-    <mat-radio-button class="example-radio-button" *ngFor="let address of customerAddresses" [value]="address" >
-      <gaushadhi-address-card [address]="address" [isSelected]="selectedShippingAddress.value.id === address.id"></gaushadhi-address-card>
+    <gaushadhi-address-card [addNew]="true" (click)="openAddressDialog()"></gaushadhi-address-card>
+    <mat-radio-button *ngFor="let address of customerAddresses" [value]="address" >
+      <gaushadhi-address-card [address]="address" [isSelected]="selectedShippingAddress.value.id === address.id" (onDelete)="onDeleteAddress($event)" (onEdit)="onEditAddress($event)"></gaushadhi-address-card>
     </mat-radio-button>
   </div>
 </mat-radio-group>

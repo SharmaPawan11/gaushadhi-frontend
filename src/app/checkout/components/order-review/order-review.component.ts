@@ -5,7 +5,7 @@ import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import {CheckoutService} from "../../providers/checkout.service";
+import { CheckoutService } from '../../providers/checkout.service';
 
 @Component({
   selector: 'gaushadhi-order-review',
@@ -78,5 +78,4 @@ export class OrderReviewComponent implements OnInit, OnDestroy {
         this.appliedCoupons.delete(couponCode);
       });
   }
-
 }

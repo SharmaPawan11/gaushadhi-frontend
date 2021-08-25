@@ -3,8 +3,10 @@ import { AddressService } from '../../../core/providers/address.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { UserService } from '../../../core/providers/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject, switchMap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
+import { SnackbarService } from '../../../core/providers/snackbar.service';
 
 @Component({
   selector: 'gaushadhi-address',
@@ -15,24 +17,25 @@ export class AddressComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   editedIndex: number = -1;
-  editMode: boolean = false;
   countries: any;
   userGeolocationData: Object = {};
   customerAddresses: Array<any> = [];
-  addressForm = new FormControl('', []);
+  updatedAddress: any = {};
 
   constructor(
     private addressService: AddressService,
     private fb: FormBuilder,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
     // Using JSON.parse(JSON.stringify()) as apollo returns immutable arrays
-    this.customerAddresses = JSON.parse(
-      JSON.stringify(this.route.snapshot.data['addresses'])
-    );
+    const addresses = this.route.snapshot.data['addresses']
+    this.customerAddresses = addresses
+      ? JSON.parse(JSON.stringify(addresses))
+      : [];
   }
 
   ngOnDestroy() {
@@ -40,22 +43,47 @@ export class AddressComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onAddNewAddress() {
-    if (this.addressForm.invalid) {
-      return;
-    }
-    const { id, ...formData } = this.addressForm.value;
+  openAddressDialog(addressData?: any) {
     this.addressService
-      .addAddress(formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        console.log(res);
-        if (res.id) {
-          this.customerAddresses.push(res);
-          this.addressForm.reset();
-          console.log('ADDRESS ADDED SUCCESSFULLY', res);
+      .openAddressDialog(AddressFormComponent, addressData)
+      .pipe(
+        tap((data) => {
+          if (!data.dialogReturnValue.newAddress) {
+            this.updatedAddress = data.dialogReturnValue.data;
+          }
+        }),
+        switchMap((data) => {
+          if (!data.obs) {
+            return of(null);
+          }
+          return data.obs;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((res: any) => {
+        if (res && res.id) {
+          if (res.updatedAt) {
+            this.customerAddresses.push(res);
+            this.snackbarService.openSnackBar('Address added successfully');
+          } else {
+            if (this.updatedAddress.countryCode) {
+              this.updatedAddress.country = {
+                code: this.updatedAddress.countryCode,
+              };
+              delete this.updatedAddress.countryCode;
+            }
+            Object.assign(
+              this.customerAddresses[this.editedIndex],
+              this.updatedAddress
+            );
+            this.snackbarService.openSnackBar('Address updated successfully');
+          }
         }
       });
+  }
+
+  onAddNewAddress() {
+    this.openAddressDialog()
   }
 
   onDeleteAddress(addressId: string) {
@@ -67,7 +95,7 @@ export class AddressComponent implements OnInit, OnDestroy {
           this.customerAddresses = this.customerAddresses.filter((address) => {
             return address.id !== addressId;
           });
-          console.log('Address Deleted Successfully');
+          this.snackbarService.openSnackBar('Address deleted successfully');
         }
       });
   }
@@ -80,33 +108,6 @@ export class AddressComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.addressForm.setValue(customerAddress);
-    this.editMode = true;
-  }
-
-  onSaveAddress() {
-    const formData = this.addressForm.value;
-    this.addressForm.reset();
-    this.addressService
-      .updateAddress(formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        if (res.id) {
-          if (formData.countryCode) {
-            formData.country = {
-              code: formData.countryCode,
-            };
-            delete formData.countryCode;
-          }
-          Object.assign(this.customerAddresses[this.editedIndex], formData);
-          this.addressForm.reset();
-          this.editMode = false;
-        }
-      });
-  }
-
-  onCancelAddressEdit() {
-    this.editMode = false;
-    this.addressForm.reset();
+    this.openAddressDialog(customerAddress);
   }
 }

@@ -1,10 +1,9 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  Input,
   forwardRef,
+  Inject,
+  OnInit,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,6 +20,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
 import { AddressService } from '../../../core/providers/address.service';
 import { UserService } from '../../../core/providers/user.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'gaushadhi-address-form',
@@ -50,7 +50,7 @@ export class AddressFormComponent
 
   addressForm: FormGroup = this.fb.group({
     id: [''],
-    fullName: [''],
+    fullName: ['', [Validators.required]],
     company: [''],
     streetLine1: ['', [Validators.required]],
     streetLine2: [''],
@@ -66,8 +66,11 @@ export class AddressFormComponent
       [Validators.required, Validators.pattern('^([+]91)?[789]\\d{9}$')],
     ],
     defaultShippingAddress: [false],
-    defaultBillingAddress: [false],
   });
+
+  get fullName() {
+    return this.addressForm.get('fullName');
+  }
 
   get streetLine1() {
     return this.addressForm.get('streetLine1');
@@ -96,10 +99,18 @@ export class AddressFormComponent
   constructor(
     private fb: FormBuilder,
     private addressService: AddressService,
-    private userService: UserService
+    private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<AddressFormComponent>
   ) {}
 
   ngOnInit(): void {
+    let customerAddress = this.data.addressData;
+    if (customerAddress) {
+      const formData = this.extractRequiredFields(customerAddress);
+      this.addressForm.setValue(formData, { emitEvent: true });
+    }
+
     const countryCodes$ = this.addressService.getCountryCodes().pipe(take(1));
     const geoLocation$ = this.userService.getUserGeolocationDetails();
 
@@ -133,25 +144,34 @@ export class AddressFormComponent
     this.destroy$.complete();
   }
 
+  extractRequiredFields(customerAddress: any) {
+    return {
+      id: customerAddress.id,
+      fullName: customerAddress.fullName,
+      city: customerAddress.city,
+      company: customerAddress.company,
+      phoneNumber: customerAddress.phoneNumber,
+      postalCode: customerAddress.postalCode,
+      province: customerAddress.province,
+      defaultShippingAddress: customerAddress.defaultShippingAddress,
+      streetLine1: customerAddress.streetLine1,
+      streetLine2: customerAddress.streetLine2,
+      countryCode: customerAddress.country.code,
+    };
+  }
+
+  saveChanges() {
+    this.dialogRef.close({
+      data: this.addressForm.value,
+      newAddress: this.data.newAddress,
+    });
+  }
+
   writeValue(obj: any): void {
     if (!obj) {
       this.addressForm.reset();
     } else {
-      const customerAddress = obj;
-      const formData = {
-        id: customerAddress.id,
-        fullName: customerAddress.fullName,
-        city: customerAddress.city,
-        company: customerAddress.company,
-        phoneNumber: customerAddress.phoneNumber,
-        postalCode: customerAddress.postalCode,
-        province: customerAddress.province,
-        defaultShippingAddress: customerAddress.defaultShippingAddress,
-        defaultBillingAddress: customerAddress.defaultBillingAddress,
-        streetLine1: customerAddress.streetLine1,
-        streetLine2: customerAddress.streetLine2,
-        countryCode: customerAddress.country.code,
-      };
+      const formData = this.extractRequiredFields(obj);
       this.addressForm.setValue(formData, { emitEvent: true });
     }
   }

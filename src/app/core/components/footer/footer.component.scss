@@ -6,7 +6,7 @@ footer {
   width: 100%;
   grid-gap: 3rem;
   background-color: var(--primary-background);
-  >* {
+  > * {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -36,7 +36,7 @@ footer {
 
   .connect-with-us {
     grid-column-end: -1;
-    >* {
+    > * {
       display: flex;
       align-items: center;
       gap: 0.5rem;

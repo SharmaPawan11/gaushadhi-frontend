@@ -1,24 +1,60 @@
 .content {
+  position: relative;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   border: 1px solid #eee;
-  border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 1px 1px #adaaaa;
   cursor: pointer;
   gap: 0.5rem;
   width: 100%;
-  &:hover {
-    background-color: #fff5e9;
-  }
-  >* {
+  height: 100%;
+  > * {
     white-space: normal;
+  }
+}
+
+.hover-feedback {
+  &:hover {
+    background-color: #e9faf5;
+  }
+}
+
+.selected-tick {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 50px solid #4dd392;
+  border-left: 50px solid transparent;
+  mat-icon {
+    position: absolute;
+    top: -46px;
+    right: 2px;
+    color: white;
+  }
+}
+
+.add-new-address {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: 0 1px 1px #adaaaa;
+  border: 1px solid #eee;
+  &:hover {
+    background-color: #eee;
+    cursor: pointer;
   }
 }
 
 .card-top-line {
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
   h3 {
     font-size: 1.5rem;
     font-weight: 400;
@@ -28,15 +64,38 @@
   }
 }
 
-.ph_no {
-  font-size: 0.8rem;
-}
-
-.address {
+.ph_no,
+address {
   font-size: 0.9rem;
 }
 
+.ph_no {
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  .action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+    &:first-of-type {
+      //padding-left: 0;
+      background-color: #f95759;
+      color: white;
+    }
+  }
+}
+
 .selected-card {
-  background-color: #fff5e9;
-  border: 2px solid #f4b868;
+  background-color: #e9faf5;
+  border: 2px solid #aad8c6;
 }

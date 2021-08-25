@@ -8,9 +8,8 @@ describe('CheckoutStageIndicatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CheckoutStageIndicatorComponent ]
-    })
-    .compileComponents();
+      declarations: [CheckoutStageIndicatorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -17,9 +17,7 @@ import { filter } from 'rxjs/operators';
 export class ShellComponent implements OnInit {
   currentRoute = '';
   showTopOfferBar: boolean = true;
-  footerExcludedRoutes = [
-    '/store/cart'
-  ]
+  footerExcludedRoutes = ['/store/cart'];
 
   constructor(private router: Router, public userService: UserService) {
     this.router.events

@@ -15,7 +15,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { CheckoutShellComponent } from './components/checkout-shell/checkout-shell.component';
 import { CheckoutStageIndicatorComponent } from './components/checkout-stage-indicator/checkout-stage-indicator.component';
-import {PlaygroundComponent} from "./playground/playground.component";
+import { PlaygroundComponent } from './playground/playground.component';
 import { ShipmentMethodCardComponent } from './components/shipment-method-card/shipment-method-card.component';
 import { OrderPlacedComponent } from './components/order-placed/order-placed.component';
 
@@ -28,7 +28,7 @@ import { OrderPlacedComponent } from './components/order-placed/order-placed.com
     CheckoutStageIndicatorComponent,
     PlaygroundComponent,
     ShipmentMethodCardComponent,
-    OrderPlacedComponent
+    OrderPlacedComponent,
   ],
   imports: [
     CommonModule,

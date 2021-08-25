@@ -41,10 +41,10 @@
     </mat-form-field>
 </ng-template>
 
-<div [formGroup]="confirmPasswordGroup" *ngIf="formInitialized">
+<form [formGroup]="confirmPasswordGroup" *ngIf="formInitialized">
   <ng-container
     [ngTemplateOutlet]="customConfirmPasswordTemplate || defaultConfirmPasswordTemplate"
     [ngTemplateOutletContext]="{ form: confirmPasswordGroup, firstCtrlName: firstControlName, secondCtrlName: secondControlName }"
   >
   </ng-container>
-</div>
+</form>

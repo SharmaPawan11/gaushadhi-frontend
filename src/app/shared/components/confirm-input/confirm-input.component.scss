@@ -1,0 +1,9 @@
+form {
+  display: flex;
+  flex-wrap: wrap;
+  --breakpoint: 225px;
+  > * {
+    flex-grow: 1;
+    flex-basis: calc(var(--breakpoint) * 999);
+  }
+}

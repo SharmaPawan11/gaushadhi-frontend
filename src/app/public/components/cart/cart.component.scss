@@ -3,9 +3,9 @@
   grid-gap: 1rem;
   --background-gradient: #eee;
   background-image: linear-gradient(
-      to left,
-      rgba(255, 0, 0, 0),
-      var(--background-gradient)
+    to left,
+    rgba(255, 0, 0, 0),
+    var(--background-gradient)
   );
 }
 
@@ -67,7 +67,7 @@ h3 {
       p.strikethrough-price {
         text-decoration: line-through;
         font-size: 0.8rem;
-        color: #9f9f9f
+        color: #9f9f9f;
       }
     }
     .item-action-bar {
@@ -86,7 +86,7 @@ h3 {
         padding: 13px 5px 12px 5px;
         height: 24px;
         ::ng-deep .mat-button-wrapper {
-          display: flex
+          display: flex;
         }
         mat-icon {
           color: #555;
@@ -111,7 +111,6 @@ h3 {
       border-bottom: unset;
       padding-bottom: unset;
     }
-
   }
 }
 
@@ -158,7 +157,8 @@ gaushadhi-apply-coupon {
     grid-template-columns: 2fr 1fr;
     grid-row-gap: 0;
     height: 100%;
-    gaushadhi-order-price-breakdown, .content {
+    gaushadhi-order-price-breakdown,
+    .content {
       box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
     }
     .content {
@@ -207,5 +207,4 @@ gaushadhi-apply-coupon {
       display: inline !important;
     }
   }
-
 }

@@ -1,57 +1,66 @@
-<p class="heading">Order history</p>
-<p class="sub-heading">3 orders</p>
+<p class="heading">Orders</p>
 <div class="order-card">
-  <div class="status-line">
-    <div class="status-indicator">
+  <div class="line-1">
+    <div class="images">
+      <img src="../../../../assets/images/gaushadhi-soap.png" alt="order-item-img">
+      <img src="../../../../assets/images/gaushadhi-cake.png" alt="order-item-img">
+      <img src="../../../../assets/images/gaushadhi-manjan.png" alt="order-item-img">
     </div>
-    <p>Delivered on 23 June</p>
-  </div>
-  <div class="order-items">
-    <div class="order-item">
-      <div class="img-container">
-        <img src="https://source.unsplash.com/random/75x75" alt="order-item-image">
-      </div>
-      <h4>Microsoft Keyboard Cover for surface Go</h4>
-    </div>
-    <div class="order-item">
-      <div class="img-container">
-        <img src="https://source.unsplash.com/random/75x75" alt="order-item-image">
-      </div>
-      <h4>Microsoft Keyboard Cover for surface Go</h4>
+    <div class="actions">
+      <button mat-button class="track-order-btn">{{'Track Order' | uppercase}}</button>
+      <button mat-button [routerLink]="['1']">{{'View Details' | uppercase}}</button>
     </div>
   </div>
-  <div class="actions">
-    <button mat-button class="track-order-btn">Track order</button>
-    <button mat-button class="boundary-only-button">View Order Details</button>
-    <button mat-button class="ghost-button">Get Invoice</button>
-    <button mat-button class="ghost-button">Edit Order</button>
+  <div class="line-2">
+    <div class="info-item">
+      <p>Order Number</p>
+      <p>985690</p>
+    </div>
+    <div class="info-item">
+      <p>Shipping Date</p>
+      <p>March 30, 2021</p>
+    </div>
+    <div class="info-item">
+      <p>Total</p>
+      <p>{{'345' | currency : 'INR': 'symbol'}}</p>
+    </div>
+    <div class="info-item">
+      <p>Status</p>
+      <p>Delivered</p>
+    </div>
   </div>
+
 </div>
 <div class="order-card">
-  <div class="status-line">
-    <div class="status-indicator">
+  <div class="line-1">
+    <div class="images">
+      <img src="../../../../assets/images/gaushadhi-soap.png" alt="order-item-img">
+      <img src="../../../../assets/images/gaushadhi-cake.png" alt="order-item-img">
+      <img src="../../../../assets/images/gaushadhi-manjan.png" alt="order-item-img">
     </div>
-    <p>Delivered on 23 June</p>
-  </div>
-  <div class="order-items">
-    <div class="order-item">
-      <div class="img-container">
-        <img src="https://source.unsplash.com/random/75x75" alt="order-item-image">
-      </div>
-      <h4>Microsoft Keyboard Cover for surface Go</h4>
-    </div>
-    <div class="order-item">
-      <div class="img-container">
-        <img src="https://source.unsplash.com/random/75x75" alt="order-item-image">
-      </div>
-      <h4>Microsoft Keyboard Cover for surface Go</h4>
+    <div class="actions">
+      <button mat-button class="track-order-btn">{{'Track Order' | uppercase}}</button>
+      <button mat-button class="cancel-btn">{{'Cancel' | uppercase}}</button>
     </div>
   </div>
-  <div class="actions">
-    <button mat-button class="track-order-btn">Track order</button>
-    <button mat-button class="boundary-only-button">View Order Details</button>
-    <button mat-button class="ghost-button">Get Invoice</button>
-    <button mat-button class="ghost-button">Edit Order</button>
+  <div class="line-2">
+    <div class="info-item">
+      <p>Order Number</p>
+      <p>985690</p>
+    </div>
+    <div class="info-item">
+      <p>Shipping Date</p>
+      <p>March 30, 2021</p>
+    </div>
+    <div class="info-item">
+      <p>Total</p>
+      <p>{{'345' | currency : 'INR': 'symbol'}}</p>
+    </div>
+    <div class="info-item">
+      <p>Status</p>
+      <p>Delivered</p>
+    </div>
   </div>
+
 </div>
 

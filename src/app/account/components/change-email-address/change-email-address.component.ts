@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { ErrorResult } from '../../../common/vendure-types';
-import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProfileService } from '../../providers/profile.service';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {ErrorResult} from '../../../common/vendure-types';
+import {takeUntil} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ProfileService} from '../../providers/profile.service';
 
 @Component({
   selector: 'gaushadhi-change-email-address',
   templateUrl: './change-email-address.component.html',
   styleUrls: ['./change-email-address.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -27,6 +28,7 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
   // Change email variables
   token: string = '';
   updateText: string = 'Updating your email address...';
+  updateInProgress: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,9 +38,9 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.requestChangeEmailGroup.valueChanges.subscribe(() =>
-      console.log(this.requestChangeEmailGroup)
-    );
+    // this.requestChangeEmailGroup.valueChanges.subscribe(() =>
+    //   console.log(this.requestChangeEmailGroup)
+    // );
     const token = this.route.snapshot.queryParamMap.get('token');
     if (token) {
       this.token = token;
@@ -56,7 +58,7 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
     const formData = this.requestChangeEmailGroup.value;
     const requestUpdateEmailFormData = {
       password: formData.password,
-      newEmailAddress: formData.confirmNewEmailAddress.newEmail,
+      newEmailAddress: formData.newEmailAddress,
     };
     this.profileService
       .requestEmailUpdate(requestUpdateEmailFormData)
@@ -80,6 +82,7 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
       .changeEmail(this.token)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
+        this.updateInProgress = false;
         switch (res.__typename) {
           case 'IdentifierChangeTokenExpiredError':
           case 'IdentifierChangeTokenInvalidError':
@@ -89,10 +92,7 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
             break;
           case 'Success':
             this.updateText =
-              'Email address changed successfully. Redirecting you back to your account...';
-            setTimeout(() => {
-              this.router.navigate(['account']);
-            }, 2000);
+              'Your primary email has been changed successfully. You will receive updates on this email only';
         }
       });
   }

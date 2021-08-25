@@ -173,7 +173,12 @@ export class ConfirmInputComponent
   }
 
   writeValue(obj: any): void {
-    console.log(obj);
+    if (obj === null) {
+      if (this.confirmPasswordGroup) {
+        this.confirmPasswordGroup.reset();
+        this.confirmPasswordGroup.get(this.firstControlName)?.setErrors(null);
+      }
+    }
   }
 
   registerOnChange(fn: any): void {

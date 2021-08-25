@@ -16,6 +16,8 @@ import { CategorySliderComponent } from './components/category-slider/category-s
 import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
 
 import { FooterComponent } from './components/footer/footer.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CarouselComponent,
     CategorySliderComponent,
     FeaturedProductsSliderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     // Angular
@@ -34,6 +36,8 @@ import { FooterComponent } from './components/footer/footer.component';
     HttpClientModule,
     RouterModule,
     MatIconModule,
+    MatSnackBarModule,
+    MatDialogModule,
   ],
   exports: [
     BrowserModule,
@@ -41,7 +45,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CarouselDirective,
     CarouselComponent,
     CategorySliderComponent,
-    FeaturedProductsSliderComponent
+    FeaturedProductsSliderComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
@@ -51,7 +55,7 @@ import { FooterComponent } from './components/footer/footer.component';
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://192.168.1.9:3000/shop-api',
+            uri: 'http://localhost:3000/shop-api',
             withCredentials: true,
           }),
           // defaultOptions: {
