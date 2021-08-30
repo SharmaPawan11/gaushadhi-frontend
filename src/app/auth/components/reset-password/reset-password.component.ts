@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { ErrorResult } from '../../../common/vendure-types';
 import { UserService } from '../../../core/providers/user.service';
 import { takeUntil } from 'rxjs/operators';
-import {SnackbarService} from "../../../core/providers/snackbar.service";
+import { SnackbarService } from '../../../core/providers/snackbar.service';
 
 @Component({
   selector: 'gaushadhi-reset-password',
@@ -88,7 +88,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.userId = res.id;
             this.userService.setUserDetails(this.userId);
             this.snackbarService.openSnackBar('Password successfully changed');
-            this.router.navigate(['../', 'login'])
+            this.router.navigate(['../', 'login']);
         }
       });
   }

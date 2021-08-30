@@ -20,6 +20,7 @@ export class ShippingService {
         name
         description
         price
+        priceWithTax
         metadata
       }
     }
@@ -47,7 +48,7 @@ export class ShippingService {
       .pipe(map((res) => res.eligibleShippingMethods));
   }
 
-  setOrderShippingMethod(shippingMethodId: string) {
+  setOrderShippingMethod(shippingMethodId: string | number) {
     return this.requestor
       .mutate<SetShippingMethod.Mutation>(this.SET_ORDER_SHIPPING_METHOD, {
         shippingMethodId,

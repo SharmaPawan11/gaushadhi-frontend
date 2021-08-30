@@ -3,7 +3,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { VerifyAccountComponent } from './components/verify-account/verify-account.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import {AuthComponent} from "./auth.component";
+import { AuthComponent } from './auth.component';
 
 export const routes: Route[] = [
   {
@@ -25,7 +25,7 @@ export const routes: Route[] = [
       {
         path: 'verify',
         component: VerifyAccountComponent,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];

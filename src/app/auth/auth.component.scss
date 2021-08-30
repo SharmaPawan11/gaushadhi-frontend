@@ -1,18 +1,28 @@
 :host {
   display: grid;
   grid-template-columns: 1fr;
-  background-color: var(--primary-background);
   --header-size: 72px;
+  height: 100%;
 }
 
 .auth-cover {
   display: none;
+  background-color: var(--primary-background);
+}
+
+.logo-container {
+  margin: 1rem 3rem;
+  grid-column: 1 / span 2;
+  img {
+    width: 9rem;
+    height: 40px;
+  }
 }
 
 .dynamic-content {
-  background-color: white;
+  background-color: #f7f9fe;
   ::ng-deep > * {
-    padding: 2.5rem;
+    padding: 1rem 2.5rem;
     ::ng-deep .mat-form-field-outline-start,
     ::ng-deep .mat-form-field-outline-end {
       border-radius: 0 !important;
@@ -76,7 +86,7 @@
       flex-wrap: wrap;
       margin-top: 2rem;
       gap: 1rem;
-      >* {
+      > * {
         flex: 1 0 190px;
       }
       .customGPlusSignIn {
@@ -96,7 +106,8 @@
           font-weight: normal;
         }
         span.icon {
-          background: url('https://developers.google.com/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+          background: url("https://developers.google.com/identity/sign-in/g-normal.png")
+            transparent 5px 50% no-repeat;
           display: inline-block;
           vertical-align: middle;
           width: 42px;
@@ -109,13 +120,13 @@
           font-size: 0.8rem;
           font-weight: bold;
           /* Use the Roboto font that is loaded in the <head> */
-          font-family: 'Roboto', sans-serif;
+          font-family: "Roboto", sans-serif;
         }
       }
 
       .login-with-fb-btn {
         cursor: pointer;
-        background-color: #5890FF;
+        background-color: #5890ff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -142,7 +153,6 @@
         &:active {
           background-color: #003294;
         }
-
       }
     }
 
@@ -150,7 +160,7 @@
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      --or-line-color: #dedede;
+      --or-line-color: #969696;
       grid-column-gap: 1rem;
       margin-top: 1rem;
       color: var(--or-line-color);
@@ -163,8 +173,11 @@
     }
   }
 
+  .logo-container {
+    margin: 2rem 0 0 2rem;
+    padding: unset;
+  }
 }
-
 
 @media screen and (min-width: 768px) {
   :host {
@@ -174,14 +187,7 @@
   .auth-cover {
     display: grid;
     grid-template-rows: var(--header-size) calc(100vh - var(--header-size));
-    .logo-container {
-      margin: 1rem 3rem;
-      grid-column: 1 / span 2;
-      img {
-        width: 9rem;
-        height: 40px;
-      }
-    }
+
     .cover-container {
       padding: 3rem;
       height: 100%;
@@ -190,10 +196,17 @@
         height: 100%;
       }
     }
+
+    .logo-container {
+      display: block;
+    }
+  }
+
+  .logo-container {
+    display: none;
   }
 
   .dynamic-content {
-    background-color: white;
     padding-top: var(--header-size);
 
     ::ng-deep > * {
@@ -201,4 +214,3 @@
     }
   }
 }
-

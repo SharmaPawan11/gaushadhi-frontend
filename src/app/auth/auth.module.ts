@@ -16,7 +16,7 @@ import { VerifyService } from './providers/verify.service';
 import { ResetPasswordService } from './providers/reset-password.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SharedModule } from '../shared/shared.module';
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [

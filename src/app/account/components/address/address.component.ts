@@ -32,7 +32,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Using JSON.parse(JSON.stringify()) as apollo returns immutable arrays
-    const addresses = this.route.snapshot.data['addresses']
+    const addresses = this.route.snapshot.data['addresses'];
     this.customerAddresses = addresses
       ? JSON.parse(JSON.stringify(addresses))
       : [];
@@ -83,7 +83,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   onAddNewAddress() {
-    this.openAddressDialog()
+    this.openAddressDialog();
   }
 
   onDeleteAddress(addressId: string) {

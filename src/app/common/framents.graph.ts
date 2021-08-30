@@ -277,9 +277,6 @@ export const TAX_RATE_FRAGMENT = gql`
     zone {
       id
     }
-    customerGroup {
-      id
-    }
   }
 `;
 
@@ -374,5 +371,101 @@ export const ORDER_ADDRESS_FRAGMENT = gql`
     country
     countryCode
     phoneNumber
+  }
+`;
+
+export const PRODUCT_VARIANT_FRAGMENT = gql`
+  fragment ProductVariant on ProductVariant {
+    id
+    # product: [Product!]
+    productId
+    createdAt
+    updatedAt
+    languageCode
+    sku
+    name
+    price
+    currencyCode
+    priceWithTax
+    stockLevel
+    taxRateApplied {
+      ...TaxRate
+    }
+    taxCategory {
+      id
+      createdAt
+      updatedAt
+      name
+      isDefault
+    }
+    facetValues {
+      ...FacetValue
+    }
+    translations {
+      id
+      createdAt
+      updatedAt
+      languageCode
+      name
+    }
+  }
+`;
+
+// featuredAsset {
+//   id
+//   preview
+// }
+// assets {
+//   ...Asset
+// }
+
+export const CART_FRAGMENT = gql`
+  fragment Cart on Order {
+    id
+    code
+    state
+    active
+    lines {
+      id
+      unitPrice
+      unitPriceWithTax
+      quantity
+      linePriceWithTax
+      discountedLinePriceWithTax
+      productVariant {
+        id
+        name
+      }
+      discounts {
+        amount
+        amountWithTax
+        description
+        adjustmentSource
+        type
+      }
+    }
+    totalQuantity
+    subTotal
+    subTotalWithTax
+    total
+    totalWithTax
+    shipping
+    shippingWithTax
+    shippingLines {
+      priceWithTax
+      shippingMethod {
+        id
+        code
+        name
+        description
+      }
+    }
+    discounts {
+      amount
+      amountWithTax
+      description
+      adjustmentSource
+      type
+    }
   }
 `;

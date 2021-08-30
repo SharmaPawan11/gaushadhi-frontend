@@ -47,30 +47,26 @@ gaushadhi-apply-coupon {
     }
   }
 
-  .place-order-btn {
-    button {
-      background-color: #7716ec;
-      color: white;
-    }
-  }
+  //.place-order-btn {
+  //  button {
+  //    color: white;
+  //  }
+  //}
 }
 
-.checkout-backdrop {
-  position: fixed;
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
-  .backdrop-content {
-    width: 100%;
-    height: 100%;
+::ng-deep .loading-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mat-spinner {
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: white;
+    align-items: center;
+    ::ng-deep svg {
+      width: 50px !important;
+      height: 50px !important;
+      position: unset;
+    }
   }
 }
 
@@ -108,9 +104,8 @@ gaushadhi-apply-coupon {
       }
       .place-order-btn {
         button {
-          background-color: #7716ec;
           font-size: 1.07rem;
-          color: white;
+          //color: white;
           padding: 0.5rem 2rem;
           width: 250px;
         }

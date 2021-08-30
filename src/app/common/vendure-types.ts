@@ -906,7 +906,7 @@ export type Order = Node & {
    * Order-level adjustments to the order total, such as discounts from promotions
    * @deprecated Use `discounts` instead
    */
-  adjustments: Array<Adjustment>;
+  adjustments?: Array<Adjustment>;
   billingAddress?: Maybe<OrderAddress>;
   /** A unique code for the Order */
   code: Scalars['String'];

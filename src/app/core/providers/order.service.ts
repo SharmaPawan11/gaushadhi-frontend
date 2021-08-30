@@ -6,18 +6,33 @@ import {
   ApplyCouponCodeResult,
   GetActiveOrder,
   GetEligiblePaymentMethods,
+  Order,
   SetShippingAddress,
   TransitionToAddingItems,
   TransitionToArrangingPayment,
 } from '../../common/vendure-types';
-import { map } from 'rxjs/operators';
+import {map, filter, tap, take} from 'rxjs/operators';
 import { GET_ACTIVE_ORDER } from '../../common/documents.graph';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject, forkJoin,
+  Observable,
+  Subject,
+  Subscription,
+  switchMap,
+} from 'rxjs';
+import { notNullOrNotUndefined } from '../../common/utils/not-null-or-not-undefined';
+import {ShippingService} from "../../checkout/providers/shipping.service";
+import {changeOrderStateOnErrorThenRetry} from "../../common/operators/change-order-state-on-error-then-retry.operator";
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
+  private currentOrderDetails = new BehaviorSubject<any>(null);
+  currentOrderDetails$: Observable<any> =
+    this.currentOrderDetails.asObservable();
+  private refreshOrderDetails$ = new Subject<any>();
+
   SET_ORDER_BILLING_ADDRESS_MUTATION = gql`
     mutation setOrderBillingAddress($createAddressInput: CreateAddressInput!) {
       setOrderBillingAddress(input: $createAddressInput) {
@@ -144,7 +159,32 @@ export class OrderService {
     }
   `;
 
-  constructor(private requestor: RequestorService) {}
+  constructor(private requestor: RequestorService,
+              private shippingService: ShippingService) {
+    this.refreshOrderDetails$
+      .pipe(
+        tap((res) => console.log(res)),
+        filter(
+          (resTypename: string) =>
+            resTypename === 'Order' || resTypename === 'InsufficientStockError'
+        ),
+        switchMap(() => {
+          return this.requestCurrentOrderDetails().pipe(
+            filter(notNullOrNotUndefined)
+          );
+        })
+      )
+      .subscribe((res) => {
+        if (res.__typename === 'Order') {
+          const { __typename, ...orderDetails } = res;
+          this.currentOrderDetails.next(orderDetails);
+        }
+      });
+  }
+
+  refreshOrderDetails(resTypename: string = 'Order') {
+    this.refreshOrderDetails$.next(resTypename);
+  }
 
   setOrderShippingAddress(shippingAddress: Object = {}) {
     return this.requestor
@@ -165,20 +205,38 @@ export class OrderService {
       .pipe(map((res) => res.setOrderBillingAddress));
   }
 
-  getCurrentOrderDetails() {
+  requestCurrentOrderDetails() {
     return this.requestor
       .query<GetActiveOrder.Query>(GET_ACTIVE_ORDER, {
-        includeOrderAddress: false,
+        includeOrderAddress: true,
         includeSurcharges: false,
-        includeDiscounts: false,
+        includeDiscounts: true,
         includePromotions: false,
         includePayments: false,
         includeFulfillments: false,
-        includeShippings: false,
+        includeShippings: true,
         includeTaxSummary: false,
         includeHistory: false,
       })
       .pipe(map((res) => res.activeOrder));
+  }
+
+  setShippingInfo(shippingAddress: any, billingAddress: any, shippingMethodId: number| string) {
+    const setOrderShippingAddress$ = this
+      .setOrderShippingAddress(shippingAddress)
+      .pipe(take(1));
+    const setOrderBillingAddress$ = this
+      .setOrderBillingAddress(shippingAddress)
+      .pipe(take(1));
+    const setShipmentMethod$ = this.shippingService
+      .setOrderShippingMethod(shippingMethodId)
+      .pipe(changeOrderStateOnErrorThenRetry(this.transitionOrderState('AddingItems')), take(1));
+
+    return forkJoin([
+      setOrderShippingAddress$,
+      setOrderBillingAddress$,
+      setShipmentMethod$,
+    ])
   }
 
   addCouponToOrder(couponCode: string): Observable<ApplyCouponCodeResult> {
@@ -234,7 +292,8 @@ export class OrderService {
       .mutate(this.GENERATE_RAZORPAY_ORDER_ID, {
         vendureOrderId,
       })
-      .pipe(map((res) => res.generateRazorpayOrderId));
+      .pipe(map((res) => res.generateRazorpayOrderId),
+            changeOrderStateOnErrorThenRetry(this.transitionOrderState('ArrangingPayment')));
   }
 
   addRazorpayPaymentToOrder(paymentMetadata: Object) {

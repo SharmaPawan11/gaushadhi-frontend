@@ -11,7 +11,7 @@
 
   <hr [ngClass]="{'hr__done': currentStage === 'Order Summary' || currentStage === 'Order Placed'}">
 
-  <div [routerLink]="['/checkout/summary']" class="step payment" [ngClass]="(currentStage === 'Order Summary') ? 'current_step' : 'coming_step'">
+  <div class="step payment" [ngClass]="(currentStage === 'Order Summary') ? 'current_step' : 'coming_step'">
     <mat-icon class="material-icons-outlined">
       attach_money
     </mat-icon>

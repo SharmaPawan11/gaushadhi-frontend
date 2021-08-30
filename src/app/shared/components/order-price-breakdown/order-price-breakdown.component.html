@@ -1,22 +1,29 @@
 <div class="heading-container">
   <h4>PRICE DETAILS</h4>
 </div>
-<div class="breakdown-container">
+<div class="breakdown-container" *ngIf="orderDetails; else loading">
   <div class="breakdown-item">
     <p>Price (3 items)</p>
-    <p>{{'500' | currency : 'INR':'symbol'}}</p>
+    <p>{{this.totalUnitPrice | formatPrice : 'INR':'symbol'}}</p>
   </div>
   <div class="breakdown-item">
     <p>Discounts Applied</p>
-    <p class="discount">- {{'100' | currency : 'INR':'symbol'}}</p>
+    <p class="discount">- {{this.totalDiscount | formatPrice : 'INR':'symbol'}}</p>
   </div>
   <div class="breakdown-item">
     <p>Shipping Charges</p>
-    <p>{{'50' | currency : 'INR':'symbol'}}</p>
+    <p>{{this.orderDetails.shippingWithTax | formatPrice : 'INR':'symbol'}}</p>
   </div>
   <hr>
   <div class="breakdown-item total">
     <p>Order Total</p>
-    <p>{{'450' | currency : 'INR':'symbol'}}</p>
+    <p>{{this.orderDetails.totalWithTax | formatPrice : 'INR':'symbol'}}</p>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="loading-small">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+

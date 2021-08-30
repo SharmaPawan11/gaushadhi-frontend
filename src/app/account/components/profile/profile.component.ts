@@ -39,12 +39,9 @@ export class ProfileComponent implements OnInit {
       firstName: [
         this.userProfileData.firstName,
         // [Validators.required, Validators.pattern('^[a-zA-Z]{3,20}$')],
-        [Validators.required]
-      ],
-      lastName: [
-        this.userProfileData.lastName,
         [Validators.required],
       ],
+      lastName: [this.userProfileData.lastName, [Validators.required]],
       phoneNumber: [
         this.userProfileData.phoneNumber,
         [Validators.required, Validators.pattern('^([+]91)?[789]\\d{9}$')],

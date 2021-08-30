@@ -1,10 +1,15 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs';
-import {ErrorResult} from '../../../common/vendure-types';
-import {takeUntil} from 'rxjs/operators';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ProfileService} from '../../providers/profile.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ErrorResult } from '../../../common/vendure-types';
+import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProfileService } from '../../providers/profile.service';
 
 @Component({
   selector: 'gaushadhi-change-email-address',

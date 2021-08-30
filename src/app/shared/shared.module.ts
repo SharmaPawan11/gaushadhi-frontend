@@ -10,13 +10,13 @@ import { AddressCardComponent } from './components/address-card/address-card.com
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { TextWithToggleComponent } from './components/text-with-toggle/text-with-toggle.component';
 import { OrderPriceBreakdownComponent } from './components/order-price-breakdown/order-price-breakdown.component';
 import { ApplyCouponComponent } from './components/apply-coupon/apply-coupon.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormatPricePipe } from './pipes/format-price.pipe';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TextWithToggleComponent,
     OrderPriceBreakdownComponent,
     ApplyCouponComponent,
+    FormatPricePipe,
   ],
   imports: [
     CommonModule,
@@ -37,7 +38,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   exports: [
@@ -48,6 +50,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TextWithToggleComponent,
     OrderPriceBreakdownComponent,
     ApplyCouponComponent,
+    FormatPricePipe,
   ],
 })
 export class SharedModule {}

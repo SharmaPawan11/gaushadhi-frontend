@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShippingInfoComponent } from './components/shipping-info/shipping-info-component';
-import { SelectShipmentComponent } from './components/select-shipment/select-shipment.component';
-import { OrderReviewComponent } from './components/order-review/order-review.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { routes } from './checkout-routes';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
@@ -18,12 +17,12 @@ import { CheckoutStageIndicatorComponent } from './components/checkout-stage-ind
 import { PlaygroundComponent } from './playground/playground.component';
 import { ShipmentMethodCardComponent } from './components/shipment-method-card/shipment-method-card.component';
 import { OrderPlacedComponent } from './components/order-placed/order-placed.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
     ShippingInfoComponent,
-    SelectShipmentComponent,
-    OrderReviewComponent,
+    OrderSummaryComponent,
     CheckoutShellComponent,
     CheckoutStageIndicatorComponent,
     PlaygroundComponent,
@@ -42,6 +41,7 @@ import { OrderPlacedComponent } from './components/order-placed/order-placed.com
     MatInputModule,
     MatChipsModule,
     MatIconModule,
+    MatProgressSpinnerModule
   ],
 })
 export class CheckoutModule {}

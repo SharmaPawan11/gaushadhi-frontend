@@ -5,11 +5,11 @@
 </div>
 <section class="image-section">
   <div class="current-image-container">
-    <img [src]="currentSelectedImage" alt="Featured Asset">
+    <img [src]="selectedAsset.preview" alt="Featured Asset">
   </div>
   <div class="additional-image-selector">
-    <div class="additional-image" *ngFor="let image of additionalImages" (click)="currentSelectedImage=image.url" [ngClass]="{'current-image': currentSelectedImage === image.url}">
-      <img [src]="image.url" alt="Additional Image">
+    <div class="additional-image" *ngFor="let image of productDetails.assets" (click)="selectedAsset={id: image.id, preview: image.preview}" [ngClass]="{'current-image': selectedAsset.id === image.id}">
+      <img [src]="image.preview" alt="Additional Image">
     </div>
   </div>
 </section>
@@ -23,7 +23,7 @@
 
   <div class="headings-wishlist-container">
     <h3>
-      Gaushadhi Bathing Soap
+      {{productDetails.name}}
     </h3>
     <p>Bathing Soap</p>
     <div class="wishlist-button">
@@ -33,7 +33,7 @@
 
   <div class="price-container__desktop">
     <p>Price:</p>
-    <h2>{{'100' | currency: 'INR': 'symbol'}}</h2>
+    <h2>{{selectedVariant.priceWithTax / 100 | currency: 'INR': 'symbol'}}</h2>
     <p>{{'120' | currency: 'INR': 'symbol'}}</p>
   </div>
 
@@ -47,7 +47,7 @@
         <mat-icon >add</mat-icon>
       </button>
     </div>
-    <button mat-button>
+    <button mat-button (click)="onAddToCart()">
       <mat-icon>add_shopping_cart</mat-icon>
       Add To Cart
     </button>
@@ -59,8 +59,7 @@
         Details
       </ng-template>
       <div class="mat-tab-content">
-        <p class="description-text">
-          Gaushadhi Panchgavya based handmade soap is prepared with natural and organic ingredients. The soap helps in preventing acne and other skin related ailments. It helps in removing dead skin cells. It also provides nourishment and moisture to the skin and keep skin young and glowing.
+        <p class="description-text" [innerHTML]="productDetails.description">
         </p>
         <p (click)="showSpecifications = !showSpecifications" class="show-hide-specification">{{showSpecifications ? '[ - ] Hide' : '[ + ] Show' }} Specifications</p>
         <p class="specifications-static-label">Specifications:</p>
@@ -123,7 +122,7 @@
     <label>{{quantity}}</label>
     <mat-icon (click)="quantity = quantity + 1">add</mat-icon>
   </div>
-  <button mat-button class="add-to-cart-container">
+  <button mat-button class="add-to-cart-container" (click)="onAddToCart()">
     <mat-icon>
       add_shopping_cart
     </mat-icon>

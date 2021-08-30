@@ -9,11 +9,14 @@
   align-items: center;
   font-size: 0.8rem;
   row-gap: 1rem;
-  >* {
+  > * {
     flex: 0 0 150px;
   }
   mat-checkbox {
     color: #656565;
+  }
+  a {
+    text-align: end;
   }
 }
 

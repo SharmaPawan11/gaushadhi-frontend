@@ -4,6 +4,12 @@
   gap: 1rem;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 h3 {
   //font-size: 1.3rem;
   padding-left: 1rem;

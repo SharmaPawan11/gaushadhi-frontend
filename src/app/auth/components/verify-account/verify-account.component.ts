@@ -15,7 +15,8 @@ export class VerifyAccountComponent implements OnInit, OnDestroy {
   userId!: string;
   loginError!: ErrorResult;
   verifySubscription!: Subscription;
-  progressState: 'verificationInProgress' | 'verificationFinished' = 'verificationInProgress'
+  progressState: 'verificationInProgress' | 'verificationFinished' =
+    'verificationInProgress';
 
   constructor(
     private route: ActivatedRoute,

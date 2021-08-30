@@ -5,7 +5,8 @@ import { SignOut } from '../../common/vendure-types';
 import { catchError, map, share, take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class UserService {
   constructor(
     private requestor: RequestorService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   get isAuthenticated(): boolean {
@@ -46,7 +48,8 @@ export class UserService {
       .subscribe((res) => {
         if (res.success) {
           this.removeUserDetails();
-          this.router.navigate(['login'])
+          this.snackbarService.openSnackBar('You have been logged out.');
+          this.router.navigate(['login']);
         }
       });
   }

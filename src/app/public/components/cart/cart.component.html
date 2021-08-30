@@ -1,50 +1,77 @@
-<div class="content">
-  <h3>My Cart</h3>
-  <div class="cart-items-container">
-    <div class="cart-item" *ngFor="let item of items">
-      <div class="img-container">
-        <img [src]=item.image alt="Gaushadhi-Soap">
+<ng-container *ngIf="orderDetails$ | async as orderDetails; else cartEmpty" >
+  <div class="cart-not-empty" *ngIf="orderDetails?.lines?.length; else cartEmpty">
+    <div class="content">
+      <h3>My Cart</h3>
+      <div class="cart-items-container">
+        <div class="cart-item" *ngFor="let line of orderDetails.lines; trackBy:identify">
+          <div class="img-container">
+            <img [src]=line.featuredAsset.preview alt="Product-Image">
+          </div>
+          <h4 class="variant-name">{{line.productVariant.name}}</h4>
+          <p class="brand-name">{{line.productVariant.sku}}</p>
+          <div class="price-container">
+            <p class="strikethrough-price">{{(line.linePriceWithTax).toString() | formatPrice: 'INR' : 'symbol'}}</p>
+            <p class="price">{{(line.proratedLinePriceWithTax) | formatPrice : 'INR': 'symbol'}}</p>
+          </div>
+          <div class="item-action-bar">
+
+            <button aria-label="decrease_quantity" (click)="decreaseQuantity(line)" mat-raised-button>
+              <mat-icon>remove</mat-icon>
+            </button>
+
+            <label>{{line.quantity}}</label>
+
+            <button aria-label="increase_quantity" (click)="increaseQuantity(line)" mat-raised-button>
+              <mat-icon>add</mat-icon>
+            </button>
+
+            <button (click)="quantityChange.next({'orderLineId': line.id, 'newQuantity': 0})" aria-label="remove_item" mat-raised-button class="remove-item">
+              <mat-icon>delete</mat-icon>
+              <label>Remove</label>
+            </button>
+
+          </div>
+        </div>
       </div>
-      <h4 class="variant-name">{{item.variantName}}</h4>
-      <p class="brand-name">{{item.brandName}}</p>
-      <div class="price-container">
-        <p class="strikethrough-price">{{(item.strikethroughPrice * item.quantity).toString() | currency: 'INR' : 'symbol'}}</p>
-        <p class="price">{{(item.price * item.quantity) | currency : 'INR': 'symbol'}}</p>
+
+    </div>
+
+    <gaushadhi-apply-coupon></gaushadhi-apply-coupon>
+    <gaushadhi-order-price-breakdown #scrollPoint></gaushadhi-order-price-breakdown>
+
+    <div class="place-order-bar">
+      <div (click)="scrollToProductDetails()" class="price-details">
+        <p>{{'579' | currency : 'INR' : 'symbol'}}</p>
+        <p> View price details</p>
       </div>
-      <div class="item-action-bar">
-
-        <button aria-label="decrease_quantity" (click)="item.quantity = item.quantity > 1 ? item.quantity - 1 : item.quantity" mat-button>
-          <mat-icon>remove</mat-icon>
+      <div class="place-order-btn">
+        <button mat-raised-button [routerLink]="['../../checkout/shipping-info']">
+          {{'Place Order'| uppercase}}
         </button>
-
-        <label>{{item.quantity}}</label>
-
-        <button aria-label="increase_quantity" (click)="item.quantity = item.quantity + 1" mat-button>
-          <mat-icon>add</mat-icon>
-        </button>
-
-        <button aria-label="remove_item" mat-button class="remove-item">
-          <mat-icon>delete</mat-icon>
-          <label>Remove</label>
-        </button>
-
       </div>
     </div>
   </div>
 
-</div>
 
-<gaushadhi-apply-coupon></gaushadhi-apply-coupon>
-<gaushadhi-order-price-breakdown #scrollPoint></gaushadhi-order-price-breakdown>
+</ng-container>
 
-<div class="place-order-bar">
-  <div (click)="scrollToProductDetails()" class="price-details">
-    <p>{{'579' | currency : 'INR' : 'symbol'}}</p>
-    <p> View price details</p>
-  </div>
-  <div class="place-order-btn">
-    <button mat-raised-button [routerLink]="['../../checkout/shipping-info']">
-      {{'Place Order'| uppercase}}
+<ng-template #cartEmpty>
+  <div class="cart-empty">
+    <div class="heading">
+      <p>Your cart is empty</p>
+    </div>
+    <div class="img-container">
+      <img src="../../../../assets/images/empty-cart.svg" alt="order-placed-success">
+    </div>
+    <button mat-raised-button class="shop-now" [routerLink]="['../products']">
+      Shop Now
     </button>
   </div>
-</div>
+</ng-template>
+
+<ng-container *ngIf="disableCartMutation">
+  <div class="cart-update-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+

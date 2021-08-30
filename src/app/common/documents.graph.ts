@@ -117,6 +117,7 @@ export const GET_ACTIVE_ORDER = gql`
     $includeHistory: Boolean!
   ) {
     activeOrder {
+      __typename
       ...Order
     }
   }

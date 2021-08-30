@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from './core/providers/order.service';
 
 @Component({
   selector: 'gaushadhi-root',
@@ -7,4 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
   title = 'gaushadhi-frontend';
+
+  constructor(private orderService: OrderService) {
+    this.orderService.refreshOrderDetails('Order');
+  }
 }

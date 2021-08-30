@@ -30,18 +30,18 @@
       <h3>My Cart</h3>
       <a [routerLink]="['../../store/cart']">Edit</a>
     </div>
-    <div class="cart-items">
-      <div class="cart-item">
+    <div class="cart-items" *ngIf="orderDetails ; else loading">
+      <div class="cart-item" *ngFor="let line of orderDetails.lines">
         <div class="image-container">
-          <img src="../../../../assets/images/gaushadhi-soap.png" alt="">
+          <img [src]=line.featuredAsset.preview alt="Product-Image">
         </div>
         <div class="description">
-          <p>Gaushadhi Bathing Soap</p>
-          <p>Quantity: 2</p>
-          <p>Variant: Normal</p>
+          <p>{{line.productVariant.name}}</p>
+          <p>Quantity: {{line.quantity}}</p>
+          <p>SKU: {{line.productVariant.sku}}</p>
         </div>
         <div class="price">
-          {{'80' | currency : 'INR': 'symbol'}}
+          {{line.proratedLinePriceWithTax | formatPrice : 'INR': 'symbol'}}
         </div>
       </div>
     </div>
@@ -51,22 +51,34 @@
       <h3>Shipping Address</h3>
       <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
     </div>
-    <div class="address">
-      <h3>Home</h3>
-      C-19/A Rajeev Nagar Ph-2 <br>
-      New Delhi - 110086, Delhi <br>
-      IN
+    <div class="address" *ngIf="orderDetails ; else loading">
+      <h3>{{orderDetails.shippingAddress.fullName}}</h3>
+      {{orderDetails.shippingAddress.streetLine1}}<br>
+      {{orderDetails.shippingAddress.city}}, {{orderDetails.shippingAddress.province}}<br>
+      {{orderDetails.shippingAddress.countryCode}}
     </div>
   </div>
-  <div class="summary-item">
+  <div class="summary-item" >
     <div class="item-header">
       <h3>Shipping Method</h3>
       <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
     </div>
-    <div class="method">
-      <h3>Standard</h3>
-      <p class="shipping-price">{{'45.45' | currency : 'INR' : 'symbol'}}</p>
-      <p>Delivery within 4-5 business days</p>
+    <div class="method" *ngIf="orderDetails && orderDetails?.shippingLines?.length ; else loading">
+      <h3>{{orderDetails.shippingLines[0].shippingMethod.name}}</h3>
+      <p class="shipping-price">{{orderDetails.shippingLines[0].priceWithTax | formatPrice : 'INR' : 'symbol'}}</p>
+      <p [innerHTML]="orderDetails.shippingLines[0].shippingMethod.description"></p>
     </div>
   </div>
 </div>
+
+<div class="checkout-backdrop" *ngIf="razorpayFlowActive">
+  <div class="backdrop-content">
+    <h1>PLEASE WAIT....</h1>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-small">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

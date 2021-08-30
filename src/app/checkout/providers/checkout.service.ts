@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutService {
-  private orderData = new Subject();
-  orderData$ = this.orderData.asObservable();
+  nextButtonStatus = new Subject<'disabled' | 'enabled'>();
+  nextButtonStatus$ = this.nextButtonStatus.asObservable();
+  onNext = new Subject<null>();
+  onNext$ = this.onNext.asObservable();
 
-  pushNewOrderData(data: any) {
-    this.orderData.next(data);
+  disableNextButton() {
+    this.nextButtonStatus.next('disabled');
   }
+
+  enableNextButton() {
+    this.nextButtonStatus.next('enabled');
+  }
+
+  proceedToNextStep() {
+    this.onNext.next(null);
+  }
+
   constructor() {}
 }

@@ -2,10 +2,6 @@ import { Route } from '@angular/router';
 import { ShellComponent } from './core/components/shell/shell.component';
 import { AccountGuard } from './core/providers/guards/account.guard';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
-import { CategoryComponent } from './core/components/category/category.component';
-import { ProductsComponent } from './public/components/products/products.component';
-import { ProductDetailComponent } from './public/components/product-detail/product-detail.component';
-import { PlaygroundComponent } from './checkout/playground/playground.component';
 
 export const routes: Route[] = [
   {
@@ -38,6 +34,6 @@ export const routes: Route[] = [
     path: 'checkout',
     loadChildren: () =>
       import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
-    // canActivate: [AccountGuard],
+    canActivate: [AccountGuard],
   },
 ];

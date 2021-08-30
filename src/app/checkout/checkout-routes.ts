@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 import { ShippingInfoComponent } from './components/shipping-info/shipping-info-component';
-import { OrderReviewComponent } from './components/order-review/order-review.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { AddressResolver } from '../core/providers/resolvers/address.resolver';
 import { EligibleShipmentMethodsResolver } from './providers/resolver/eligible-shipment-methods.resolver';
-import { CurrentOrderReviewResolver } from './providers/resolver/current-order-review.resolver';
+import { CurrentOrderDetailsResolver } from '../core/providers/resolvers/current-order-details.resolver';
 import { EligiblePaymentMethodsResolver } from './providers/resolver/eligible-payment-methods.resolver';
 import { CheckoutShellComponent } from './components/checkout-shell/checkout-shell.component';
 import { PlaygroundComponent } from './playground/playground.component';
@@ -28,11 +28,7 @@ export const routes: Route[] = [
       },
       {
         path: 'summary',
-        component: OrderReviewComponent,
-        resolve: {
-          currentOrderReview: CurrentOrderReviewResolver,
-          eligiblePaymentMethods: EligiblePaymentMethodsResolver,
-        },
+        component: OrderSummaryComponent,
       },
       {
         path: 'order-placed',

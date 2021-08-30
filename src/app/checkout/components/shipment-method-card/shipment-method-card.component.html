@@ -2,7 +2,7 @@
   <div class="card-top-line">
     <h3>{{ method.name }}</h3>
   </div>
-  <p class="shipping-price">{{ method.price / 100 | currency: 'INR' : 'symbol' }}</p>
+  <p class="shipping-price">{{ method.priceWithTax | formatPrice : 'INR' : 'symbol' }}</p>
   <p class="delivery-time" [innerHTML]="method.description"></p>
   <div class="selected-tick" *ngIf="isSelected">
     <mat-icon>check</mat-icon>

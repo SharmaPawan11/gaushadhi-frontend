@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { routes } from './public-routes';
 import { CartComponent } from './components/cart/cart.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { CartComponent } from './components/cart/cart.component';
     MatExpansionModule,
     MatBadgeModule,
     MatButtonModule,
+    MatProgressSpinnerModule
   ],
   exports: [],
 })

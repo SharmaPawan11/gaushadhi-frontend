@@ -9,19 +9,15 @@
 
 <div class="checkout-cta-btn" *ngIf="currentRoute !== 'order-placed'" >
   <div (click)="scrollToProductDetails()" class="price-details">
-    <p>{{'579' | currency : 'INR' : 'symbol'}}</p>
+    <p>{{orderDetails?.totalWithTax | formatPrice : 'INR' : 'symbol'}}</p>
     <p> View price details</p>
   </div>
-  <div class="place-order-btn" (click)="nextCheckoutStep()">
-    <button mat-raised-button>
+  <div class="place-order-btn">
+    <button mat-raised-button color="primary" (click)="nextCheckoutStep()" [disabled]="nextButtonStatus === 'disabled'">
       {{ctaRouteMap[currentRoute]| uppercase}}
     </button>
   </div>
 </div>
 
-<div class="checkout-backdrop" *ngIf="razorpayFlowActive">
-  <div class="backdrop-content">
-    <h1>PLEASE WAIT....</h1>
-  </div>
-</div>
+
 

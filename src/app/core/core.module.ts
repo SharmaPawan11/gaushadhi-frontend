@@ -14,7 +14,6 @@ import { CarouselDirective } from './directives/carousel.directive';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { CategorySliderComponent } from './components/category-slider/category-slider.component';
 import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
-
 import { FooterComponent } from './components/footer/footer.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';

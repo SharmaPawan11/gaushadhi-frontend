@@ -1,38 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin, of, Subject, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../../../core/providers/order.service';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
 import { AddressService } from '../../../core/providers/address.service';
 import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
+import { ShippingService } from '../../providers/shipping.service';
+import { CheckoutService } from '../../providers/checkout.service';
+import {
+  updateOrderDetailsGlobally
+} from "../../../common/operators/update-order-details-globally.operator";
 
 @Component({
   selector: 'gaushadhi-select-address',
   templateUrl: './shipping-info.component.html',
   styleUrls: ['./shipping-info.component.scss'],
 })
-export class ShippingInfoComponent implements OnInit {
+export class ShippingInfoComponent implements OnInit, OnDestroy {
   // TODO: Add address Implementation
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   customerAddresses: Array<any> = [];
   eligibleShipmentMethods: Array<any> = [];
-  selectedShippingAddress = new FormControl('', [Validators.required]);
-  selectedShippingMethod = new FormControl('', [Validators.required]);
+  shippingInfoForm = this.fb.group({
+    shippingAddress: ['', [Validators.required]],
+    shippingMethod: ['', [Validators.required]],
+  });
+  currentFormStatus: string = 'INVALID';
   editedIndex: number = -1;
   updatedAddress: any;
 
+  get shippingAddress() {
+    return this.shippingInfoForm.get('shippingAddress');
+  }
+
+  get shippingMethod() {
+    return this.shippingInfoForm.get('shippingMethod');
+  }
+
   constructor(
     private orderService: OrderService,
+    private shippingService: ShippingService,
+    private checkoutService: CheckoutService,
     private route: ActivatedRoute,
     private router: Router,
     private addressService: AddressService,
     public dialog: MatDialog,
     private snackbarService: SnackbarService,
+    private fb: FormBuilder,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -43,7 +62,7 @@ export class ShippingInfoComponent implements OnInit {
       : [];
     this.customerAddresses.forEach((address) => {
       if (address.defaultShippingAddress) {
-        this.selectedShippingAddress.setValue(address);
+        this.shippingAddress?.setValue(address);
       }
     });
 
@@ -51,15 +70,47 @@ export class ShippingInfoComponent implements OnInit {
     this.eligibleShipmentMethods = shipmentMethods
       ? JSON.parse(JSON.stringify(shipmentMethods))
       : [];
-    this.eligibleShipmentMethods.forEach((method) => {
-      if (method.code === 'standard-shipping') {
-        this.selectedShippingMethod.setValue(method);
-      }
-    });
+    this.shippingMethod?.setValue(
+      this.eligibleShipmentMethods.find(
+        (method) => method.code === 'standard-shipping'
+      )
+    );
+
+    this.currentFormStatus = this.shippingInfoForm.status;
+    this.updateNextButtonState(this.currentFormStatus);
+
+    this.shippingInfoForm.statusChanges
+      .pipe(
+        filter((status) => status !== this.currentFormStatus),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((status) => {
+        this.currentFormStatus = status;
+        this.updateNextButtonState(status);
+      });
+
+    this.checkoutService.onNext$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.onNext();
+      });
+  }
+
+  updateNextButtonState(status: string) {
+    if (status === 'VALID') {
+      this.checkoutService.enableNextButton();
+    } else {
+      this.checkoutService.disableNextButton();
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onNext(): void {
-    let shippingAddress = this.selectedShippingAddress.value;
+    let shippingAddress = this.shippingAddress?.value;
     shippingAddress = {
       fullName: shippingAddress.fullName,
       company: shippingAddress.company,
@@ -72,27 +123,25 @@ export class ShippingInfoComponent implements OnInit {
       phoneNumber: shippingAddress.phoneNumber,
     };
 
-    const setOrderShippingAddress$ = this.orderService
-      .setOrderShippingAddress(shippingAddress)
-      .pipe(take(1));
-    const setOrderBillingAddress$ = this.orderService
-      .setOrderBillingAddress(shippingAddress)
-      .pipe(take(1));
-
-    forkJoin([setOrderShippingAddress$, setOrderBillingAddress$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([shippingAddressRes, billingAddressRes]) => {
-        if (
-          shippingAddressRes.__typename === 'Order' &&
-          billingAddressRes.__typename === 'Order'
-        ) {
-          console.log('SET SUCCESSFUL');
-          this.router.navigate(['..', 'select-shipment'], {
-            relativeTo: this.route,
-          });
+    //TODO: Make updateOrderDetailsGlobally operator work with forkJoin.
+    // Currently order details are not updating globally after this mutation.
+    this.orderService.setShippingInfo(shippingAddress, shippingAddress, this.shippingMethod?.value.id)
+      .pipe(updateOrderDetailsGlobally(this.orderService.refreshOrderDetails.bind(this.orderService)),takeUntil(this.destroy$))
+      .subscribe(
+        ([shippingAddressRes, billingAddressRes, shippingMethodRes]) => {
+          if (
+            shippingAddressRes.__typename === 'Order' &&
+            billingAddressRes.__typename === 'Order' &&
+            shippingMethodRes.__typename === 'Order'
+          ) {
+            this.router.navigate(['..', 'summary'], {
+              relativeTo: this.route,
+            });
+          }
         }
-      });
+      );
   }
+
   onDeleteAddress(addressId: string) {
     this.addressService
       .deleteAddress(addressId)
@@ -102,6 +151,7 @@ export class ShippingInfoComponent implements OnInit {
           this.customerAddresses = this.customerAddresses.filter((address) => {
             return address.id !== addressId;
           });
+          this.shippingAddress?.setErrors({ required: true });
           this.snackbarService.openSnackBar('Address deleted successfully');
         }
       });
