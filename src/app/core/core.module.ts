@@ -19,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
+import {environment} from "../../environments/environment.prod";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import {MatSelectModule} from "@angular/material/select";
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:3000/shop-api',
+            uri: environment.serverUrl,
             withCredentials: true,
           }),
           // defaultOptions: {
