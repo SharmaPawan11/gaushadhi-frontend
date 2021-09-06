@@ -17,6 +17,8 @@ import { FeaturedProductsSliderComponent } from './components/featured-products-
 import { FooterComponent } from './components/footer/footer.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatSnackBarModule,
     MatDialogModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     BrowserModule,

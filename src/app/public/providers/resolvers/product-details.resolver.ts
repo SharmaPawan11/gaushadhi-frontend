@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { ProductService } from '../../../core/providers/product.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProductDetailsResolver implements Resolve<any> {
   constructor(private productService: ProductService) {}

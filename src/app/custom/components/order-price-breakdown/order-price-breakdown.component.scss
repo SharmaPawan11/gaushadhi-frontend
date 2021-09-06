@@ -14,14 +14,15 @@
   gap: 1.5rem;
   .breakdown-item {
     display: flex;
-    p:nth-child(1) {
-    }
     p:nth-child(2) {
       margin-left: auto;
     }
   }
   hr {
     border-bottom: 2px solid #a2a2a2;
+  }
+  .hr-thin {
+    border-bottom: 1px solid #a2a2a2
   }
 }
 
@@ -32,6 +33,11 @@
 .total {
   font-size: 1.1rem;
   font-weight: 600;
+}
+
+.subtotal {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .loading-small {

@@ -21,12 +21,18 @@
     gap: 2rem;
     align-items: center;
 
-    .images {
+    .images, .empty-cart-text {
       display: flex;
       flex-grow: 999;
       flex-basis: 0;
       flex-wrap: wrap;
       gap: 1rem;
+    }
+
+    .empty-cart-text {
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 500;
     }
 
     img {
@@ -73,6 +79,7 @@
     .info-item {
       display: flex;
       flex-direction: column;
+      align-items: center;
       border-inline-start: 2px solid #f2f2f2;
       padding: 0.5rem 1rem;
       gap: 0.5rem;
@@ -86,6 +93,19 @@
         padding-left: unset;
         border: unset;
       }
+    }
+
+    .settled-item, .cancelled-item, .delivered-item {
+      font-weight: 500;
+    }
+    .settled-item {
+      color: #f39d00;
+    }
+    .cancelled-item {
+      color: #ff5a5a;
+    }
+    .delivered-item {
+      color: green;
     }
   }
 }

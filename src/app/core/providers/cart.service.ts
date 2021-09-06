@@ -5,12 +5,11 @@ import { AddToCart } from '../../common/vendure-types';
 import {map, tap, filter, retry, catchError, take} from 'rxjs/operators';
 import { CART_FRAGMENT, ORDER_FRAGMENT } from '../../common/framents.graph';
 import { OrderService } from './order.service';
-import { notNullOrNotUndefined } from '../../common/utils/not-null-or-not-undefined';
-import {firstValueFrom, of, switchMap, throwError} from "rxjs";
 import {
-  changeOrderStateOnErrorThenRetry
-} from "../../common/operators/change-order-state-on-error-then-retry.operator";
+  OnErrorChangeOrderStateThenRetry
+} from "../operators/on-error-change-order-state-then-retry.operator";
 import {SnackbarService} from "./snackbar.service";
+import {SetDefaultShippingOnFirstItemAdd} from "../operators/set-default-shipping-on-first-item-add";
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +21,11 @@ export class CartService {
         __typename
         ... on Order {
           id
+          shippingLines {
+            shippingMethod {
+              id
+            }
+          }
         }
         ... on ErrorResult {
           errorCode
@@ -58,7 +62,8 @@ export class CartService {
   constructor(
     private requestor: RequestorService,
     private orderService: OrderService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private onErrorChangeStateThenRetry: OnErrorChangeOrderStateThenRetry,
   ) {}
 
   addToCart(productVariantId: string | number, quantity: number) {
@@ -70,7 +75,7 @@ export class CartService {
       })
       .pipe(
         map((res) => res.addItemToOrder),
-        changeOrderStateOnErrorThenRetry(this.orderService.transitionOrderState('AddingItems')),
+        this.onErrorChangeStateThenRetry.operator('AddingItems'),
         tap((res) => {
           switch (res?.__typename) {
             case 'OrderModificationError':
@@ -92,7 +97,7 @@ export class CartService {
       })
       .pipe(
         map((res) => res.adjustOrderLine),
-        changeOrderStateOnErrorThenRetry(this.orderService.transitionOrderState('AddingItems')),
+        this.onErrorChangeStateThenRetry.operator('AddingItems'),
         tap((res) => {
           if (res?.__typename === 'InsufficientStockError') {
            this.snackbarService.openSnackBar(res.message);

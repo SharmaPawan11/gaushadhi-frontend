@@ -22,6 +22,7 @@ export class OrderPriceBreakdownComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.orderDetails$ = this.orderService.currentOrderDetails$;
     this.orderDetailsSubscription = this.orderDetails$.subscribe((res) => {
+      console.log(res);
       this.orderDetails = res;
       this.totalDiscount = 0;
       this.orderDetails?.discounts.forEach((discount: any) => {

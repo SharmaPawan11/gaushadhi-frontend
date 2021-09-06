@@ -5,7 +5,7 @@ import { UserService } from '../../../core/providers/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subject, switchMap } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '../../../custom/components/address-form/address-form.component';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
 
 @Component({

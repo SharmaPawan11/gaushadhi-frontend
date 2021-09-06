@@ -31,7 +31,7 @@
       <a [routerLink]="['../../store/cart']">Edit</a>
     </div>
     <div class="cart-items" *ngIf="orderDetails ; else loading">
-      <div class="cart-item" *ngFor="let line of orderDetails.lines">
+      <div class="cart-item" *ngFor="let line of orderDetails.lines; trackBy: identify">
         <div class="image-container">
           <img [src]=line.featuredAsset.preview alt="Product-Image">
         </div>
@@ -51,11 +51,11 @@
       <h3>Shipping Address</h3>
       <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
     </div>
-    <div class="address" *ngIf="orderDetails ; else loading">
-      <h3>{{orderDetails.shippingAddress.fullName}}</h3>
-      {{orderDetails.shippingAddress.streetLine1}}<br>
-      {{orderDetails.shippingAddress.city}}, {{orderDetails.shippingAddress.province}}<br>
-      {{orderDetails.shippingAddress.countryCode}}
+    <div class="address" *ngIf="orderDetails && orderDetails.shippingAddress.fullName ; else loading">
+      <h3>{{orderDetails.shippingAddress?.fullName}}</h3>
+      {{orderDetails.shippingAddress?.streetLine1}}<br>
+      {{orderDetails.shippingAddress?.city}}, {{orderDetails.shippingAddress?.province}}<br>
+      {{orderDetails.shippingAddress?.countryCode}}
     </div>
   </div>
   <div class="summary-item" >

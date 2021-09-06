@@ -5,15 +5,15 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../../../core/providers/order.service';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 import { AddressService } from '../../../core/providers/address.service';
-import { AddressFormComponent } from '../../../shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '../../../custom/components/address-form/address-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
 import { ShippingService } from '../../providers/shipping.service';
 import { CheckoutService } from '../../providers/checkout.service';
 import {
-  updateOrderDetailsGlobally
-} from "../../../common/operators/update-order-details-globally.operator";
+  UpdateOrderDetailsGlobally
+} from "../../../core/operators/update-order-details-globally.operator";
 
 @Component({
   selector: 'gaushadhi-select-address',
@@ -52,7 +52,8 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private snackbarService: SnackbarService,
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally
   ) {}
 
   ngOnInit(): void {
@@ -123,17 +124,13 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
       phoneNumber: shippingAddress.phoneNumber,
     };
 
-    //TODO: Make updateOrderDetailsGlobally operator work with forkJoin.
-    // Currently order details are not updating globally after this mutation.
     this.orderService.setShippingInfo(shippingAddress, shippingAddress, this.shippingMethod?.value.id)
-      .pipe(updateOrderDetailsGlobally(this.orderService.refreshOrderDetails.bind(this.orderService)),takeUntil(this.destroy$))
+      .pipe(
+        this.updateOrderDetailsGlobally.operator()
+        ,takeUntil(this.destroy$))
       .subscribe(
-        ([shippingAddressRes, billingAddressRes, shippingMethodRes]) => {
-          if (
-            shippingAddressRes.__typename === 'Order' &&
-            billingAddressRes.__typename === 'Order' &&
-            shippingMethodRes.__typename === 'Order'
-          ) {
+        (res) => {
+          if ( res.__typename === 'Order' ) {
             this.router.navigate(['..', 'summary'], {
               relativeTo: this.route,
             });

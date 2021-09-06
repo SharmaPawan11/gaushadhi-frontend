@@ -1,78 +1,74 @@
 <div class="order-id">
   <p>Orders / </p>
-  <p>#15</p>
+  <p>{{orderDetails.code}}</p>
 </div>
 
 <div class="content">
   <div class="order-breakdown">
     <div class="order-items">
-      <div class="order-item">
-        <img src="../../../../assets/images/gaushadhi-soap.png" alt="product-image">
+      <div class="order-item" *ngFor="let line of orderDetails.lines">
+        <img [src]=line.featuredAsset?.preview alt="product-image">
         <div class="product-info">
-          <p>Gaushadhi Bathing Soap</p>
-          <p>Normal (BLK-1001-SKU)</p>
+          <p>{{line.productVariant?.name}}</p>
+          <p>{{line.productVariant?.sku}}</p>
         </div>
-        <p class="item-price">2 x {{'530' | currency : 'INR' : 'symbol'}}</p>
-      </div>
-      <div class="order-item">
-        <img src="../../../../assets/images/gaushadhi-soap.png" alt="product-image">
-        <div class="product-info">
-          <p>Gaushadhi Bathing Soap</p>
-          <p>Normal (BLK-1001-SKU)</p>
-        </div>
-        <p class="item-price">2 x {{'530' | currency : 'INR' : 'symbol'}}</p>
+        <p class="item-price">{{line.quantity}} x {{line.unitPriceWithTax | formatPrice : 'INR' : 'symbol'}}</p>
       </div>
     </div>
     <div class="total-section">
-      <div class="shipping-type">
+      <div class="shipping-type" *ngIf="orderDetails.shippingLines[0]?.shippingMethod?.name">
         <mat-icon>
           local_shipping
         </mat-icon>
         <p>
-          Standard Shipping
+          {{orderDetails.shippingLines[0]?.shippingMethod?.name}}
         </p>
-        <p class="weight">
+        <p class="weight" *ngIf="false">
           Weight: 0.3 Kg
         </p>
       </div>
       <div class="total-breakdown">
         <div class="breakdown-item">
           <p>Subtotal</p>
-          <p>{{'179.79' | currency: 'INR' : 'symbol'}}</p>
+          <p>{{totalUnitPrice | formatPrice: 'INR' : 'symbol'}}</p>
         </div>
         <div class="breakdown-item">
-          <p>Discount(FREE 100)</p>
-          <p>- {{'100.79' | currency: 'INR' : 'symbol'}}</p>
+          <p>Discounts</p>
+          <p>- {{totalDiscount | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+        <div class="breakdown-item">
+          <p>Discounted Price</p>
+          <p>{{orderDetails.subTotalWithTax | formatPrice: 'INR' : 'symbol'}}</p>
         </div>
         <div class="breakdown-item">
           <p>Shipping</p>
-          <p>{{'179.79' | currency: 'INR' : 'symbol'}}</p>
+          <p>{{orderDetails.shippingWithTax | formatPrice: 'INR' : 'symbol'}}</p>
         </div>
-        <div class="breakdown-item">
+        <div class="breakdown-item" *ngIf="false">
           <p>Tax</p>
-          <p>{{'50' | currency: 'INR' : 'symbol'}}</p>
+          <p>{{'50' | formatPrice: 'INR' : 'symbol'}}</p>
         </div>
       </div>
     </div>
     <div class="breakdown-item total">
       <p>TOTAL</p>
-      <p>{{'750.79' | currency: 'INR' : 'symbol'}}</p>
+      <p>{{orderDetails.totalWithTax | formatPrice: 'INR' : 'symbol'}}</p>
     </div>
   </div>
 
-  <div class="shipping-address">
+  <div class="shipping-address" *ngIf="orderDetails.shippingAddress?.streetLine1">
     <div class="header">
       <p>Shipping & Billing Address</p>
     </div>
-    <p>Pawan Sharma</p>
-    <p class="address">C-19/A Rajeev Nagar Ph-2</p>
-    <p class="address">New Delhi - 110086</p>
-    <p class="address">IN</p>
+    <p>{{orderDetails.shippingAddress?.fullName}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.streetLine1}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.city}} {{orderDetails.shippingAddress?.province}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.countryCode}}</p>
     <div class="phone-email">
       <mat-icon>phone</mat-icon>
-      <p>7290822269</p>
+      <p>{{orderDetails.shippingAddress?.phoneNumber}}</p>
     </div>
-    <div class="phone-email">
+    <div class="phone-email" *ngIf="false">
       <mat-icon>email</mat-icon>
       <p>pawan.s1998@gmail.com</p>
     </div>

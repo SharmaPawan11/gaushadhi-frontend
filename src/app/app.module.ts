@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
-import { SharedModule } from './shared/shared.module';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
 import { CategoryComponent } from './core/components/category/category.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,8 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     CoreModule,
-    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
-    SharedModule,
+    RouterModule.forRoot(routes),
     MatIconModule,
   ],
   providers: [],

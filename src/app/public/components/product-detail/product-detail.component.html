@@ -33,7 +33,7 @@
 
   <div class="price-container__desktop">
     <p>Price:</p>
-    <h2>{{selectedVariant.priceWithTax / 100 | currency: 'INR': 'symbol'}}</h2>
+    <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
     <p>{{'120' | currency: 'INR': 'symbol'}}</p>
   </div>
 
@@ -114,8 +114,8 @@
 
 <div class="buy-bar">
   <div class="price-container">
-    <p class="strikethrough-price">{{'100' | currency: 'INR': 'symbol'}}</p>
-    <h2>{{'80' | currency: 'INR': 'symbol'}}</h2>
+    <p class="strikethrough-price">{{'120' | formatPrice: 'INR': 'symbol'}}</p>
+    <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
   </div>
   <div class="quantity-container">
     <mat-icon (click)="quantity = quantity > 1 ? quantity - 1 : quantity">remove</mat-icon>

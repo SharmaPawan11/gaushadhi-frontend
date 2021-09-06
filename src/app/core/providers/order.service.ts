@@ -1,28 +1,39 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { RequestorService } from './requestor.service';
-import { gql } from 'apollo-angular';
 import {
   AddPayment,
   ApplyCouponCodeResult,
   GetActiveOrder,
-  GetEligiblePaymentMethods,
-  Order,
+  GetEligiblePaymentMethods, GetOrderByCode, GetOrderList,
+  Order, OrderListOptions,
   SetShippingAddress,
   TransitionToAddingItems,
   TransitionToArrangingPayment,
 } from '../../common/vendure-types';
-import {map, filter, tap, take} from 'rxjs/operators';
-import { GET_ACTIVE_ORDER } from '../../common/documents.graph';
+import {map, filter, tap, take, catchError} from 'rxjs/operators';
+import {GET_ACTIVE_CUSTOMER, GET_ACTIVE_ORDER} from '../../common/documents.graph';
 import {
   BehaviorSubject, forkJoin,
-  Observable,
+  Observable, of,
   Subject,
-  Subscription,
   switchMap,
 } from 'rxjs';
 import { notNullOrNotUndefined } from '../../common/utils/not-null-or-not-undefined';
 import {ShippingService} from "../../checkout/providers/shipping.service";
-import {changeOrderStateOnErrorThenRetry} from "../../common/operators/change-order-state-on-error-then-retry.operator";
+import {
+  OnErrorChangeOrderStateThenRetry
+} from "../operators/on-error-change-order-state-then-retry.operator";
+import {
+  ADD_COUPON_TO_ORDER_MUTATION,
+  ADD_PAYMENT_TO_ORDER_MUTATION,
+  GENERATE_RAZORPAY_ORDER_ID,
+  GET_ELIGIBLE_PAYMENT_METHODS,
+  GET_ORDER_DETAILS_BY_CODE,
+  REMOVE_COUPON_FROM_ORDER_MUTATION,
+  SET_ORDER_BILLING_ADDRESS_MUTATION,
+  SET_ORDER_SHIPPING_ADDRESS_MUTATION,
+  TRANSITION_ORDER_STATE_MUTATION
+} from "./order-mutations";
 
 @Injectable({
   providedIn: 'root',
@@ -33,146 +44,29 @@ export class OrderService {
     this.currentOrderDetails.asObservable();
   private refreshOrderDetails$ = new Subject<any>();
 
-  SET_ORDER_BILLING_ADDRESS_MUTATION = gql`
-    mutation setOrderBillingAddress($createAddressInput: CreateAddressInput!) {
-      setOrderBillingAddress(input: $createAddressInput) {
-        ... on Order {
-          id
-        }
-        ... on ErrorResult {
-          message
-          errorCode
-        }
-      }
-    }
-  `;
 
-  SET_ORDER_SHIPPING_ADDRESS_MUTATION = gql`
-    mutation setOrderShippingAddress($createAddressInput: CreateAddressInput!) {
-      setOrderShippingAddress(input: $createAddressInput) {
-        ... on Order {
-          id
-        }
-        ... on ErrorResult {
-          message
-          errorCode
-        }
-      }
-    }
-  `;
-
-  ADD_COUPON_TO_ORDER_MUTATION = gql`
-    mutation addCouponToOrder($couponCode: String!) {
-      applyCouponCode(couponCode: $couponCode) {
-        __typename
-        ... on Order {
-          id
-        }
-        ... on ErrorResult {
-          message
-          errorCode
-        }
-      }
-    }
-  `;
-
-  REMOVE_COUPON_FROM_ORDER_MUTATION = gql`
-    mutation removeCouponCodeFromOrder($couponCode: String!) {
-      removeCouponCode(couponCode: $couponCode) {
-        __typename
-        ... on Order {
-          id
-        }
-      }
-    }
-  `;
-
-  GET_ELIGIBLE_PAYMENT_METHODS = gql`
-    query eligiblePaymentMethods {
-      eligiblePaymentMethods {
-        id
-        code
-        name
-        isEligible
-        description
-        eligibilityMessage
-      }
-    }
-  `;
-
-  TRANSITION_ORDER_STATE_MUTATION = gql`
-    mutation transitionOrder($orderState: String!) {
-      transitionOrderToState(state: $orderState) {
-        __typename
-        ... on Order {
-          id
-          state
-        }
-        ... on OrderStateTransitionError {
-          errorCode
-          message
-          toState
-          fromState
-          transitionError
-        }
-      }
-    }
-  `;
-
-  GENERATE_RAZORPAY_ORDER_ID = gql`
-    mutation generateRazorpayOrderId($vendureOrderId: ID!) {
-      generateRazorpayOrderId(orderId: $vendureOrderId) {
-        __typename
-        ... on RazorpayOrderIdSuccess {
-          razorpayOrderId
-        }
-        ... on RazorpayOrderIdGenerationError {
-          errorCode
-          message
-        }
-      }
-    }
-  `;
-
-  ADD_PAYMENT_TO_ORDER_MUTATION = gql`
-    mutation addPaymentToOrder($paymentInput: PaymentInput!) {
-      addPaymentToOrder(input: $paymentInput) {
-        __typename
-        ... on Order {
-          id
-        }
-        ... on PaymentFailedError {
-          errorCode
-          paymentErrorMessage
-          message
-        }
-        ... on OrderPaymentStateError {
-          errorCode
-          message
-        }
-        ... on PaymentDeclinedError {
-          message
-          paymentErrorMessage
-          errorCode
-        }
-      }
-    }
-  `;
 
   constructor(private requestor: RequestorService,
-              private shippingService: ShippingService) {
+              private shippingService: ShippingService,
+              private onErrorChangeStateThenRetry: OnErrorChangeOrderStateThenRetry) {
+    console.log('Order');
     this.refreshOrderDetails$
       .pipe(
-        tap((res) => console.log(res)),
         filter(
           (resTypename: string) =>
             resTypename === 'Order' || resTypename === 'InsufficientStockError'
         ),
         switchMap(() => {
-          return this.requestCurrentOrderDetails().pipe(
-            filter(notNullOrNotUndefined)
-          );
-        })
+          return this.requestCurrentOrderDetails().pipe(catchError((err) =>  {
+            console.log(err);
+            return of(null);
+          }));
+        }),
+        catchError((err) => {
+          console.log(err);
+          return of(null);
+        }),
+        filter(notNullOrNotUndefined)
       )
       .subscribe((res) => {
         if (res.__typename === 'Order') {
@@ -186,10 +80,10 @@ export class OrderService {
     this.refreshOrderDetails$.next(resTypename);
   }
 
-  setOrderShippingAddress(shippingAddress: Object = {}) {
+  setOrderShippingAddress(shippingAddress: any) {
     return this.requestor
       .mutate<SetShippingAddress.Mutation>(
-        this.SET_ORDER_SHIPPING_ADDRESS_MUTATION,
+        SET_ORDER_SHIPPING_ADDRESS_MUTATION,
         {
           createAddressInput: shippingAddress,
         }
@@ -197,9 +91,9 @@ export class OrderService {
       .pipe(map((res) => res.setOrderShippingAddress));
   }
 
-  setOrderBillingAddress(billingAddress: Object = {}) {
+  setOrderBillingAddress(billingAddress: any) {
     return this.requestor
-      .mutate(this.SET_ORDER_BILLING_ADDRESS_MUTATION, {
+      .mutate(SET_ORDER_BILLING_ADDRESS_MUTATION, {
         createAddressInput: billingAddress,
       })
       .pipe(map((res) => res.setOrderBillingAddress));
@@ -217,7 +111,7 @@ export class OrderService {
         includeShippings: true,
         includeTaxSummary: false,
         includeHistory: false,
-      })
+      }, 'no-cache')
       .pipe(map((res) => res.activeOrder));
   }
 
@@ -226,22 +120,30 @@ export class OrderService {
       .setOrderShippingAddress(shippingAddress)
       .pipe(take(1));
     const setOrderBillingAddress$ = this
-      .setOrderBillingAddress(shippingAddress)
+      .setOrderBillingAddress(billingAddress)
       .pipe(take(1));
     const setShipmentMethod$ = this.shippingService
       .setOrderShippingMethod(shippingMethodId)
-      .pipe(changeOrderStateOnErrorThenRetry(this.transitionOrderState('AddingItems')), take(1));
+      .pipe(this.onErrorChangeStateThenRetry.operator('AddingItems'));
 
     return forkJoin([
       setOrderShippingAddress$,
       setOrderBillingAddress$,
-      setShipmentMethod$,
-    ])
+    ]).pipe(
+      switchMap(([shippingAddressRes, billingAddressRes]) => {
+        if (shippingAddressRes.__typename === 'Order' &&
+          billingAddressRes.__typename === 'Order') {
+          return setShipmentMethod$
+        }
+        return of(null);
+      }),
+      filter(notNullOrNotUndefined)
+    )
   }
 
   addCouponToOrder(couponCode: string): Observable<ApplyCouponCodeResult> {
     return this.requestor
-      .mutate(this.ADD_COUPON_TO_ORDER_MUTATION, {
+      .mutate(ADD_COUPON_TO_ORDER_MUTATION, {
         couponCode,
       })
       .pipe(
@@ -253,7 +155,7 @@ export class OrderService {
 
   removeCouponFromOrder(couponCode: string): Observable<ApplyCouponCodeResult> {
     return this.requestor
-      .mutate(this.REMOVE_COUPON_FROM_ORDER_MUTATION, {
+      .mutate(REMOVE_COUPON_FROM_ORDER_MUTATION, {
         couponCode,
       })
       .pipe(
@@ -265,7 +167,7 @@ export class OrderService {
 
   getEligiblePaymentMethods() {
     return this.requestor
-      .query<GetEligiblePaymentMethods.Query>(this.GET_ELIGIBLE_PAYMENT_METHODS)
+      .query<GetEligiblePaymentMethods.Query>(GET_ELIGIBLE_PAYMENT_METHODS)
       .pipe(
         map((res) => {
           return res.eligiblePaymentMethods;
@@ -277,7 +179,7 @@ export class OrderService {
     return this.requestor
       .mutate<
         TransitionToArrangingPayment.Mutation | TransitionToAddingItems.Mutation
-      >(this.TRANSITION_ORDER_STATE_MUTATION, {
+      >(TRANSITION_ORDER_STATE_MUTATION, {
         orderState,
       })
       .pipe(
@@ -289,11 +191,12 @@ export class OrderService {
 
   generateRazorpayOrderId(vendureOrderId: string | number) {
     return this.requestor
-      .mutate(this.GENERATE_RAZORPAY_ORDER_ID, {
+      .mutate(GENERATE_RAZORPAY_ORDER_ID, {
         vendureOrderId,
       })
       .pipe(map((res) => res.generateRazorpayOrderId),
-            changeOrderStateOnErrorThenRetry(this.transitionOrderState('ArrangingPayment')));
+        this.onErrorChangeStateThenRetry.operator('ArrangingPayment'));
+
   }
 
   addRazorpayPaymentToOrder(paymentMetadata: Object) {
@@ -305,9 +208,25 @@ export class OrderService {
     };
     return this.requestor
       .mutate<AddPayment.Mutation>(
-        this.ADD_PAYMENT_TO_ORDER_MUTATION,
+        ADD_PAYMENT_TO_ORDER_MUTATION,
         addPaymentMutationVariable
       )
       .pipe(map((res) => res.addPaymentToOrder));
+  }
+
+  getOrdersList(orderListOptions: OrderListOptions) {
+    return this.requestor.query<GetOrderList.Query>(GET_ACTIVE_CUSTOMER, {
+      includeOrder: true,
+      includeAddress: false,
+      includeProfile: false,
+      orderOptions: orderListOptions
+    })
+      .pipe(map((res) => res.activeCustomer))
+  }
+
+  getOrderDetailsByCode(orderCode: string) {
+    return this.requestor.query<GetOrderByCode.Query>(GET_ORDER_DETAILS_BY_CODE, {
+      orderCode
+    }).pipe(map(res => res.orderByCode))
   }
 }

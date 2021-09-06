@@ -5,7 +5,6 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedModule } from '../shared/shared.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -15,6 +14,12 @@ import { CommonModule } from '@angular/common';
 import { routes } from './public-routes';
 import { CartComponent } from './components/cart/cart.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {FormatPriceModule} from "../custom/pipes/format-price/format-price.module";
+import {ApplyCouponModule} from "../custom/components/apply-coupon/apply-coupon.module";
+import {OrderPriceBreakdownModule} from "../custom/components/order-price-breakdown/order-price-breakdown.module";
+import {CheckboxModule} from "../custom/components/checkbox/checkbox.module";
+import {TextWithToggleModule} from "../custom/components/text-with-toggle/text-with-toggle.module";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -28,13 +33,18 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     CommonModule,
     RouterModule.forChild(routes),
     MatIconModule,
-    SharedModule,
     MatChipsModule,
     MatTabsModule,
     MatExpansionModule,
     MatBadgeModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormatPriceModule,
+    ApplyCouponModule,
+    OrderPriceBreakdownModule,
+    CheckboxModule,
+    TextWithToggleModule,
+    MatPaginatorModule
   ],
   exports: [],
 })

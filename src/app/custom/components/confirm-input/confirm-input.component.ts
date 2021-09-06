@@ -26,7 +26,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormcontrolToLabelPipe } from '../../pipes/formcontrol-to-label.pipe';
+import { FormcontrolToLabelPipe } from '../../pipes/formcontrol-to-label/formcontrol-to-label.pipe';
 
 @Component({
   selector: 'gaushadhi-confirm-input',

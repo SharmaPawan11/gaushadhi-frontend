@@ -8,6 +8,8 @@ import { AddressResolver } from '../core/providers/resolvers/address.resolver';
 import { ProfileResolver } from './providers/resolvers/profile.resolver';
 import { ChangeEmailAddressComponent } from './components/change-email-address/change-email-address.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {OrderListResolver} from "./providers/resolvers/order-list.resolver";
+import {OrderDetailResolver} from "./providers/resolvers/order-detail-resolver";
 
 export const routes: Route[] = [
   {
@@ -22,10 +24,16 @@ export const routes: Route[] = [
       {
         path: 'orders',
         component: OrderListComponent,
+        resolve: {
+          ordersList: OrderListResolver
+        }
       },
       {
-        path: 'orders/:id',
+        path: 'orders/:code',
         component: OrderDetailsComponent,
+        resolve: {
+          orderDetails: OrderDetailResolver
+        }
       },
       {
         path: 'profile',

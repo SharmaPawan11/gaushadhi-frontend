@@ -11,8 +11,8 @@ import { Observable, Subject } from 'rxjs';
 import { CartService } from '../../../core/providers/cart.service';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
-  updateOrderDetailsGlobally
-} from "../../../common/operators/update-order-details-globally.operator";
+  UpdateOrderDetailsGlobally
+} from "../../../core/operators/update-order-details-globally.operator";
 
 @Component({
   selector: 'gaushadhi-cart',
@@ -34,7 +34,8 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private cartService: CartService
+    private cartService: CartService,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +53,7 @@ export class CartComponent implements OnInit, OnDestroy {
             res.newQuantity
           );
         }),
-        updateOrderDetailsGlobally(this.orderService.refreshOrderDetails.bind(this.orderService)),
+        this.updateOrderDetailsGlobally.operator(),
         takeUntil(this.destroy$)
       )
       .subscribe((res) => {

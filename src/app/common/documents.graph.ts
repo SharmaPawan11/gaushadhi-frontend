@@ -46,62 +46,21 @@ export const GET_ACTIVE_CUSTOMER = gql`
           id
           code
           state
+          orderPlacedAt
           active
           lines {
             id
-            unitPrice
-            unitPriceWithTax
-            quantity
-            linePriceWithTax
-            discountedLinePriceWithTax
-            productVariant {
-              id
-              name
-            }
             featuredAsset {
-              ...Asset
-            }
-            discounts {
-              amount
-              amountWithTax
-              description
-              adjustmentSource
-              type
-            }
-          }
-          totalQuantity
-          subTotal
-          subTotalWithTax
-          total
-          totalWithTax
-          shipping
-          shippingWithTax
-          shippingLines {
-            priceWithTax
-            shippingMethod {
               id
-              code
-              name
-              description
+              preview
             }
           }
-          discounts {
-            amount
-            amountWithTax
-            description
-            adjustmentSource
-            type
-          }
+          totalWithTax
         }
-      }
-      user {
-        id
-        lastLogin
       }
     }
   }
   ${ADDRESS_FRAGMENT}
-  ${ASSET_FRAGMENT}
 `;
 
 export const GET_ACTIVE_ORDER = gql`

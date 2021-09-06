@@ -41,7 +41,7 @@
 
     <div class="place-order-bar">
       <div (click)="scrollToProductDetails()" class="price-details">
-        <p>{{'579' | currency : 'INR' : 'symbol'}}</p>
+        <p>{{orderDetails.totalWithTax | formatPrice : 'INR' : 'symbol'}}</p>
         <p> View price details</p>
       </div>
       <div class="place-order-btn">

@@ -3,14 +3,15 @@ import { ProductService } from '../../../core/providers/product.service';
 import { ActivatedRoute } from '@angular/router';
 import {filter, map, takeUntil, tap} from 'rxjs/operators';
 import { notNullOrNotUndefined } from '../../../common/utils/not-null-or-not-undefined';
-import { Observable, of, Subject, Subscription, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { GetProductDetail } from '../../../common/vendure-types';
 import { CartService } from '../../../core/providers/cart.service';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
 import { OrderService } from '../../../core/providers/order.service';
 import {
-  updateOrderDetailsGlobally
-} from "../../../common/operators/update-order-details-globally.operator";
+  UpdateOrderDetailsGlobally
+} from "../../../core/operators/update-order-details-globally.operator";
+import {SetDefaultShippingOnFirstItemAdd} from "../../../core/operators/set-default-shipping-on-first-item-add";
 
 @Component({
   selector: 'gaushadhi-product-detail',
@@ -57,7 +58,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private cartService: CartService,
     private snackbarService: SnackbarService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally,
+    private setDefaultShippingOnFirstItemAdd: SetDefaultShippingOnFirstItemAdd
   ) {}
 
   ngOnInit(): void {
@@ -86,10 +89,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart() {
-    this.cartService.addToCart(this.selectedVariant.id,
-                this.quantity)
+    this.cartService.addToCart(this.selectedVariant.id, this.quantity)
       .pipe(
-        updateOrderDetailsGlobally(this.orderService.refreshOrderDetails.bind(this.orderService)),
+        this.updateOrderDetailsGlobally.operator(),
+        this.setDefaultShippingOnFirstItemAdd.operator(),
         takeUntil(this.destroy$))
       .subscribe((res) => {
         switch (res?.__typename) {

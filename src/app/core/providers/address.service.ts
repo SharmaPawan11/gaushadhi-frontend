@@ -17,7 +17,7 @@ import {
   GET_ACTIVE_CUSTOMER,
   GET_CUSTOMER_ADDRESSES,
 } from '../../common/documents.graph';
-import { AddressFormComponent } from '../../shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '../../custom/components/address-form/address-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({

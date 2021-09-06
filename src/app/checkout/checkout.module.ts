@@ -4,7 +4,6 @@ import { ShippingInfoComponent } from './components/shipping-info/shipping-info-
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { routes } from './checkout-routes';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -18,6 +17,11 @@ import { PlaygroundComponent } from './playground/playground.component';
 import { ShipmentMethodCardComponent } from './components/shipment-method-card/shipment-method-card.component';
 import { OrderPlacedComponent } from './components/order-placed/order-placed.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {FormatPriceModule} from "../custom/pipes/format-price/format-price.module";
+import {ApplyCouponModule} from "../custom/components/apply-coupon/apply-coupon.module";
+import {OrderPriceBreakdownModule} from "../custom/components/order-price-breakdown/order-price-breakdown.module";
+import {AddressCardModule} from "../custom/components/address-card/address-card.module";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -32,7 +36,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule,
     MatButtonModule,
     MatRadioModule,
     ReactiveFormsModule,
@@ -41,7 +44,12 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatInputModule,
     MatChipsModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormatPriceModule,
+    ApplyCouponModule,
+    OrderPriceBreakdownModule,
+    AddressCardModule,
+    MatDialogModule
   ],
 })
 export class CheckoutModule {}

@@ -8,15 +8,15 @@ import { VerifyAccountComponent } from './components/verify-account/verify-accou
 import { LoginService } from './providers/login.service';
 import { RegisterService } from './providers/register.service';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { VerifyService } from './providers/verify.service';
 import { ResetPasswordService } from './providers/reset-password.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SharedModule } from '../shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {ConfirmInputModule} from "../custom/components/confirm-input/confirm-input.module";
 
 @NgModule({
   declarations: [
@@ -38,8 +38,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCheckboxModule,
     MatProgressSpinnerModule,
 
-    // Gaushadhi
-    SharedModule,
+    ConfirmInputModule
+
   ],
   providers: [
     LoginService,

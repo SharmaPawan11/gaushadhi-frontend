@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import { OrderService } from '../../../core/providers/order.service';
 import { RazorpayService } from '../../providers/razorpay.service';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { CheckoutService } from '../../providers/checkout.service';
 import {
-  updateOrderDetailsGlobally
-} from "../../../common/operators/update-order-details-globally.operator";
+  UpdateOrderDetailsGlobally
+} from "../../../core/operators/update-order-details-globally.operator";
 
 @Component({
   selector: 'gaushadhi-order-review',
@@ -32,16 +32,17 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
     private cd: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private zone: NgZone,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally
   ) {}
 
   ngOnInit(): void {
     this.checkoutService.enableNextButton();
-    this.orderService.refreshOrderDetails();
+    this.orderService.refreshOrderDetails('Order');
 
     this.orderService.currentOrderDetails$.pipe(takeUntil(this.destroy$)).
     subscribe((res) => {
-      console.log(res);
       this.orderDetails = res;
     });
 
@@ -74,7 +75,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
       return;
     }
     this.orderService.generateRazorpayOrderId(this.orderDetails.id).pipe(
-        updateOrderDetailsGlobally(this.orderService.refreshOrderDetails.bind(this.orderService)),
+      this.updateOrderDetailsGlobally.operator(),
         takeUntil(this.destroy$)
       )
       .subscribe((res) => {
@@ -137,7 +138,11 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
           case 'Order':
             console.log('PAYMENT SUCCESSFUL');
             console.log(res);
-            this.router.navigateByUrl('/checkout/order-placed');
+            this.zone.run(() => {
+              this.router.navigate(['..', 'order-placed'], {
+                relativeTo: this.route
+              });
+            })
         }
       });
   }
@@ -185,5 +190,9 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         console.log(res);
         this.appliedCoupons.delete(couponCode);
       });
+  }
+
+  identify(index: number, orderLine: any): number {
+    return orderLine.id;
   }
 }

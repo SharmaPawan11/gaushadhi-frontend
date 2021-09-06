@@ -15,13 +15,16 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ChangeEmailAddressComponent } from './components/change-email-address/change-email-address.component';
-import { SharedModule } from '../shared/shared.module';
 import {
   MAT_DIALOG_DATA,
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
 } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {AddressCardModule} from "../custom/components/address-card/address-card.module";
+import {AddressFormModule} from "../custom/components/address-form/address-form.module";
+import {ConfirmInputModule} from "../custom/components/confirm-input/confirm-input.module";
+import {FormatPriceModule} from "../custom/pipes/format-price/format-price.module";
 
 @NgModule({
   declarations: [
@@ -33,21 +36,26 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     ChangeEmailAddressComponent,
     ChangePasswordComponent,
   ],
-  imports: [
-    // Angular
-    CommonModule,
-    RouterModule.forChild(routes),
+    imports: [
+        // Angular
+        CommonModule,
+        RouterModule.forChild(routes),
 
-    // Angular Material
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatButtonModule,
-    MatIconModule,
-    SharedModule,
-  ],
+        // Angular Material
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatIconModule,
+        AddressCardModule,
+        AddressFormModule,
+        MatDialogModule,
+
+        ConfirmInputModule,
+        FormatPriceModule
+    ],
   // providers: [
   //   {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
   //   {provide: MAT_DIALOG_DATA, useValue: {}}

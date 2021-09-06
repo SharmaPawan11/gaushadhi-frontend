@@ -1,81 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subject, Subscription} from "rxjs";
+import {map, takeUntil} from "rxjs/operators";
+import {ProductService} from "../../../core/providers/product.service";
 
 @Component({
   selector: 'gaushadhi-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
-export class ProductListComponent implements OnInit {
-  products = [
-    {
-      imageSource: '../../../../assets/images/gaushadhi-soap.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Bathing Soap',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 32,
-    },
-    {
-      imageSource: '../../../../assets/images/gaushadhi-manjan.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Dant Manjan',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 15,
-    },
-    {
-      imageSource: '../../../../assets/images/dhoopbatti-2.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Dhoop Batti',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 8,
-    },
-    {
-      imageSource: '../../../../assets/images/hawanstick.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Hawan Stick',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 32,
-    },
-    {
-      imageSource: '../../../../assets/images/gaushadhi-cake-2.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Cake',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 32,
-    },
-    {
-      imageSource: '../../../../assets/images/gaushadhi-soap.png',
-      brandName: 'Gaushadhi',
-      variantName: 'Gaushadhi Bathing Soap',
-      currentPrice: '80',
-      strikethroughPrice: '100',
-      ratingStars: 3,
-      rating: 4.5,
-      noOfRatings: 20,
-      inStock: 32,
-    },
-  ];
+export class ProductListComponent implements OnInit, OnDestroy {
 
-  constructor() {}
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  productListSubscription!: Subscription;
+  products: any;
+  productsCurrentlyShowing: any;
+  loading: boolean = true;
+  totalItems: number = 0;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (!this.products?.length) {
+          this.router.navigate([], {
+            queryParams: {
+              'skip': null,
+              'take': null,
+              'search': null
+            },
+            queryParamsHandling: 'merge',
+            relativeTo: this.route
+          })
+        }
+        const skip = res.skip || 0;
+        const take = res.take || 6;
+      })
+
+    this.productListSubscription = this.route.data.
+      pipe(map((data) => data.productList),
+      takeUntil(this.destroy$))
+      .subscribe((productList) => {
+        if (productList.__typename === 'ProductList') {
+          this.totalItems = productList.totalItems;
+          this.productsCurrentlyShowing = productList.items;
+          this.loading = false;
+        }
+    });
+
+    this.productListSubscription = this.productService.getProductList({
+      skip: -1
+    }).pipe(takeUntil(this.destroy$))
+      .subscribe((productList) => {
+      if (productList.__typename === 'ProductList') {
+        this.totalItems = productList.totalItems;
+        this.products = productList.items;
+        this.loading = false;
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  onPaginationChange(ev: any) {
+    // this.loading = true;
+    this.router.navigate(['store/products'], {
+      queryParams: {
+        skip: ev.pageSize * ev.pageIndex,
+        take: ev.pageSize
+      }
+    })
+  }
 }
