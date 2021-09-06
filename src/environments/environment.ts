@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   tokenMethod: 'bearer',
+  serverUrl: 'https://localhost:3000/shop-api'
 };
 
 /*
