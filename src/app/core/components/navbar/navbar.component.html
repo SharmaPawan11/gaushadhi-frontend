@@ -1,0 +1,29 @@
+<div class="menu-btn">
+  <mat-icon>menu</mat-icon>
+</div>
+<a class="logo" tabindex="-1" [routerLink]="['/']">
+  <img src="assets/images/logo.png" alt="logo" class="logo">
+</a>
+<div class="search">
+  <input placeholder="Search Products"/>
+</div>
+<div class="account-auth" tabindex="-1">
+  <div class="login-btn" [routerLink]="['/login']" *ngIf="!userService.isAuthenticated">
+    Login
+  </div>
+  <div class="register-btn" [routerLink]="['/register']" *ngIf="!userService.isAuthenticated">
+    Register
+  </div>
+  <div class="account-dropdown" *ngIf="userService.isAuthenticated" tabindex="0">
+    <h4>Account</h4>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+</div>
+<a class="wishlist" tabindex="0" [routerLink]="['store', 'products']">
+  <mat-icon>favorite</mat-icon>
+  <h4>Wishlist</h4>
+</a>
+<a class="cart" tabindex="0" [routerLink]="['store', 'cart']">
+  <mat-icon>shopping_cart</mat-icon>
+  <h4>Cart</h4>
+</a>

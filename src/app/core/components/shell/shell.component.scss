@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.top-offer-bar {
+  background: var(--secondary-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 2rem;
+  padding: 1rem;
+  mat-icon {
+    font-size: 1rem;
+    height: 1rem;
+    width: 1rem;
+    position: absolute;
+    right: 0.5rem;
+  }
+  mat-icon:hover {
+    cursor: pointer;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.dynamic-outlet {
+  flex-grow: 1;
+  background-color: #f2f4f5;
+}

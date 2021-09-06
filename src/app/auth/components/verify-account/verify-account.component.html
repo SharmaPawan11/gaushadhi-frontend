@@ -1,0 +1,55 @@
+<div class="heading-subheading">
+  <h2>
+    Verify Account
+  </h2>
+</div>
+
+<ng-container
+  *ngIf="progressState === 'verificationInProgress'; then inProgress; else verificationFinished"
+>
+</ng-container>
+
+<ng-template #inProgress>
+  <p>Please wait while we are verifying your account.</p>
+  <mat-spinner></mat-spinner>
+</ng-template>
+
+<ng-template #verificationFinished>
+  <ng-container
+    *ngIf="loginError; then verificationFailure; else verificationSuccess"
+  >
+  </ng-container>
+
+  <ng-template #verificationSuccess>
+    <div class="verification-finished">
+      <div class="icon-container step-success">
+        <mat-icon>
+          check_circle
+        </mat-icon>
+      </div>
+      <h3>
+        Verification Successful
+      </h3>
+      <p>
+        Email address verified successfully. You will now be redirected to your account.
+      </p>
+    </div>
+  </ng-template>
+
+  <ng-template #verificationFailure>
+    <div class="verification-finished">
+      <div class="icon-container step-failure">
+        <mat-icon>
+          error
+        </mat-icon>
+      </div>
+      <h3>
+        Verification Failed
+      </h3>
+      <p>
+        {{loginError.message}}
+      </p>
+    </div>
+  </ng-template>
+
+</ng-template>

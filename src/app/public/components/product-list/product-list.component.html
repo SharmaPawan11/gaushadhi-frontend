@@ -1,0 +1,66 @@
+<p *ngIf="true" class="search-result-label">Search result for <span>"Soaps"</span></p>
+<div class="sort-container">
+  <h4>Sort</h4>
+  <div class="sort-button">Popularity</div>
+  <div class="sort-button">Price: Low To High</div>
+  <div class="sort-button">Price: High To Low</div>
+</div>
+<mat-paginator [length]="totalItems"
+               [pageSize]="6"
+               [pageSizeOptions]="[6,10,12]"
+               (page)="onPaginationChange($event)"
+               aria-label="Select page">
+</mat-paginator>
+<div class="product-grid">
+  <ng-container *ngFor="let product of productsCurrentlyShowing">
+    <a class="product" *ngIf="product.variants.length && !loading else loadingTemplate" [routerLink]="['./', product.slug]">
+      <div class="wishlist-button">
+        <mat-icon>favorite</mat-icon>
+      </div>
+      <div class="img-container">
+        <img [src]=product.featuredAsset?.preview alt="Gaushadhi-Soap">
+      </div>
+      <p class="brand-name">{{product.variants[0]?.sku | uppercase}}</p>
+      <h4>{{product.name}}</h4>
+      <div class="rating-star-container">
+        <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
+          {{i > 0 ? 'star_outline': 'star'}}
+        </mat-icon>
+        <p class="rating">{{'0'}}</p>
+        <p class="no-of-ratings">({{'0 ratings'}})</p>
+      </div>
+      <div class="price-label">
+        <p>Price</p>
+      </div>
+      <div class="action-bar">
+        <div class="price-container">
+          <p class="strikethrough-price">{{100 | currency: 'INR': 'symbol'}}</p>
+          <p>{{product.variants[0]?.priceWithTax | formatPrice: 'INR': 'symbol'}}</p>
+        </div>
+        <div class="add-to-cart-btn">
+          Add to cart
+        </div>
+      </div>
+      <div class="stock-indicator-container" [ngClass]="{
+        'stock-bar-75': product.variants[0]?.stockLevel === 'IN_STOCK',
+        'stock-bar-50': false,
+        'stock-bar-25': product.variants[0]?.stockLevel === 'OUT_OF_STOCK'
+      }">
+        <div class="stock-bar-total">
+          <div class="stock-bar-fill"></div>
+        </div>
+        <div class="stock-text">
+          IN STOCK
+        </div>
+      </div>
+    </a>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
+</div>
+
+

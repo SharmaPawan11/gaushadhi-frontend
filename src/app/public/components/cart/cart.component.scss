@@ -1,0 +1,266 @@
+.cart-not-empty {
+  display: grid;
+  grid-gap: 1rem;
+  --background-gradient: #eee;
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 0, 0, 0),
+    var(--background-gradient)
+  );
+}
+
+.content {
+  display: grid;
+  align-content: start;
+  grid-gap: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 6px #ccc5c5;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.cart-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .cart-item {
+    display: grid;
+    grid-template-columns: auto 2fr;
+    grid-column-gap: 1.5rem;
+    place-content: start;
+    border-bottom: 2px solid #eee;
+    padding: 1rem 0;
+
+    .img-container {
+      width: 125px;
+      height: 125px;
+      grid-column: 1;
+      grid-row: 1 / span 4;
+      background-color: #e1e1b4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      img {
+        width: 80%;
+        object-fit: cover;
+      }
+    }
+    .variant-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .brand-name {
+      color: #9896a6;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .price-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      p.price {
+      }
+      p.strikethrough-price {
+        text-decoration: line-through;
+        font-size: 0.8rem;
+        color: #9f9f9f;
+      }
+    }
+    .item-action-bar {
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      gap: 1rem;
+      button {
+        border: 1px solid #a3a3a3;
+        border-radius: 50px;
+        min-width: max-content;
+        display: flex;
+        justify-content: center;
+        width: 24px;
+        align-items: center;
+        padding: 13px 5px 12px 5px;
+        height: 24px;
+        ::ng-deep .mat-button-wrapper {
+          display: flex;
+        }
+        mat-icon {
+          color: #555;
+          font-size: 1rem;
+          width: 1rem;
+          height: 1rem;
+          max-height: max-content;
+        }
+      }
+
+      button.remove-item {
+        background-color: #eee;
+        margin-left: auto;
+        border-radius: 10px;
+        label {
+          display: none;
+        }
+      }
+    }
+
+    &:last-child {
+      border-bottom: unset;
+      padding-bottom: unset;
+    }
+  }
+}
+
+gaushadhi-order-price-breakdown {
+  height: max-content;
+}
+
+gaushadhi-apply-coupon {
+  margin-right: 0.5rem;
+}
+
+.place-order-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  z-index: 1;
+  bottom: 0;
+  height: 75px;
+  background-color: #eee;
+  padding: 1rem;
+  .price-details {
+    display: flex;
+    flex-direction: column;
+    p:nth-child(1) {
+      font-size: 1.2rem;
+    }
+    p:nth-child(2) {
+      color: blue;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+  .place-order-btn {
+    button {
+      background-color: #7716ec;
+      color: white;
+    }
+  }
+}
+
+.cart-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  .heading {
+    p {
+      font-size: 1.5rem;
+    }
+  }
+  .img-container {
+    img {
+      width: 100%;
+      max-width: 400px;
+      object-fit: cover;
+    }
+  }
+
+  .shop-now {
+    color: white;
+    background-color: #7716ec;
+    font-size: 1.2rem;
+    width: 250px;
+    height: 40px;
+  }
+}
+
+.cart-update-spinner {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+}
+
+@media screen and (min-width: 768px) {
+  .cart-not-empty {
+    grid-template-columns: 2fr 1fr;
+    grid-row-gap: 0;
+    height: 100%;
+    gaushadhi-order-price-breakdown,
+    .content {
+      box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
+    }
+    .content {
+      grid-row: 1 / span 4;
+      margin: 1.5rem 0 0 1rem;
+    }
+    .place-order-bar {
+      margin-left: 1rem;
+    }
+    gaushadhi-order-price-breakdown {
+      margin: 1.5rem 1rem 0 0;
+    }
+    gaushadhi-apply-coupon {
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .place-order-bar {
+    grid-row: 5;
+    justify-content: flex-end;
+    box-shadow: 0 -2px 6px #918787;
+    .price-details {
+      display: none;
+    }
+    button {
+      width: 250px;
+      height: 50px;
+      font-size: 1.1rem;
+    }
+  }
+
+  button.remove-item {
+    height: 36px !important;
+    ::ng-deep .mat-button-wrapper {
+      align-items: center;
+    }
+    mat-icon {
+      font-size: 1.5rem !important;
+      width: 1.5rem !important;
+      height: 1.5rem !important;
+    }
+    label {
+      display: inline !important;
+    }
+  }
+
+  .cart-empty {
+    gap: 2rem;
+    .heading {
+      p {
+        font-size: 2rem;
+      }
+    }
+    .shop-now {
+      width: 400px;
+      height: 50px;
+    }
+  }
+}
+

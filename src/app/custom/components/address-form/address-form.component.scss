@@ -1,0 +1,42 @@
+::ng-deep .mat-form-field-outline-start,
+::ng-deep .mat-form-field-outline-end {
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+.two-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.gap-within-controls {
+  gap: 1.5rem;
+}
+
+.one-control {
+  width: 100%;
+  flex-grow: 1;
+}
+
+mat-form-field,
+mat-slide-toggle {
+  flex: 1 1 225px;
+  font-size: 0.8rem;
+}
+
+mat-dialog-actions {
+  justify-content: flex-end;
+  button:first-of-type {
+    background-color: #f95759;
+    color: white;
+  }
+}

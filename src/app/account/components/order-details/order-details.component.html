@@ -1,0 +1,79 @@
+<div class="order-id">
+  <p>Orders / </p>
+  <p>{{orderDetails.code}}</p>
+</div>
+
+<div class="content">
+  <div class="order-breakdown">
+    <div class="order-items">
+      <div class="order-item" *ngFor="let line of orderDetails.lines">
+        <img [src]=line.featuredAsset?.preview alt="product-image">
+        <div class="product-info">
+          <p>{{line.productVariant?.name}}</p>
+          <p>{{line.productVariant?.sku}}</p>
+        </div>
+        <p class="item-price">{{line.quantity}} x {{line.unitPriceWithTax | formatPrice : 'INR' : 'symbol'}}</p>
+      </div>
+    </div>
+    <div class="total-section">
+      <div class="shipping-type" *ngIf="orderDetails.shippingLines[0]?.shippingMethod?.name">
+        <mat-icon>
+          local_shipping
+        </mat-icon>
+        <p>
+          {{orderDetails.shippingLines[0]?.shippingMethod?.name}}
+        </p>
+        <p class="weight" *ngIf="false">
+          Weight: 0.3 Kg
+        </p>
+      </div>
+      <div class="total-breakdown">
+        <div class="breakdown-item">
+          <p>Subtotal</p>
+          <p>{{totalUnitPrice | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+        <div class="breakdown-item">
+          <p>Discounts</p>
+          <p>- {{totalDiscount | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+        <div class="breakdown-item">
+          <p>Discounted Price</p>
+          <p>{{orderDetails.subTotalWithTax | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+        <div class="breakdown-item">
+          <p>Shipping</p>
+          <p>{{orderDetails.shippingWithTax | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+        <div class="breakdown-item" *ngIf="false">
+          <p>Tax</p>
+          <p>{{'50' | formatPrice: 'INR' : 'symbol'}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="breakdown-item total">
+      <p>TOTAL</p>
+      <p>{{orderDetails.totalWithTax | formatPrice: 'INR' : 'symbol'}}</p>
+    </div>
+  </div>
+
+  <div class="shipping-address" *ngIf="orderDetails.shippingAddress?.streetLine1">
+    <div class="header">
+      <p>Shipping & Billing Address</p>
+    </div>
+    <p>{{orderDetails.shippingAddress?.fullName}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.streetLine1}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.city}} {{orderDetails.shippingAddress?.province}}</p>
+    <p class="address">{{orderDetails.shippingAddress?.countryCode}}</p>
+    <div class="phone-email">
+      <mat-icon>phone</mat-icon>
+      <p>{{orderDetails.shippingAddress?.phoneNumber}}</p>
+    </div>
+    <div class="phone-email" *ngIf="false">
+      <mat-icon>email</mat-icon>
+      <p>pawan.s1998@gmail.com</p>
+    </div>
+
+  </div>
+</div>
+
+

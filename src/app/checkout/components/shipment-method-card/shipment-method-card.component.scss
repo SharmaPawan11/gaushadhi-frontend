@@ -1,0 +1,61 @@
+.content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border: 1px solid #eee;
+  padding: 1rem;
+  box-shadow: 0 1px 1px #adaaaa;
+  cursor: pointer;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  &:hover {
+    background-color: #e9faf5;
+  }
+  > * {
+    white-space: normal;
+  }
+}
+
+.selected-tick {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 50px solid #4dd392;
+  border-left: 50px solid transparent;
+  mat-icon {
+    position: absolute;
+    top: -46px;
+    right: 2px;
+    color: white;
+  }
+}
+
+.card-top-line {
+  display: flex;
+  align-items: center;
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+  mat-icon {
+    margin-left: auto;
+  }
+}
+
+.shipping-price {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.delivery-time {
+  font-size: 0.9rem;
+}
+
+.selected-card {
+  background-color: #e9faf5;
+  border: 2px solid #aad8c6;
+}

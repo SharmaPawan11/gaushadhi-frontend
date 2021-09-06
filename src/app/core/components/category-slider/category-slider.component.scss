@@ -1,0 +1,57 @@
+.slider-container {
+  --grid-column-width: 225px;
+  --grid-row-height: 150px;
+  grid-gap: 2em;
+  grid-template-columns: var(--grid-column-width);
+  grid-auto-columns: var(--grid-column-width);
+  grid-template-rows: var(--grid-row-height);
+  .category {
+    //scroll-snap-stop: always;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    background-image: url("../../../../assets/images/soap-mockup.png");
+    background-size: cover;
+    background-color: var(--category-background-color);
+    background-repeat: no-repeat;
+    scroll-snap-align: start;
+    background-position: 135px 0;
+    border-radius: 5px;
+
+    h4 {
+      font-weight: 600;
+      letter-spacing: 0.05rem;
+      color: var(--primary-background);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      max-width: 25ch;
+      max-height: 39px;
+      font-size: 0.65rem;
+      overflow: hidden;
+      line-height: 0.9rem;
+      margin-bottom: 1.1rem;
+      color: white;
+    }
+
+    div {
+      padding: 1rem;
+      font-size: 0.7rem;
+      background: white;
+      color: #220c66;
+      text-align: center;
+      max-width: 7rem;
+      border-radius: 5px;
+      max-height: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 1.5px 2px 1px #807878;
+      &:hover {
+        cursor: pointer;
+      }
+      &:active {
+        box-shadow: 0 0 2px #807878;
+      }
+    }
+  }
+}

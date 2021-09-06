@@ -1,0 +1,105 @@
+<div class="heading-subheading">
+  <h2>
+    Get Started
+  </h2>
+  <p>Already have an account?  <a [routerLink]="['../login']">Sign In</a></p>
+</div>
+
+<div class="social-signup">
+  <div id="customBtn" class="customGPlusSignIn">
+    <span class="icon"></span>
+    <span class="buttonText">Sign up with Google</span>
+  </div>
+  <a class="login-with-fb-btn">
+    <div class="fb-logo">
+      <img src="../../../../assets/images/f_logo_RGB-White_1024.png" alt="login-with-fb-btn">
+    </div>
+    <p>Sign up with Facebook</p>
+  </a>
+</div>
+
+<div class="or-line">
+  <hr>
+  <p>or Sign up with email</p>
+  <hr>
+</div>
+
+
+<form
+  [formGroup]="registrationForm"
+  (ngSubmit)="onRegister()"
+  autocomplete="off"
+  class="form-controls full-width-controls"
+>
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input
+      formControlName="firstName"
+      matInput
+      placeholder="Enter Your First Name"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="firstName?.hasError('required')">
+      Firstname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input
+      formControlName="lastName"
+      matInput
+      placeholder="Enter Your Last Name"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="lastName?.hasError('required')">
+      Lastname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      formControlName="email"
+      matInput
+      placeholder="Enter Your Email"
+      autocomplete="on"
+    />
+    <mat-error *ngIf="email?.hasError('email') && !email?.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="email?.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input
+      formControlName="phoneNumber"
+      matInput
+      placeholder="Enter Your Phone Number"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="phoneNumber?.hasError('pattern')">
+      Please enter a valid phone number.
+    </mat-error>
+  </mat-form-field>
+
+  <gaushadhi-confirm-input formControlName="password"></gaushadhi-confirm-input>
+
+  <mat-checkbox formControlName="terms">I agree to platform's <a [routerLink]="">Terms & Conditions</a></mat-checkbox>
+  <mat-error *ngIf="terms?.invalid && terms?.dirty" class="terms-error">
+    You must agree to terms and conditions before proceeding.
+  </mat-error>
+
+  <button
+    [disabled]="registrationForm.invalid"
+    type="submit"
+    mat-raised-button
+    color="primary"
+    class="main-cta"
+  >
+    Register
+  </button>
+</form>

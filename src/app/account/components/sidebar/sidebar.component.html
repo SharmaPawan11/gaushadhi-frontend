@@ -1,0 +1,35 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    Your Account
+  </div>
+  <div class="sidebar-content">
+    <div class="sidebar-item" [routerLink]="['profile']" routerLinkActive="selected-item">
+      <mat-icon>remove</mat-icon>
+      <p>Edit Profile</p>
+    </div>
+    <div class="sidebar-item" [routerLink]="['update/password']" routerLinkActive="selected-item">
+      <mat-icon>remove</mat-icon>
+      <p>Change Password</p>
+    </div>
+    <div class="sidebar-item" [routerLink]="['update/email']" routerLinkActive="selected-item">
+      <mat-icon>remove</mat-icon>
+      <p>Change E-mail Address</p>
+    </div>
+    <div class="sidebar-item" [routerLink]="['address']" routerLinkActive="selected-item">
+      <mat-icon>remove</mat-icon>
+      <p>Manage Addresses</p>
+    </div>
+    <div class="sidebar-item" [routerLink]="['orders']" routerLinkActive="selected-item">
+      <mat-icon>remove</mat-icon>
+      <p>My Orders</p>
+    </div>
+    <div class="sidebar-item logout" (click)="userService.logout()">
+      <mat-icon>remove</mat-icon>
+      <p>Logout</p>
+    </div>
+  </div>
+</div>
+
+<div class="dynamic-outlet">
+  <router-outlet></router-outlet>
+</div>

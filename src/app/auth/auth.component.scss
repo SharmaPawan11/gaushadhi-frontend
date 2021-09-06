@@ -1,0 +1,216 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  --header-size: 72px;
+  height: 100%;
+}
+
+.auth-cover {
+  display: none;
+  background-color: var(--primary-background);
+}
+
+.logo-container {
+  margin: 1rem 3rem;
+  grid-column: 1 / span 2;
+  img {
+    width: 9rem;
+    height: 40px;
+  }
+}
+
+.dynamic-content {
+  background-color: #f7f9fe;
+  ::ng-deep > * {
+    padding: 1rem 2.5rem;
+    ::ng-deep .mat-form-field-outline-start,
+    ::ng-deep .mat-form-field-outline-end {
+      border-radius: 0 !important;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+      background-color: white;
+    }
+
+    ::ng-deep mat-icon[matPrefix] {
+      margin-right: 0.5rem;
+    }
+
+    ::ng-deep .heading-subheading {
+      p {
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: #a2a2a2;
+      }
+    }
+
+    ::ng-deep a {
+      text-decoration: none;
+      color: #ff4019;
+    }
+
+    .form-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+      grid-column-gap: 1rem;
+      margin-top: 1rem;
+      mat-form-field {
+        font-size: 0.85rem;
+      }
+      select {
+        display: inline-block;
+        height: 2.625rem;
+        padding: 2px 10px 2px 2px;
+        outline: none;
+        color: #74646e;
+        border: 1px solid #c8bfc4;
+        border-radius: 4px;
+        box-shadow: inset 1px 1px 2px #ddd8dc;
+        background: #fff;
+        position: relative;
+        top: 4px;
+      }
+    }
+
+    .full-width-controls {
+      grid-template-columns: 1fr;
+    }
+
+    .main-cta {
+      height: 2.625rem;
+      margin-top: -1rem;
+    }
+
+    .social-signup {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      gap: 1rem;
+      > * {
+        flex: 1 0 190px;
+      }
+      .customGPlusSignIn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: #444;
+        border-radius: 5px;
+        border: thin solid #888;
+        box-shadow: 1px 1px 1px grey;
+        white-space: nowrap;
+        cursor: pointer;
+
+        span.label {
+          font-family: serif;
+          font-weight: normal;
+        }
+        span.icon {
+          background: url("https://developers.google.com/identity/sign-in/g-normal.png")
+            transparent 5px 50% no-repeat;
+          display: inline-block;
+          vertical-align: middle;
+          width: 42px;
+          height: 42px;
+        }
+        span.buttonText {
+          display: inline-block;
+          vertical-align: middle;
+          padding-right: 42px;
+          font-size: 0.8rem;
+          font-weight: bold;
+          /* Use the Roboto font that is loaded in the <head> */
+          font-family: "Roboto", sans-serif;
+        }
+      }
+
+      .login-with-fb-btn {
+        cursor: pointer;
+        background-color: #5890ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+
+        .fb-logo {
+          padding: 9px;
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        p {
+          color: white;
+          position: relative;
+          top: -1px;
+          font-weight: bold;
+          padding-right: 24px;
+          margin-top: unset;
+          font-size: 0.8rem;
+        }
+
+        &:active {
+          background-color: #003294;
+        }
+      }
+    }
+
+    .or-line {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      --or-line-color: #969696;
+      grid-column-gap: 1rem;
+      margin-top: 1rem;
+      color: var(--or-line-color);
+      hr {
+        border-top: 1px solid var(--or-line-color);
+      }
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .logo-container {
+    margin: 2rem 0 0 2rem;
+    padding: unset;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :host {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .auth-cover {
+    display: grid;
+    grid-template-rows: var(--header-size) calc(100vh - var(--header-size));
+
+    .cover-container {
+      padding: 3rem;
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .logo-container {
+      display: block;
+    }
+  }
+
+  .logo-container {
+    display: none;
+  }
+
+  .dynamic-content {
+    padding-top: var(--header-size);
+
+    ::ng-deep > * {
+      padding: 1rem 5rem;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<ng-container
+  *ngIf="addNew === true; then addNewAddressCard; else addressCard"
+>
+</ng-container>
+
+<ng-template #addNewAddressCard>
+  <div class="add-new-address">
+    <mat-icon>add</mat-icon>
+    <p>Add New Address</p>
+  </div>
+</ng-template>
+
+<ng-template #addressCard>
+  <div class="content" [ngClass]="{'selected-card': isSelected, 'hover-feedback': hoverFeedback}">
+    <div class="card-top-line">
+      <h3>{{ address.fullName }}</h3>
+    </div>
+    <p class="address">{{ address.streetLine1 }}</p>
+    <p class="address">{{ address.city }}, {{ address.province }} - {{ address.postalCode }} | {{ address.country.code }}</p>
+    <p class="ph_no">Mobile - {{ address.phoneNumber }}</p>
+
+    <div class="card-actions">
+      <button mat-raised-button class="action" (click)="onDelete.emit(address.id)">
+        <mat-icon>delete</mat-icon>
+        Remove
+      </button>
+      <button mat-raised-button color="primary" class="action" (click)="onEdit.emit(address.id)">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </div>
+    <div class="selected-tick" *ngIf="isSelected">
+      <mat-icon>check</mat-icon>
+    </div>
+  </div>
+</ng-template>

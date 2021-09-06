@@ -1,0 +1,75 @@
+<div class="heading-subheading">
+  <h2>
+    Login
+  </h2>
+  <p>Don't have an account?  <a [routerLink]="['../register']">Sign Up</a></p>
+</div>
+
+<div class="social-signup">
+  <div id="customBtn" class="customGPlusSignIn">
+    <span class="icon"></span>
+    <span class="buttonText">Sign in with Google</span>
+  </div>
+  <a class="login-with-fb-btn">
+    <div class="fb-logo">
+      <img src="../../../../assets/images/f_logo_RGB-White_1024.png" alt="login-with-fb-btn">
+    </div>
+    <p>Sign In with Facebook</p>
+  </a>
+</div>
+
+<div class="or-line">
+  <hr>
+  <p>or Sign in with email</p>
+  <hr>
+</div>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-controls full-width-controls">
+  <mat-form-field appearance="outline">
+    <mat-icon matPrefix>mail</mat-icon>
+    <mat-label>Email</mat-label>
+    <input
+      formControlName="email"
+      matInput
+      placeholder="Enter Your Email"
+      autocomplete="on"
+    />
+    <mat-error *ngIf="email?.hasError('email') && !email?.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="email?.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-icon matPrefix>vpn_key</mat-icon>
+    <mat-label>Password</mat-label>
+    <input
+      type="password"
+      formControlName="password"
+      matInput
+      placeholder="Enter Your Password"
+      autocomplete="on"
+    />
+    <mat-error *ngIf="password?.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="remember-forgot-container">
+    <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
+    <a [routerLink]="['../reset-password']">Forgot your password?</a>
+  </div>
+
+
+  <button
+    [disabled]="loginForm.invalid"
+    type="submit"
+    mat-raised-button
+    color="primary"
+    class="main-cta"
+  >
+    Sign In
+  </button>
+</form>

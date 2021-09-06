@@ -1,0 +1,41 @@
+<p class="heading">Orders</p>
+<ng-container *ngFor="let order of orders">
+  <div class="order-card" *ngIf="!order.active">
+    <div class="line-1">
+      <div class="images" *ngIf="order.lines.length ; else emptyCart">
+        <img [src]=line?.featuredAsset?.preview *ngFor="let line of order.lines ; trackBy identify" alt="product-image">
+      </div>
+      <ng-template #emptyCart>
+        <div class="empty-cart-text">
+          Empty Cart
+        </div>
+      </ng-template>
+      <div class="actions">
+        <button mat-button *ngIf="order.state === 'PaymentSettled'">{{'Track Order' | uppercase}}</button>
+        <button mat-button [routerLink]="[order.code]">{{'View Details' | uppercase}}</button>
+        <button mat-button *ngIf="order.state === 'PaymentSettled'" class="cancel-btn">{{'Cancel Order' | uppercase}}</button>
+      </div>
+    </div>
+    <div class="line-2">
+      <div class="info-item">
+        <p>Order Number</p>
+        <p>{{order.code}}</p>
+      </div>
+      <div class="info-item" *ngIf="order.orderPlacedAt">
+        <p>Placed At</p>
+        <p>{{order.orderPlacedAt | date : 'medium'}}</p>
+      </div>
+      <div class="info-item">
+        <p>Total</p>
+        <p>{{order.totalWithTax | formatPrice : 'INR': 'symbol'}}</p>
+      </div>
+      <div class="info-item">
+        <p>Status</p>
+        <p [ngClass]="{'settled-item': order.state === 'PaymentSettled', 'cancelled-item': order.state === 'Cancelled', 'delivered-item': order.state === 'Delivered'}">{{order.state}}</p>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
+
+

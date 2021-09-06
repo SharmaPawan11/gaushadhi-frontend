@@ -1,0 +1,12 @@
+<div class="top-offer-bar" *ngIf="showTopOfferBar">
+  <p>10% off on Gaushadhi Soap</p>
+  <mat-icon (click)="showTopOfferBar = false">
+    close
+  </mat-icon>
+</div>
+
+<gaushadhi-navbar></gaushadhi-navbar>
+<div class="dynamic-outlet">
+  <router-outlet></router-outlet>
+</div>
+<gaushadhi-footer *ngIf="!footerExcludedRoutes.includes(currentRoute)" ></gaushadhi-footer>

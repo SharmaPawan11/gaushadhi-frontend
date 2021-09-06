@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.login-with-fb-btn {
+  cursor: pointer;
+  max-width: max-content;
+  background-color: #5890ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  .fb-logo {
+    padding: 9px;
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  p {
+    color: white;
+    position: relative;
+    top: -1px;
+    font-weight: 500;
+    padding-right: 24px;
+  }
+
+  &:active {
+    background-color: #003294;
+  }
+}

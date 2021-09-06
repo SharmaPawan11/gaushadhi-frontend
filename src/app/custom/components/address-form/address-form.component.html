@@ -1,0 +1,138 @@
+<h2 mat-dialog-title>
+  Add Shipping Address
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="addressForm">
+    <div class="two-controls">
+      <mat-form-field appearance="outline">
+        <mat-label>Name *</mat-label>
+        <input
+          formControlName="fullName"
+          matInput
+          placeholder="Enter Name"
+          autocomplete="off"
+        />
+        <mat-error *ngIf="fullName?.hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number *</mat-label>
+        <input
+          formControlName="phoneNumber"
+          matInput
+          placeholder="Enter Phone Number"
+          autocomplete="off"
+        />
+        <mat-error *ngIf="phoneNumber?.hasError('required')">
+          Phone Number is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="phoneNumber?.hasError('pattern')">
+          Please enter a valid phone number.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="one-control" appearance="outline">
+      <mat-label>Street Line 1 *</mat-label>
+      <input
+        formControlName="streetLine1"
+        matInput
+        placeholder="Enter Street Line 1"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="streetLine1?.hasError('required')">
+        Street Line 1 is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="one-control" appearance="outline">
+      <mat-label>Street Line 2</mat-label>
+      <input
+        formControlName="streetLine2"
+        matInput
+        placeholder="Enter Street Line 2"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <div class="two-controls">
+      <mat-form-field appearance="outline">
+        <mat-label>City *</mat-label>
+        <input
+          formControlName="city"
+          matInput
+          placeholder="Enter City"
+          autocomplete="off"
+        />
+        <mat-error *ngIf="city?.hasError('required')">
+          City is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>State *</mat-label>
+        <input
+          formControlName="province"
+          matInput
+          placeholder="Enter State"
+          autocomplete="off"
+        />
+        <mat-error *ngIf="province?.hasError('required')">
+          State is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="two-controls">
+      <mat-form-field appearance="outline">
+        <mat-label>Zip Code *</mat-label>
+        <input
+          formControlName="postalCode"
+          matInput
+          placeholder="Enter Zip Code"
+          autocomplete="off"
+        />
+        <mat-error *ngIf="postalCode?.hasError('required')">
+          Zip Code is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="postalCode?.hasError('pattern')">
+          Please enter a valid Zip code.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Country</mat-label>
+        <mat-select formControlName="countryCode">
+          <mat-option></mat-option>
+          <mat-option [value]="country?.code" *ngFor="let country of countries">{{
+            country?.name
+            }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <mat-form-field class="one-control" appearance="outline">
+      <mat-label>Company</mat-label>
+      <input
+        formControlName="company"
+        matInput
+        placeholder="Company's Name"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+
+    <mat-slide-toggle class="one-control" formControlName="defaultShippingAddress"
+    >Set as default shipping address</mat-slide-toggle
+    >
+
+
+  </form>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions >
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button [disabled]="addressForm.invalid" (click)="saveChanges()" mat-raised-button color="primary">Save Address</button>
+</mat-dialog-actions>

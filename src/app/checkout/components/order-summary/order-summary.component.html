@@ -1,0 +1,84 @@
+<!--<input-->
+<!--  [formControl]="couponCodeInput"-->
+<!--  matInput-->
+<!--  placeholder="Enter Coupon Code"-->
+<!--  autocomplete="on"-->
+<!--/>-->
+<!--<button *ngIf="orderDetails.id"-->
+<!--        (click)="onAddCoupon()"-->
+<!--        mat-raised-button-->
+<!--        color="primary"-->
+<!--&gt;-->
+<!--  Add Coupon-->
+<!--</button>-->
+
+<!--<mat-chip-list aria-label="Fruit selection">-->
+<!--  <mat-chip-->
+<!--    *ngFor="let couponCode of appliedCoupons"-->
+<!--    [selectable]="false"-->
+<!--    [removable]="true"-->
+<!--    (removed)="onRemoveCoupon(couponCode)">-->
+<!--    {{couponCode}}-->
+<!--    <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>-->
+<!--  </mat-chip>-->
+<!--</mat-chip-list>-->
+
+<h2>Order Summary</h2>
+<div class="summary">
+  <div class="summary-item cart-summary">
+    <div class="item-header">
+      <h3>My Cart</h3>
+      <a [routerLink]="['../../store/cart']">Edit</a>
+    </div>
+    <div class="cart-items" *ngIf="orderDetails ; else loading">
+      <div class="cart-item" *ngFor="let line of orderDetails.lines; trackBy: identify">
+        <div class="image-container">
+          <img [src]=line.featuredAsset.preview alt="Product-Image">
+        </div>
+        <div class="description">
+          <p>{{line.productVariant.name}}</p>
+          <p>Quantity: {{line.quantity}}</p>
+          <p>SKU: {{line.productVariant.sku}}</p>
+        </div>
+        <div class="price">
+          {{line.proratedLinePriceWithTax | formatPrice : 'INR': 'symbol'}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="summary-item">
+    <div class="item-header">
+      <h3>Shipping Address</h3>
+      <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
+    </div>
+    <div class="address" *ngIf="orderDetails && orderDetails.shippingAddress.fullName ; else loading">
+      <h3>{{orderDetails.shippingAddress?.fullName}}</h3>
+      {{orderDetails.shippingAddress?.streetLine1}}<br>
+      {{orderDetails.shippingAddress?.city}}, {{orderDetails.shippingAddress?.province}}<br>
+      {{orderDetails.shippingAddress?.countryCode}}
+    </div>
+  </div>
+  <div class="summary-item" >
+    <div class="item-header">
+      <h3>Shipping Method</h3>
+      <a [routerLink]="['../../checkout/shipping-info']">Edit</a>
+    </div>
+    <div class="method" *ngIf="orderDetails && orderDetails?.shippingLines?.length ; else loading">
+      <h3>{{orderDetails.shippingLines[0].shippingMethod.name}}</h3>
+      <p class="shipping-price">{{orderDetails.shippingLines[0].priceWithTax | formatPrice : 'INR' : 'symbol'}}</p>
+      <p [innerHTML]="orderDetails.shippingLines[0].shippingMethod.description"></p>
+    </div>
+  </div>
+</div>
+
+<div class="checkout-backdrop" *ngIf="razorpayFlowActive">
+  <div class="backdrop-content">
+    <h1>PLEASE WAIT....</h1>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-small">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

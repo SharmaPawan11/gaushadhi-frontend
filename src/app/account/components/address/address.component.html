@@ -1,0 +1,15 @@
+<p class="heading">My Addresses</p>
+
+<div class="address-cards-container">
+  <gaushadhi-address-card [addNew]="true" (click)="onAddNewAddress()"></gaushadhi-address-card>
+
+  <div
+    *ngFor="let address of customerAddresses"
+  >
+    <gaushadhi-address-card [hoverFeedback]="false" [address]="address" (onDelete)="onDeleteAddress($event)" (onEdit)="onEditAddress($event)"></gaushadhi-address-card>
+  </div>
+</div>
+
+
+<!--<gaushadhi-address-form [formControl]="addressForm"></gaushadhi-address-form>-->
+

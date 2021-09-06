@@ -1,0 +1,25 @@
+<div class="slider-header">
+  <h1>Popular Categories</h1>
+  <p>View all categories</p>
+</div>
+
+<div class="slider-container-parent">
+
+  <div class="left-slider" tabindex="0" (click)="onLeftPress()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </div>
+
+  <ul class="slider-container" [ngStyle]="gridColumnStyle" #categoryContainer>
+    <li *ngFor="let category of categories" class="category">
+      <h4>{{category.name}}</h4>
+      <p>{{category.text}}</p>
+      <div tabindex="0">Shop Now</div>
+    </li>
+  </ul>
+
+  <div class="right-slider" tabindex="0" (click)="onRightPress()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </div>
+
+</div>
+

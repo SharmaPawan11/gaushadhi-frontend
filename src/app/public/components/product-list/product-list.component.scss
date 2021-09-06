@@ -1,0 +1,211 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.searchbar {
+  padding: 1rem;
+  font-size: 0.9rem;
+  outline: 1px solid #bdbdbd;
+}
+.search-result-label {
+  color: #b3b3b3;
+  word-spacing: 0.125rem;
+  font-size: 0.9rem;
+  span {
+    color: black;
+    font-weight: 600;
+  }
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+  h4 {
+    font-size: 1em;
+    font-weight: 400;
+  }
+  .sort-button {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    font-size: 0.9em;
+    min-width: max-content;
+    border-radius: 18px;
+    cursor: pointer;
+    background-color: #3f9b51;
+    color: white;
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 0.4fr));
+  grid-gap: 2rem;
+  justify-content: center;
+  .product {
+    text-decoration: none;
+    color: unset;
+    position: relative;
+    display: grid;
+    grid-auto-flow: row;
+    grid-row-gap: 1rem;
+    padding: 1.5rem;
+    border: 2px solid #eeeded;
+    border-radius: 10px;
+    cursor: pointer;
+    .wishlist-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 0.2rem;
+      background-color: #fff0f0;
+      border-radius: 5px;
+      mat-icon {
+        font-size: 1rem;
+        color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .brand-name {
+      color: #9896a6;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .img-container {
+      max-height: 156px;
+      max-width: 100%;
+      min-height: 125px;
+      justify-self: center;
+    }
+    img {
+      max-width: 100%;
+      justify-self: center;
+      max-height: 156px;
+    }
+    h4 {
+      font-weight: 500;
+    }
+    .price-label {
+      color: #8c7f7f;
+      font-size: 0.8rem;
+    }
+    .action-bar {
+      margin-top: -1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      .price-container {
+        display: flex;
+        align-items: center;
+        .strikethrough-price {
+          display: flex;
+          align-items: center;
+          padding-right: 0.4rem;
+          font-size: 0.7rem;
+          color: rgb(154, 152, 168);
+          text-decoration: line-through;
+        }
+        p:last-of-type {
+          font-weight: 600;
+        }
+      }
+      .add-to-cart-btn {
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.6rem 0.8rem 0.6rem 0.8rem;
+        border: 2px solid #eeeded;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: box-shadow 200ms ease-in, background-color 200ms ease-in;
+        &:hover {
+          background-color: #ddd;
+          box-shadow: 0.5px 0.5px 0.5px 0.5px #ddd,
+            -0.5px -0.5px 0.5px 0.5px #ddd;
+        }
+        &:active {
+          background-color: unset;
+          box-shadow: none;
+        }
+      }
+    }
+    .stock-indicator-container {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1em;
+      align-items: center;
+      .stock-bar-total {
+        width: 20%;
+        height: 4px;
+        background-color: #b7aeae;
+        border-radius: 10px;
+        .stock-bar-fill {
+          height: 4px;
+          border-radius: 10px 0 0 10px;
+        }
+      }
+      .stock-text {
+        font-size: 0.6rem;
+        position: relative;
+      }
+    }
+  }
+  .spinner-container {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mat-spinner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      ::ng-deep svg {
+        width: 50px !important;
+        height: 50px !important;
+        position: unset;
+      }
+    }
+  }
+}
+
+.stock-bar-75 {
+  color: #3cb306;
+  .stock-bar-fill {
+    width: 75%;
+    background-color: #3cb306;
+  }
+}
+
+.stock-bar-50 {
+  color: orange;
+  .stock-bar-fill {
+    width: 50%;
+    background-color: orange;
+  }
+}
+
+.stock-bar-25 {
+  color: red;
+  .stock-bar-fill {
+    width: 25%;
+    background-color: red;
+  }
+}
+
+mat-paginator {
+  background-color: transparent;
+}
+
+.spinner-container {}

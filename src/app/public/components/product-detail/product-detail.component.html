@@ -1,0 +1,130 @@
+<div class="back-btn-container">
+  <button>
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+</div>
+<section class="image-section">
+  <div class="current-image-container">
+    <img [src]="selectedAsset.preview" alt="Featured Asset">
+  </div>
+  <div class="additional-image-selector">
+    <div class="additional-image" *ngFor="let image of productDetails.assets" (click)="selectedAsset={id: image.id, preview: image.preview}" [ngClass]="{'current-image': selectedAsset.id === image.id}">
+      <img [src]="image.preview" alt="Additional Image">
+    </div>
+  </div>
+</section>
+<section class="product-details">
+  <div class="rating-star-container">
+    <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
+      {{i > 4 ? 'star_outline': 'star'}}
+    </mat-icon>
+    <p class="no-of-ratings">({{'50'}} Ratings & {{'10'}} Reviews)</p>
+  </div>
+
+  <div class="headings-wishlist-container">
+    <h3>
+      {{productDetails.name}}
+    </h3>
+    <p>Bathing Soap</p>
+    <div class="wishlist-button">
+      <mat-icon>favorite</mat-icon>
+    </div>
+  </div>
+
+  <div class="price-container__desktop">
+    <p>Price:</p>
+    <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
+    <p>{{'120' | currency: 'INR': 'symbol'}}</p>
+  </div>
+
+  <div class="action-bar">
+    <div class="quantity-container">
+      <button (click)="quantity = quantity > 1 ? quantity - 1 : quantity" class="add-remove-container">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <label>{{quantity}}</label>
+      <button (click)="quantity = quantity + 1" class="add-remove-container">
+        <mat-icon >add</mat-icon>
+      </button>
+    </div>
+    <button mat-button (click)="onAddToCart()">
+      <mat-icon>add_shopping_cart</mat-icon>
+      Add To Cart
+    </button>
+  </div>
+  <mat-tab-group dynamicHeight>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">description</mat-icon>
+        Details
+      </ng-template>
+      <div class="mat-tab-content">
+        <p class="description-text" [innerHTML]="productDetails.description">
+        </p>
+        <p (click)="showSpecifications = !showSpecifications" class="show-hide-specification">{{showSpecifications ? '[ - ] Hide' : '[ + ] Show' }} Specifications</p>
+        <p class="specifications-static-label">Specifications:</p>
+        <div class="specifications-grid" [ngClass]="{'show-specification-grid': showSpecifications}">
+          <div class="spec" *ngFor="let specification of productSpecifications | keyvalue">
+            <p>{{specification.key}}</p>
+            <p>{{specification.value}}</p>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">help_outline</mat-icon>
+        FAQs
+      </ng-template>
+      <div class="mat-tab-content">
+        <mat-accordion>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Lorem ipsum dolor sit amet ?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, quo.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, quia.
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam beatae consequuntur id impedit laborum minus, nesciunt nulla quidem temporibus voluptate..</p>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">reviews</mat-icon>
+        <span matBadge="10" matBadgeOverlap="false">Reviews</span>
+      </ng-template>
+      <div class="mat-tab-content">
+        There are no reviews for this product yet.
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</section>
+
+<div class="buy-bar">
+  <div class="price-container">
+    <p class="strikethrough-price">{{'120' | formatPrice: 'INR': 'symbol'}}</p>
+    <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
+  </div>
+  <div class="quantity-container">
+    <mat-icon (click)="quantity = quantity > 1 ? quantity - 1 : quantity">remove</mat-icon>
+    <label>{{quantity}}</label>
+    <mat-icon (click)="quantity = quantity + 1">add</mat-icon>
+  </div>
+  <button mat-button class="add-to-cart-container" (click)="onAddToCart()">
+    <mat-icon>
+      add_shopping_cart
+    </mat-icon>
+  </button>
+</div>

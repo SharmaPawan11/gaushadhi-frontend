@@ -1,0 +1,50 @@
+<ng-template #defaultConfirmPasswordTemplate let-form="form">
+    <mat-form-field appearance="outline">
+      <mat-label>{{firstControlName | formcontrolToLabel}}</mat-label>
+      <input
+        [type]="hideInput ? 'password': 'text'"
+        [formControl]="form.get(firstControlName)"
+        matInput
+        placeholder="Enter {{firstControlName | formcontrolToLabel}}"
+        autocomplete="off"
+      />
+      <button mat-icon-button matSuffix (click)="hideInput = !hideInput" *ngIf="inputType === 'password'">
+        <mat-icon>{{
+          hideInput ? "visibility_off" : "visibility"
+          }}</mat-icon>
+      </button>
+      <mat-error *ngIf="controlDir && !controlDir.control?.valid">
+        {{getErrors(firstControlName)[0]}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm {{firstControlName | formcontrolToLabel}}</mat-label>
+      <input
+        [type]="hideConfirmInput ? 'password' : 'text'"
+        [formControl]="form.get(secondControlName)"
+        matInput
+        placeholder="Confirm {{ firstControlName | formcontrolToLabel}}"
+        [errorStateMatcher]="inputEqualityMatcher"
+        autocomplete="off"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hideConfirmInput = !hideConfirmInput"
+        *ngIf="inputType === 'password'"
+      >
+        <mat-icon>{{
+          hideConfirmInput ? "visibility_off" : "visibility"
+          }}</mat-icon>
+      </button>
+      <mat-error> {{firstControlName | formcontrolToLabel}} didn't <strong>match</strong> </mat-error>
+    </mat-form-field>
+</ng-template>
+
+<form [formGroup]="confirmPasswordGroup" *ngIf="formInitialized">
+  <ng-container
+    [ngTemplateOutlet]="customConfirmPasswordTemplate || defaultConfirmPasswordTemplate"
+    [ngTemplateOutletContext]="{ form: confirmPasswordGroup, firstCtrlName: firstControlName, secondCtrlName: secondControlName }"
+  >
+  </ng-container>
+</form>
