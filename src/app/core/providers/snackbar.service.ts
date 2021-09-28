@@ -9,8 +9,8 @@ export class SnackbarService {
 
   openSnackBar(
     message: string,
+    durationInSeconds: number = 2,
     action: string = 'Close',
-    durationInSeconds: number = 2
   ) {
     this._snackBar.open(message, action, {
       duration: durationInSeconds * 1000,

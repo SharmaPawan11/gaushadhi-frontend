@@ -117,18 +117,18 @@ export class AddressFormComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe(([countryCodeRes, geoLocationRes]) => {
         this.countries = countryCodeRes;
-        if (geoLocationRes.status === 'success') {
+        if (geoLocationRes.ip) {
           this.userGeolocationData = geoLocationRes;
           if (!this.city?.dirty) this.city?.setValue(geoLocationRes.city);
           if (!this.province?.dirty)
-            this.province?.setValue(geoLocationRes.regionName);
+            this.province?.setValue(geoLocationRes.state_prov);
           if (!this.postalCode?.dirty)
-            this.postalCode?.setValue(geoLocationRes.zip);
+            this.postalCode?.setValue(geoLocationRes.zipcode);
         }
 
         if (Array.isArray(countryCodeRes) && countryCodeRes.length) {
           const detectedCountry = countryCodeRes.find((country: any) => {
-            return country.code === geoLocationRes.countryCode;
+            return country.code === geoLocationRes.country_code2;
           });
           if (detectedCountry) {
             if (!this.countryCode?.dirty)

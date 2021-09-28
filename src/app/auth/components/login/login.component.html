@@ -1,75 +1,92 @@
-<div class="heading-subheading">
-  <h2>
-    Login
-  </h2>
-  <p>Don't have an account?  <a [routerLink]="['../register']">Sign Up</a></p>
-</div>
 
-<div class="social-signup">
-  <div id="customBtn" class="customGPlusSignIn">
-    <span class="icon"></span>
-    <span class="buttonText">Sign in with Google</span>
+<ng-container *ngIf="loginInProgress; then loginInProgressTemplate; else loginNotInProgressTemplate">
+</ng-container>
+
+<ng-template #loginInProgressTemplate>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+    <h3>Logging you in...</h3>
   </div>
-  <a class="login-with-fb-btn">
-    <div class="fb-logo">
-      <img src="../../../../assets/images/f_logo_RGB-White_1024.png" alt="login-with-fb-btn">
+</ng-template>
+
+<ng-template #loginNotInProgressTemplate>
+  <div class="heading-subheading">
+    <h2>
+      Login
+    </h2>
+    <p>Don't have an account?  <a [routerLink]="['../register']">Sign Up</a></p>
+  </div>
+
+  <div class="social-signup">
+    <a id="customBtn" class="customGPlusSignIn" (click)="onGoogleSignIn()" *ngIf="googleSignInUrl">
+      <span class="icon"></span>
+      <span class="buttonText">Sign in with Google</span>
+    </a>
+
+    <a class="login-with-fb-btn" (click)="onFacebookSignIn()" *ngIf="facebookSignInUrl">
+      <div class="fb-logo">
+        <img src="../../../../assets/images/f_logo_RGB-White_1024.png" alt="login-with-fb-btn">
+      </div>
+      <p>Sign In with Facebook</p>
+    </a>
+  </div>
+
+  <div class="or-line">
+    <hr>
+    <p>or Sign in with email</p>
+    <hr>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-controls full-width-controls">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>mail</mat-icon>
+      <mat-label>Email</mat-label>
+      <input
+        formControlName="email"
+        matInput
+        placeholder="Enter Your Email"
+        autocomplete="on"
+      />
+      <mat-error *ngIf="email?.hasError('email') && !email?.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="email?.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>vpn_key</mat-icon>
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        formControlName="password"
+        matInput
+        placeholder="Enter Your Password"
+        autocomplete="on"
+      />
+      <mat-error *ngIf="password?.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="remember-forgot-container">
+      <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
+      <a [routerLink]="['../reset-password']">Forgot your password?</a>
     </div>
-    <p>Sign In with Facebook</p>
-  </a>
-</div>
-
-<div class="or-line">
-  <hr>
-  <p>or Sign in with email</p>
-  <hr>
-</div>
-
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-controls full-width-controls">
-  <mat-form-field appearance="outline">
-    <mat-icon matPrefix>mail</mat-icon>
-    <mat-label>Email</mat-label>
-    <input
-      formControlName="email"
-      matInput
-      placeholder="Enter Your Email"
-      autocomplete="on"
-    />
-    <mat-error *ngIf="email?.hasError('email') && !email?.hasError('required')">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="email?.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-icon matPrefix>vpn_key</mat-icon>
-    <mat-label>Password</mat-label>
-    <input
-      type="password"
-      formControlName="password"
-      matInput
-      placeholder="Enter Your Password"
-      autocomplete="on"
-    />
-    <mat-error *ngIf="password?.hasError('required')">
-      Password is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-
-  <div class="remember-forgot-container">
-    <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
-    <a [routerLink]="['../reset-password']">Forgot your password?</a>
-  </div>
 
 
-  <button
-    [disabled]="loginForm.invalid"
-    type="submit"
-    mat-raised-button
-    color="primary"
-    class="main-cta"
-  >
-    Sign In
-  </button>
-</form>
+    <button
+      [disabled]="loginForm.invalid"
+      type="submit"
+      mat-raised-button
+      color="primary"
+      class="main-cta"
+    >
+      Sign In
+    </button>
+  </form>
+</ng-template>
+
+
+

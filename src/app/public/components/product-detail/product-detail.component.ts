@@ -40,17 +40,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // };
   showSpecifications = false;
   quantity = 1;
-  currentSelectedImage = '../../../../assets/images/gaushadhi-soap.png';
+  currentSelectedImage = '';
   additionalImages = [
-    {
-      url: '../../../../assets/images/gaushadhi-soap.png',
-    },
-    {
-      url: '../../../../assets/images/gaushadhi-soap-2.png',
-    },
-    {
-      url: '../../../../assets/images/gaushadhi-soap-3.png',
-    },
+    // {
+    //   url: '../../../../assets/images/gaushadhi-soap.png',
+    // },
+    // {
+    //   url: '../../../../assets/images/gaushadhi-soap-2.png',
+    // },
+    // {
+    //   url: '../../../../assets/images/gaushadhi-soap-3.png',
+    // },
   ];
 
   constructor(

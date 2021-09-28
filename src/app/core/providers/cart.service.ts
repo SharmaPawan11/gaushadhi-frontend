@@ -82,7 +82,7 @@ export class CartService {
             case 'OrderLimitError':
             case 'InsufficientStockError':
             case 'NegativeQuantityError':
-              this.snackbarService.openSnackBar(res.message, 'Close', 0);
+              this.snackbarService.openSnackBar(res.message, 0);
               break;
           }
         })

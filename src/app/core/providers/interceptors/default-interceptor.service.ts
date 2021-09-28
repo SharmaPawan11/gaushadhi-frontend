@@ -11,12 +11,13 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import {SnackbarService} from "../snackbar.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private snackbarService: SnackbarService) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -74,7 +75,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * directly inject NotificationService into the constructor, we get a cyclic dependency.
    */
   private displayErrorNotification(message: string): void {
-    console.log(message);
+    this.snackbarService.openSnackBar(message);
   }
 
   /**

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import { RequestorService } from './requestor.service';
-import { SignOut } from '../../common/vendure-types';
+import {SignOut} from '../../common/vendure-types';
 import { catchError, map, share, take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -20,18 +19,33 @@ export class UserService {
   ) {}
 
   get isAuthenticated(): boolean {
-    return localStorage.getItem('isAuthenticated') === 'true';
+    const authToken = localStorage.getItem('authToken');
+    return !!authToken;
+
+    // return this.requestor.query<GetActiveCustomer.Query>(GET_ACTIVE_CUSTOMER, {
+    //   includeAddress: false,
+    //   includeProfile: true,
+    //   includeOrder: false,
+    // }).pipe(map((res) => res.activeCustomer),
+    //         map((res) => {
+    //           return !!(res && res.id);
+    //         }))
   }
 
   setUserDetails(userId: string) {
-    localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('userId', userId);
+  }
+
+  getUserProfileDetails() {
+    return {
+      name: localStorage.getItem('customerName'),
+      email: localStorage.getItem('customerEmail'),
+      userId: localStorage.getItem('userId')
+    }
   }
 
   removeUserDetails() {
     localStorage.clear();
-    // localStorage.removeItem('isAuthenticated');
-    // localStorage.removeItem('userId');
   }
 
   logout() {
@@ -55,7 +69,7 @@ export class UserService {
   }
 
   getUserGeolocationDetails(): Observable<any> {
-    return this.httpClient.get('http://ip-api.com/json/?fields=57663').pipe(
+    return this.httpClient.get('https://api.ipgeolocation.io/ipgeo?apiKey=9b8be2367db840ebb4fd0aa856dbbaff&fields=country_code2,zipcode,state_prov,city').pipe(
       catchError((error) => of(null)),
       share()
     );

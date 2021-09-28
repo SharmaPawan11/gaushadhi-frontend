@@ -1,15 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+  font-family: Varela;
+  src: url(assets/fonts/VarelaRound-Regular.ttf) format("opentype");
+}
+
 html,
 body {
-  --primary-background: #b38f45;
-  --secondary-background: #9c6c58;
+  --primary-background: #ebc26e;
+  --secondary-background: #ffe9bb;
   --tertiary-background: #e95420;
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  //font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 *,
 *::before,
@@ -18,6 +23,7 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
+  font-family: Varela, Roboto, "Helvetica Neue", sans-serif;
 }
 
 .slider-header {
