@@ -10,9 +10,7 @@ import {Injectable, Injector} from "@angular/core";
 export class OnErrorChangeOrderStateThenRetry {
   constructor(
     private injector: Injector
-  ) {
-    console.log('Operator')
-  }
+  ) {}
 
   operator(changeToState: 'AddingItems' | 'ArrangingPayment') {
     return <T>(source: Observable<T>) => {

@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
+import {map, switchMap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -26,12 +27,17 @@ export class AccountGuard implements CanLoad, CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(route);
     if (this.userService.isAuthenticated) {
       return true;
     } else {
       return this.router.createUrlTree(['login']);
     }
+
+    // if (this.userService.isAuthenticated) {
+    //   return true;
+    // } else {
+    //   return this.router.createUrlTree(['login']);
+    // }
   }
 
   canActivate(
@@ -42,14 +48,11 @@ export class AccountGuard implements CanLoad, CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+
     if (this.userService.isAuthenticated) {
       return true;
     } else {
-      return this.router.createUrlTree(['login'], {
-        queryParams: {
-          redirectTo: state.url,
-        },
-      });
+      return this.router.createUrlTree(['login']);
     }
   }
 }

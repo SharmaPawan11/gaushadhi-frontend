@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import {ScriptService} from "../../core/providers/script.service";
 
 @Injectable({
   providedIn: 'root',
@@ -113,21 +114,22 @@ export class RazorpayService {
   }
 
   loadRazorpayScript() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (this.scriptLoaded) {
         resolve(true);
       } else {
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.onload = () => {
+        const isScriptLoaded = await this.scriptService.loadScript('razorpay');
+        if (isScriptLoaded) {
           this.scriptLoaded = true;
           resolve(true);
-        };
-        script.onerror = (error: any) => resolve(false);
-        document.getElementsByTagName('head')[0].appendChild(script);
+        } else {
+          resolve(false);
+        }
       }
     });
   }
-  constructor() {}
+
+  constructor(
+    private scriptService: ScriptService
+  ) {}
 }

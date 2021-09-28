@@ -34,6 +34,6 @@ export const routes: Route[] = [
     path: 'checkout',
     loadChildren: () =>
       import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
-    canActivate: [AccountGuard],
+    // canActivate: [AccountGuard],
   },
 ];

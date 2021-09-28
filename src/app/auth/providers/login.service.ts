@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 import { gql } from 'apollo-angular';
 import { GetAccountOverview, SignIn } from '../../common/vendure-types';
-import { map, switchMap, tap } from 'rxjs/operators';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 import { UserService } from '../../core/providers/user.service';
-import { GET_ACTIVE_CUSTOMER } from '../../common/documents.graph';
+import {notNullOrNotUndefined} from "../../common/utils/not-null-or-not-undefined";
+import {SaveCustomerInfoOnSuccessfulLogin} from "../../core/operators/save-customer-info-on-successful-login";
 
 @Injectable()
 export class LoginService {
@@ -38,9 +39,24 @@ export class LoginService {
     ${ERROR_RESULT_FRAGMENT}
   `;
 
+  GOOGLE_LOGIN_MUTATION = gql`
+    mutation Authenticate(
+      $codeInput: AuthenticationInput!
+    ) {
+        authenticate(input: $codeInput) {
+        __typename
+        ...on CurrentUser {
+            id
+            identifier
+        }
+      }
+    }
+  `
+
   constructor(
     private requestor: RequestorService,
-    private userService: UserService
+    private userService: UserService,
+    private saveCustomerInfo: SaveCustomerInfoOnSuccessfulLogin
   ) {}
 
   login(
@@ -60,44 +76,21 @@ export class LoginService {
       )
       .pipe(
         map((res) => res.login),
-        switchMap((res) => {
-          switch (res.__typename) {
-            case 'NotVerifiedError':
-            case 'InvalidCredentialsError':
-            case 'NativeAuthStrategyError':
-              console.log(res.message);
-              return of({
-                errorCode: res.errorCode,
-                message: res.message,
-              });
-            case 'CurrentUser':
-              this.userService.setUserDetails(res.id);
-              return this.requestor
-                .query<GetAccountOverview.Query>(GET_ACTIVE_CUSTOMER, {
-                  includeAddress: false,
-                  includeProfile: true,
-                  includeOrder: false,
-                })
-                .pipe(
-                  map((res) => res.activeCustomer),
-                  tap((res) => {
-                    if (res?.emailAddress) {
-                      localStorage.setItem(
-                        'customerName',
-                        res.firstName + res.lastName
-                      );
-                      localStorage.setItem('customerEmail', res.emailAddress);
-                      localStorage.setItem(
-                        'customerPhNo',
-                        (res as any).phoneNumber || undefined
-                      );
-                    }
-                  })
-                );
-            default:
-              return of(null);
-          }
-        })
+        this.saveCustomerInfo.operator(),
+        filter(notNullOrNotUndefined)
       );
+  }
+
+  thirdPartyLogin(code: string, provider: string) {
+    return this.requestor.mutate(this.GOOGLE_LOGIN_MUTATION,{
+      codeInput:{
+        [provider]: {
+          code
+        }
+      }
+    }).pipe(
+      map((res) => res.authenticate),
+      this.saveCustomerInfo.operator(),
+    );
   }
 }

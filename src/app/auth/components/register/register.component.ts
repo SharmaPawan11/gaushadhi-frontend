@@ -91,8 +91,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           case 'Success':
             this.snackbarService.openSnackBar(
               'Please check your email to complete registration process',
-              'Close',
-              0
+0
             );
             this.registrationForm.reset();
             [

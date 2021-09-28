@@ -2,7 +2,8 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APOLLO_OPTIONS } from 'apollo-angular';
-import { InMemoryCache } from '@apollo/client/core';
+import { InMemoryCache, ApolloLink } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
 import { HttpLink } from 'apollo-angular/http';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DefaultInterceptor } from './providers/interceptors/default-interceptor.service';
@@ -12,14 +13,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CarouselDirective } from './directives/carousel.directive';
 import { CarouselComponent } from './components/carousel/carousel.component';
-import { CategorySliderComponent } from './components/category-slider/category-slider.component';
-import { FeaturedProductsSliderComponent } from './components/featured-products-slider/featured-products-slider.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
-import {environment} from "../../environments/environment.prod";
+import {environment} from "../../environments/environment";
+import {MatButtonModule} from "@angular/material/button";
+import { LandingHeroComponent } from './components/landing-hero/landing-hero.component';
+import { LandingPagePopularItemsComponent } from './components/landing-page-popular-items/landing-page-popular-items.component';
+import {FormatPriceModule} from "../custom/pipes/format-price/format-price.module";
 
 @NgModule({
   declarations: [
@@ -27,9 +30,9 @@ import {environment} from "../../environments/environment.prod";
     NavbarComponent,
     CarouselDirective,
     CarouselComponent,
-    CategorySliderComponent,
-    FeaturedProductsSliderComponent,
     FooterComponent,
+    LandingHeroComponent,
+    LandingPagePopularItemsComponent,
   ],
   imports: [
     // Angular
@@ -41,15 +44,17 @@ import {environment} from "../../environments/environment.prod";
     MatSnackBarModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    FormatPriceModule
   ],
   exports: [
     BrowserModule,
     BrowserAnimationsModule,
     CarouselDirective,
     CarouselComponent,
-    CategorySliderComponent,
-    FeaturedProductsSliderComponent,
+    LandingHeroComponent,
+    LandingPagePopularItemsComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
@@ -58,10 +63,24 @@ import {environment} from "../../environments/environment.prod";
       useFactory: (httpLink: HttpLink) => {
         return {
           cache: new InMemoryCache(),
-          link: httpLink.create({
+          link: ApolloLink.from([
+            setContext(() => {
+              if (environment.tokenMethod === 'bearer') {
+                const authToken = localStorage.getItem('authToken');
+                if (authToken) {
+                  return {
+                    headers: {
+                      authorization: `Bearer ${authToken}`,
+                    },
+                  };
+                }
+                return {};
+              }
+              return {};
+            }), httpLink.create({
             uri: environment.serverUrl,
             withCredentials: true,
-          }),
+          })])
           // defaultOptions: {
           //   watchQuery: {
           //     errorPolicy: 'ignore'

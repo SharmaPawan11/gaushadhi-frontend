@@ -49,7 +49,6 @@ export class OrderService {
   constructor(private requestor: RequestorService,
               private shippingService: ShippingService,
               private onErrorChangeStateThenRetry: OnErrorChangeOrderStateThenRetry) {
-    console.log('Order');
     this.refreshOrderDetails$
       .pipe(
         filter(
