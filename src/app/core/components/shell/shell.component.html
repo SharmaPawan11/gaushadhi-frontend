@@ -4,9 +4,14 @@
 <!--    close-->
 <!--  </mat-icon>-->
 <!--</div>-->
+<mat-drawer-container autosize>
+  <mat-drawer #drawer mode="over">
+    <gaushadhi-drawer (menuButtonClicked)="drawer.toggle()"></gaushadhi-drawer>
+  </mat-drawer>
+  <gaushadhi-navbar (menuButtonClicked)="drawer.toggle()"></gaushadhi-navbar>
+  <div class="dynamic-outlet">
+    <router-outlet></router-outlet>
+  </div>
+  <gaushadhi-footer *ngIf="!footerExcludedRoutes.includes(currentRoute)" ></gaushadhi-footer>
+</mat-drawer-container>
 
-<gaushadhi-navbar></gaushadhi-navbar>
-<div class="dynamic-outlet">
-  <router-outlet></router-outlet>
-</div>
-<gaushadhi-footer *ngIf="!footerExcludedRoutes.includes(currentRoute)" ></gaushadhi-footer>

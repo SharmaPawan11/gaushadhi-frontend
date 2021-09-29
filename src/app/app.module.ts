@@ -7,6 +7,7 @@ import { AuthComponent } from './auth/auth.component';
 import { LandingPageComponent } from './core/components/landing-page/landing-page.component';
 import { CategoryComponent } from './core/components/category/category.component';
 import { MatIconModule } from '@angular/material/icon';
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -15,11 +16,12 @@ import { MatIconModule } from '@angular/material/icon';
     LandingPageComponent,
     CategoryComponent,
   ],
-  imports: [
-    CoreModule,
-    RouterModule.forRoot(routes),
-    MatIconModule,
-  ],
+    imports: [
+        CoreModule,
+        RouterModule.forRoot(routes),
+        MatIconModule,
+        MatSidenavModule,
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

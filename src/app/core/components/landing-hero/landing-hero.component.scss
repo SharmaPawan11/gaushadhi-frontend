@@ -1,10 +1,11 @@
 header {
+  --header-height: 60vh;
+  --header-max-height: 550px;
   display: grid;
   grid-template-areas: "hero";
   align-items: center;
-  height: 75vh;
-  max-height: 600px;
-  //background-color: mix(#fff, $primary, 97%);
+  min-height: var(--header-height);
+  max-height: var(--header-max-height);
 
   > * {
     grid-area: hero;
@@ -12,8 +13,8 @@ header {
 
   img {
     //object-fit: cover;
-    object-position: 5vw ;
-    height: min(75vh, 600px);
+    //object-position: 5vw;
+    height: min(var(--header-height), var(--header-max-height));
     // Chrome no longer preventing growing beyond
     // the header height with just the following
     // height: 100%;
@@ -21,32 +22,35 @@ header {
     justify-self: end;
     transition: 180ms width ease-in;
 
-    @media (min-width: 60rem) {
+    @media (min-width: 768px) {
       width: 40%;
     }
   }
 
   .hero__content {
     margin: 1rem 0 1rem 5%;
-    max-width: 50%;
-    min-width: 30ch;
+    max-width: 55%;
+    min-width: 43ch;
     z-index: 1;
     border-radius: 1rem;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 1.5rem;
+    background-color: rgba(255,233,187,0.9);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1em;
+    font-size: 0.65rem;
+    overflow: hidden;
 
     h1 {
-      font-size: 4rem;
+      font-size: 4em;
       color: #383844;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.2em;
       font-weight: 500;
       line-height: 2rem;
-      color: #8b8c95;
+      color: #616268;
       strong {
         font-weight: 800;
         color: #a37c2c; //Logo Color
@@ -55,16 +59,28 @@ header {
 
     .hero-actions {
       display: flex;
-      gap: 1rem;
+      gap: 1em;
       button {
-        padding: 0.5rem 2rem;
+        padding: 0.5em 1.5em;
         border-radius: 10px;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 1em;
       }
       button[mat-raised-button] {
         background-color: var(--primary-background);
       }
+      button[mat-flat-button] {
+        background-color: transparent;
+      }
     }
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    --header-height: 75vh;
+    --header-max-height: 600px;
   }
 }

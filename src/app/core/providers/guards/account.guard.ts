@@ -48,11 +48,14 @@ export class AccountGuard implements CanLoad, CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-
     if (this.userService.isAuthenticated) {
       return true;
     } else {
-      return this.router.createUrlTree(['login']);
+      return this.router.createUrlTree(['login'], {
+        queryParams: {
+          redirectTo: state.url
+        }
+      });
     }
   }
 }

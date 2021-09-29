@@ -23,6 +23,9 @@ import {MatButtonModule} from "@angular/material/button";
 import { LandingHeroComponent } from './components/landing-hero/landing-hero.component';
 import { LandingPagePopularItemsComponent } from './components/landing-page-popular-items/landing-page-popular-items.component';
 import {FormatPriceModule} from "../custom/pipes/format-price/format-price.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { DrawerComponent } from './components/drawer/drawer.component';
+import {MatRippleModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import {FormatPriceModule} from "../custom/pipes/format-price/format-price.modul
     FooterComponent,
     LandingHeroComponent,
     LandingPagePopularItemsComponent,
+    DrawerComponent,
   ],
   imports: [
     // Angular
@@ -46,7 +50,9 @@ import {FormatPriceModule} from "../custom/pipes/format-price/format-price.modul
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
-    FormatPriceModule
+    MatSidenavModule,
+    FormatPriceModule,
+    MatRippleModule
   ],
   exports: [
     BrowserModule,

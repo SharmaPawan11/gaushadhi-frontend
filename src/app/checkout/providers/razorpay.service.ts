@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {ScriptService} from "../../core/providers/script.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RazorpayService {
-  //TODO: Environment variable for razorpay key
-
   private scriptLoaded = false;
   private _razorpayOptions = {
-    key: 'rzp_test_jUxxFtyYqKiDmd',
+    key: environment.razorpayId,
     order_id: '',
     currency: 'INR',
     description: 'Gaushadhi',
