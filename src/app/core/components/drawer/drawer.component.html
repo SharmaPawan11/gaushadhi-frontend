@@ -6,7 +6,7 @@
     </button>
   </div>
   <ng-container *ngFor="let drawerItem of drawerItems">
-    <div *ngIf="drawerItem.visible" class="drawer-item" (click)="drawerItem.onClick()">
+    <div *ngIf="drawerItem.visible" class="drawer-item" (click)="this.menuButtonClicked.emit(true); drawerItem.onClick()">
       <div class="item-parent-container">
         <mat-icon>{{drawerItem.icon}}</mat-icon>
         <p>{{drawerItem.name | titlecase}}</p>
@@ -15,7 +15,7 @@
         </button>
       </div>
       <div class="item-children-container" [ngClass]="{'collapse-children': !drawerItem.expanded}" >
-        <div class="item-child" matRipple [matRippleDisabled]="disableParentRipple" *ngFor="let child of drawerItem.children" (click)="child.onClick($event)">
+        <div class="item-child" matRipple [matRippleDisabled]="disableParentRipple" *ngFor="let child of drawerItem.children" (click)="this.menuButtonClicked.emit(true); child.onClick($event)">
           {{child.name | titlecase}}
         </div>
       </div>
