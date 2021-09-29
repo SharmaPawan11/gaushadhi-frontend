@@ -1,6 +1,6 @@
-<div class="menu-btn">
+<button mat-icon-button class="menu-btn" (click)="onMenuButtonClick()" [autofocus]="false">
   <mat-icon>menu</mat-icon>
-</div>
+</button>
 <a class="logo" tabindex="-1" [routerLink]="['/']">
   <img src="assets/images/logo-brown.png" alt="logo" class="logo">
 </a>
@@ -9,7 +9,7 @@
   <a [routerLink]="['store', 'products']">Health Care</a>
   <a [routerLink]="['store', 'products']">Hawan Samagri</a>
 </div>
-<div class="auth-bar">
+<div class="action-bar">
 
   <a tabindex="-1" [routerLink]="['store', 'products']">
     <button mat-icon-button aria-label="Wishlist">
@@ -23,13 +23,13 @@
     </button>
   </a>
 
-  <a tabindex="-1" [routerLink]="['/login']">
+  <a tabindex="-1" [routerLink]="['/login']" class="auth-action">
     <button mat-stroked-button  *ngIf="!userService.isAuthenticated">
       Sign in
     </button>
   </a>
 
-  <a tabindex="-1" [routerLink]="['/register']">
+  <a tabindex="-1" [routerLink]="['/register']" class="auth-action">
     <button mat-stroked-button *ngIf="!userService.isAuthenticated">
       Register
     </button>

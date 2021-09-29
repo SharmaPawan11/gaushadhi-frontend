@@ -1,0 +1,24 @@
+<div class="drawer">
+  <div class="logo-collapse-container">
+    <img src="assets/images/g-logo-brown.png" alt="G Logo">
+    <button mat-icon-button (click)="this.menuButtonClicked.emit(true)">
+      <mat-icon>close_fullscreen</mat-icon>
+    </button>
+  </div>
+  <ng-container *ngFor="let drawerItem of drawerItems">
+    <div *ngIf="drawerItem.visible" class="drawer-item" (click)="drawerItem.onClick()">
+      <div class="item-parent-container">
+        <mat-icon>{{drawerItem.icon}}</mat-icon>
+        <p>{{drawerItem.name | titlecase}}</p>
+        <button mat-icon-button (click)="onToggleExpand(drawerItem, $event)">
+          <mat-icon class="expand-arrow" *ngIf="drawerItem.children?.length" >{{drawerItem.expanded ? 'expand_less' : 'expand_more'}}</mat-icon>
+        </button>
+      </div>
+      <div class="item-children-container" [ngClass]="{'collapse-children': !drawerItem.expanded}" >
+        <div class="item-child" matRipple [matRippleDisabled]="disableParentRipple" *ngFor="let child of drawerItem.children" (click)="child.onClick($event)">
+          {{child.name | titlecase}}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
