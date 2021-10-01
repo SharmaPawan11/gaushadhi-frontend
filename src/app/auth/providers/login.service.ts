@@ -12,7 +12,7 @@ import {SaveCustomerInfoOnSuccessfulLogin} from "../../core/operators/save-custo
 @Injectable()
 export class LoginService {
   LOGIN_MUTATION = gql`
-    mutation (
+    mutation Login(
       $emailAddress: String!
       $password: String!
       $rememberMe: Boolean

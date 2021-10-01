@@ -27,7 +27,7 @@ export class ResetPasswordService {
   `;
 
   RESET_PASSWORD_MUTATION = gql`
-    mutation ($token: String!, $password: String!) {
+    mutation ResetPassword($token: String!, $password: String!) {
       resetPassword(token: $token, password: $password) {
         __typename
         ... on CurrentUser {

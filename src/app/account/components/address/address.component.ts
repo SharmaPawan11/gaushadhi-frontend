@@ -27,7 +27,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userService: UserService,
     private route: ActivatedRoute,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {}
 
   ngOnInit(): void {

@@ -1,32 +1,35 @@
 <div class="section-heading">Filter</div>
 <div class="categories">
   <p class="section-heading">Categories</p>
-  <div class="category" *ngFor="let i of [1,2,3,4,5]">
-    <gaushadhi-checkbox>Plants {{i}}</gaushadhi-checkbox>
-  </div>
-  <div class="other-category-button-container">
-    <p>Others</p>
-    <mat-icon>keyboard_arrow_down</mat-icon>
-  </div>
+  <form [formGroup]="categorySelectForm" *ngIf="categorySelectForm">
+    <mat-checkbox *ngFor="let category of allCategories" [formControlName]="category.slug">
+      {{category.name}}
+    </mat-checkbox>
+  </form>
+
+<!--  <div class="other-category-button-container">-->
+<!--    <p>Others</p>-->
+<!--    <mat-icon>keyboard_arrow_down</mat-icon>-->
+<!--  </div>-->
 </div>
 
-<div class="price-range">
-  <p class="section-heading">Price range</p>
-  <div class="range-input">
-    <gaushadhi-text-with-toggle></gaushadhi-text-with-toggle>
-    <input type="text">
-  </div>
-  <div class="set-price" [routerLink]="['1']">Set price</div>
-</div>
+<!--<div class="price-range">-->
+<!--  <p class="section-heading">Price range</p>-->
+<!--  <div class="range-input">-->
+<!--    <gaushadhi-text-with-toggle></gaushadhi-text-with-toggle>-->
+<!--    <input type="text">-->
+<!--  </div>-->
+<!--  <div class="set-price" [routerLink]="['1']">Set price</div>-->
+<!--</div>-->
 
-<div class="rating-filter">
-  <p class="section-heading">Rating</p>
-  <div class="rating-selector">
-    <gaushadhi-checkbox></gaushadhi-checkbox>
-    <div class="rating-star-container">
-      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-        {{i > 3 ? 'star_outline': 'star'}}
-      </mat-icon>
-    </div>
-  </div>
-</div>
+<!--<div class="rating-filter">-->
+<!--  <p class="section-heading">Rating</p>-->
+<!--  <div class="rating-selector">-->
+<!--    <gaushadhi-checkbox></gaushadhi-checkbox>-->
+<!--    <div class="rating-star-container">-->
+<!--      <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">-->
+<!--        {{i > 3 ? 'star_outline': 'star'}}-->
+<!--      </mat-icon>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

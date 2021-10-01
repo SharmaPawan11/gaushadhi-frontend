@@ -30,6 +30,7 @@ export class SaveCustomerInfoOnSuccessfulLogin {
             case 'CurrentUser':
               console.log(res);
               this.userService.setUserDetails(res.id);
+              console.log(localStorage.getItem('authToken'))
               return this.requestor
                 .query<GetAccountOverview.Query>(GET_ACTIVE_CUSTOMER, {
                   includeAddress: false,

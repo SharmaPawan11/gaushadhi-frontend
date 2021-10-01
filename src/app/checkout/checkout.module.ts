@@ -22,6 +22,7 @@ import {ApplyCouponModule} from "../custom/components/apply-coupon/apply-coupon.
 import {OrderPriceBreakdownModule} from "../custom/components/order-price-breakdown/order-price-breakdown.module";
 import {AddressCardModule} from "../custom/components/address-card/address-card.module";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatRippleModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -33,23 +34,24 @@ import {MatDialogModule} from "@angular/material/dialog";
     ShipmentMethodCardComponent,
     OrderPlacedComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatButtonModule,
-    MatRadioModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    FormatPriceModule,
-    ApplyCouponModule,
-    OrderPriceBreakdownModule,
-    AddressCardModule,
-    MatDialogModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatButtonModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        FormatPriceModule,
+        ApplyCouponModule,
+        OrderPriceBreakdownModule,
+        AddressCardModule,
+        MatDialogModule,
+        MatRippleModule
+    ],
 })
 export class CheckoutModule {}

@@ -1,0 +1,29 @@
+<section>
+  <div class="user-name">
+    Pawan Sharma
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="account-action" matRipple [routerLink]="['account', 'profile']" (click)="userDropdownToggle.emit(true)">
+    <mat-icon>person_outline</mat-icon>
+    Profile Settings
+  </div>
+  <div class="account-action" matRipple [routerLink]="['account', 'orders']" (click)="userDropdownToggle.emit(true)">
+    <mat-icon>format_list_bulleted</mat-icon>
+    Your Orders
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div matRipple (click)="userDropdownToggle.emit(true); this.userService.logout()">
+    Logout
+  </div>
+</section>
+
+
+

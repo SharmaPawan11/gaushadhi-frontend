@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -47,14 +48,28 @@ export class AccountGuard implements CanLoad, CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.userService.isAuthenticated) {
-      return true;
-    } else {
-      return this.router.createUrlTree(['login'], {
-        queryParams: {
-          redirectTo: state.url
+
+    return this.userService.isAuthenticated$.pipe(
+      map((isAuthenticated) => {
+        if (!isAuthenticated) {
+          return this.router.createUrlTree(['login'], {
+            queryParams: {
+              redirectTo: state.url
+            }
+          })
         }
-      });
-    }
+        return isAuthenticated
+      })
+    )
+
+    // if (this.userService.isAuthenticated) {
+    //   return true;
+    // } else {
+    //   return this.router.createUrlTree(['login'], {
+    //     queryParams: {
+    //       redirectTo: state.url
+    //     }
+    //   });
+    // }
   }
 }

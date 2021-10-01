@@ -20,6 +20,8 @@ import {OrderPriceBreakdownModule} from "../custom/components/order-price-breakd
 import {CheckboxModule} from "../custom/components/checkbox/checkbox.module";
 import {TextWithToggleModule} from "../custom/components/text-with-toggle/text-with-toggle.module";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     OrderPriceBreakdownModule,
     CheckboxModule,
     TextWithToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule,
+    ReactiveFormsModule
   ],
   exports: [],
 })

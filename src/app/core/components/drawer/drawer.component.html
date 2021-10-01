@@ -6,7 +6,7 @@
     </button>
   </div>
   <ng-container *ngFor="let drawerItem of drawerItems">
-    <div *ngIf="drawerItem.visible" class="drawer-item" (click)="this.menuButtonClicked.emit(true); drawerItem.onClick()">
+    <div *ngIf="drawerItem.visibleTo === 'everyone' || (drawerItem.visibleTo === 'logged_in' && isAuthenticated) || (drawerItem.visibleTo === 'logged_out' && !isAuthenticated)" class="drawer-item" (click)="this.menuButtonClicked.emit(true); drawerItem.onClick()">
       <div class="item-parent-container">
         <mat-icon>{{drawerItem.icon}}</mat-icon>
         <p>{{drawerItem.name | titlecase}}</p>

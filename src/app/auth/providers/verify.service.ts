@@ -8,7 +8,7 @@ import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 @Injectable()
 export class VerifyService {
   VERIFY_MUTATION = gql`
-    mutation ($token: String!) {
+    mutation VerifyCustomerAccount($token: String!) {
       verifyCustomerAccount(token: $token, password: "") {
         __typename
         ... on CurrentUser {

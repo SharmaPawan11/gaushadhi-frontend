@@ -64,6 +64,9 @@ export class ProductService {
             stockLevel
             sku
           }
+          collections {
+            id
+          }
         }
       }
     }
@@ -82,14 +85,18 @@ export class ProductService {
   }
 
   getProductList({ skip, take }: { skip: number, take?: number }) {
-    let productListOptions: any = {
-      skip: +skip || 0,
-      take: take ? +take : 6
-    }
-    if (skip === -1) {
-      productListOptions = {
-        skip: 0
-      }
+    // let productListOptions: any = {
+    //   skip: +skip || 0,
+    //   take: take ? +take : 6
+    // }
+    // if (skip === -1) {
+    //   productListOptions = {
+    //     skip: 0
+    //   }
+    // }
+
+    const productListOptions = {
+      skip: 0
     }
     return this.requestor
       .query(this.GET_PRODUCTS_LIST, {

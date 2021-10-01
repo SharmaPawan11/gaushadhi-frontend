@@ -4,15 +4,7 @@
 }
 
 .sidebar {
-  margin: 1rem;
-  background-color: white;
-  height: max-content;
-  .sidebar-header {
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1rem;
-    border-bottom: 1px solid #f2f2f2;
-  }
+  display: none;
 }
 
 .sidebar-item {
@@ -96,6 +88,19 @@
 @media screen and (min-width: 768px) {
   :host {
     grid-template-columns: 325px 1fr;
+  }
+
+  .sidebar {
+    display: block;
+    margin: 1rem;
+    background-color: white;
+    height: max-content;
+    .sidebar-header {
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 1rem;
+      border-bottom: 1px solid #f2f2f2;
+    }
   }
 
   .sidebar-item {

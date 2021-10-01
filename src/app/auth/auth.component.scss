@@ -13,6 +13,7 @@
 .logo-container {
   margin: 1rem 3rem;
   grid-column: 1 / span 2;
+  cursor: pointer;
   img {
     width: 9rem;
     height: 40px;
@@ -20,7 +21,7 @@
 }
 
 .dynamic-content {
-  background-color: #f7f9fe;
+  background-color: var(--tertiary-background);
   ::ng-deep > * {
     padding: 1rem 2.5rem;
     ::ng-deep .mat-form-field-outline-start,
@@ -186,6 +187,8 @@
   }
 
   .auth-cover {
+    background-image: url("../../assets/images/cow-solo.webp");
+    background-size: cover;
     display: grid;
     grid-template-rows: var(--header-size) calc(100vh - var(--header-size));
 

@@ -5,11 +5,11 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
-  background-image: linear-gradient(
-    to left,
-    rgba(255, 0, 0, 0),
-    var(--background-gradient)
-  );
+  //background-image: linear-gradient(
+  //  to left,
+  //  rgba(255, 0, 0, 0),
+  //  var(--background-gradient)
+  //);
 }
 
 .back-btn-container {
@@ -236,7 +236,7 @@
   height: 75px;
   padding: 0 1.2rem;
   margin: 0;
-  background-color: var(--background-gradient);
+  background-color: var(--tertiary-background);
   .price-container {
     display: flex;
     justify-content: center;

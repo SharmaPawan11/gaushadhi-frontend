@@ -1,24 +1,25 @@
-<p *ngIf="true" class="search-result-label">Search result for <span>"Soaps"</span></p>
-<div class="sort-container">
-  <h4>Sort</h4>
-  <div class="sort-button">Popularity</div>
-  <div class="sort-button">Price: Low To High</div>
-  <div class="sort-button">Price: High To Low</div>
-</div>
-<mat-paginator [length]="totalItems"
+<!--<p *ngIf="true" class="search-result-label">Search result for <span>"Soaps"</span></p>-->
+<!--<div class="sort-container">-->
+<!--  <h4>Sort by:</h4>-->
+<!--  <div class="sort-button">Popularity</div>-->
+<!--  <div class="sort-button">Price: Low To High</div>-->
+<!--  <div class="sort-button">Price: High To Low</div>-->
+<!--</div>-->
+<mat-paginator [length]="filteredProducts.length"
                [pageSize]="6"
                [pageSizeOptions]="[6,10,12]"
                (page)="onPaginationChange($event)"
                aria-label="Select page">
 </mat-paginator>
+
 <div class="product-grid">
-  <ng-container *ngFor="let product of productsCurrentlyShowing">
+  <ng-container *ngFor="let product of paginatedProducts">
     <a class="product" *ngIf="product.variants.length && !loading else loadingTemplate" [routerLink]="['./', product.slug]">
       <div class="wishlist-button">
         <mat-icon>favorite</mat-icon>
       </div>
       <div class="img-container">
-        <img [src]=product.featuredAsset?.preview alt="Gaushadhi-Soap">
+        <img [src]=product.featuredAsset?.preview alt="Featured Asset">
       </div>
       <p class="brand-name">{{product.variants[0]?.sku | uppercase}}</p>
       <h4>{{product.name}}</h4>
@@ -37,9 +38,12 @@
           <p class="strikethrough-price">{{100 | currency: 'INR': 'symbol'}}</p>
           <p>{{product.variants[0]?.priceWithTax | formatPrice: 'INR': 'symbol'}}</p>
         </div>
-        <div class="add-to-cart-btn">
+<!--        <div class="add-to-cart-btn">-->
+<!--          Add to cart-->
+<!--        </div>-->
+        <button mat-raised-button class="add-to-cart-btn">
           Add to cart
-        </div>
+        </button>
       </div>
       <div class="stock-indicator-container" [ngClass]="{
         'stock-bar-75': product.variants[0]?.stockLevel === 'IN_STOCK',

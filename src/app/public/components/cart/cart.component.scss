@@ -161,6 +161,7 @@ gaushadhi-apply-coupon {
   .heading {
     p {
       font-size: 1.5rem;
+      color: var(--text-color-primary);
     }
   }
   .img-container {
@@ -172,8 +173,8 @@ gaushadhi-apply-coupon {
   }
 
   .shop-now {
-    color: white;
-    background-color: #7716ec;
+    color: var(--text-color-primary);
+    background-color: var(--primary-background);
     font-size: 1.2rem;
     width: 250px;
     height: 40px;

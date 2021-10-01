@@ -23,11 +23,18 @@ export class DefaultInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // console.log(req);
+
     return next.handle(req).pipe(
       tap(
         (event) => {
           if (event instanceof HttpResponse) {
-            this.checkForAuthToken(event);
+            if (req.body.operationName === 'Login' ||
+                req.body.operationName === 'Authenticate' ||
+                req.body.operationName === 'ResetPassword' ||
+                req.body.operationName === 'VerifyCustomerAccount') {
+              this.checkForAuthToken(event);
+            }
             this.notifyOnError(event);
           }
         },

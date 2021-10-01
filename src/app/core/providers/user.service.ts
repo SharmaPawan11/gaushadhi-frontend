@@ -4,22 +4,28 @@ import { RequestorService } from './requestor.service';
 import {SignOut} from '../../common/vendure-types';
 import { catchError, map, share, take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { Router } from '@angular/router';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 import { SnackbarService } from './snackbar.service';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+
+  isAuthenticated = new BehaviorSubject<boolean>(this.hasAuthToken);
+  isAuthenticated$ = this.isAuthenticated.asObservable();
+
   constructor(
     private requestor: RequestorService,
     private httpClient: HttpClient,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private route: ActivatedRoute
   ) {}
 
-  get isAuthenticated(): boolean {
+  get hasAuthToken(): boolean {
     const authToken = localStorage.getItem('authToken');
+    console.log(!!authToken);
     return !!authToken;
 
     // return this.requestor.query<GetActiveCustomer.Query>(GET_ACTIVE_CUSTOMER, {
@@ -32,8 +38,13 @@ export class UserService {
     //         }))
   }
 
+  updateIsAuthenticated() {
+    this.isAuthenticated.next(this.hasAuthToken);
+  }
+
   setUserDetails(userId: string) {
     localStorage.setItem('userId', userId);
+    this.updateIsAuthenticated();
   }
 
   getUserProfileDetails() {
@@ -46,6 +57,7 @@ export class UserService {
 
   removeUserDetails() {
     localStorage.clear();
+    this.updateIsAuthenticated();
   }
 
   logout() {
@@ -62,8 +74,9 @@ export class UserService {
       .subscribe((res) => {
         if (res.success) {
           this.removeUserDetails();
+          // this.router.navigateByUrl(this.router.url);
           this.snackbarService.openSnackBar('You have been logged out.');
-          this.router.navigate(['login']);
+          // this.router.navigate(['']);
         }
       });
   }
