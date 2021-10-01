@@ -64,7 +64,7 @@
       }
     }
     .current-image {
-      outline: 2px solid var(--secondary-background);
+      outline: 2px solid var(--primary-background);
     }
   }
 }
@@ -188,7 +188,7 @@
           }
           p:nth-child(1) {
             font-size: 0.8rem;
-            background-color: #eee;
+            background-color: var(--gray-background);
             color: #878787;
           }
           p:nth-child(2) {
@@ -207,7 +207,7 @@
         mat-expansion-panel {
           background-color: inherit;
           box-shadow: none;
-          border-bottom: 2px solid #eee;
+          border-bottom: 2px solid var(--gray-background);
           color: inherit;
 
           mat-expansion-panel-header {
@@ -262,14 +262,14 @@
     border-radius: 10px;
     padding: 0.4rem 1rem;
     transform: translateX(-5%);
-    border: 1px solid #fdcb00;
+    border: 1px solid var(--primary-background);
     label {
       font-size: 1.5rem;
       font-weight: 400;
     }
   }
   .add-to-cart-container {
-    background-color: #fdcb00;
+    background-color: var(--primary-background);
     padding: 0.3rem 0.2rem 0.3rem 0.2rem;
     border-radius: 10px;
   }
@@ -345,7 +345,6 @@
         border: 1px solid #fdcb00;
 
         .add-remove-container {
-          --btn-color: #eee;
           background-position: center;
           transition: background 0.8s;
           display: flex;
@@ -353,7 +352,7 @@
           align-items: center;
           height: 2.5rem;
           width: 2.5rem;
-          background-color: var(--btn-color);
+          background-color: var(--gray-background);
           cursor: pointer;
           &:hover {
             background-color: scale-color(#eee, $lightness: -10%);
@@ -371,7 +370,7 @@
       }
 
       > button {
-        background-color: #fdcb00;
+        background-color: var(--primary-background);
         border-radius: 10px;
       }
     }

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  border: 1px solid #eee;
+  border: 1px solid var(--gray-background);
   padding: 1rem;
   box-shadow: 0 1px 1px #adaaaa;
   cursor: pointer;
@@ -24,13 +24,13 @@
   right: 0;
   width: 0;
   height: 0;
-  border-top: 50px solid #4dd392;
+  border-top: 50px solid var(--primary-background);
   border-left: 50px solid transparent;
   mat-icon {
     position: absolute;
     top: -46px;
     right: 2px;
-    color: white;
+    color: var(--text-color-primary);
   }
 }
 
@@ -56,6 +56,6 @@
 }
 
 .selected-card {
-  background-color: #e9faf5;
-  border: 2px solid #aad8c6;
+  background-color: var(--secondary-background);
+  border: 2px solid var(--primary-background);
 }

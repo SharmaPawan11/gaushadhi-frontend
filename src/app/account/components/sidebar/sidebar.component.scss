@@ -29,7 +29,7 @@
 }
 
 .logout {
-  color: #f95759;
+  color: var(--danger-color);
   &:hover {
     color: scale-color(#f95759, $lightness: -20%);
   }
@@ -81,6 +81,13 @@
     .main-cta {
       height: 2.625rem;
       margin-top: -1rem;
+      &:first-of-type {
+        background-color: var(--primary-background);
+        color: var(--text-color-primary)
+      }
+      &:first-of-type[disabled] {
+        background-color: var(--disabled-btn-color);
+      }
     }
   }
 }

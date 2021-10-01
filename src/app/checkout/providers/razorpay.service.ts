@@ -13,7 +13,7 @@ export class RazorpayService {
     order_id: '',
     currency: 'INR',
     description: 'Gaushadhi',
-    image: 'https://s3.amazonaws.com/rzp-mobile/images/rzp.png',
+    // image: 'https://s3.amazonaws.com/rzp-mobile/images/rzp.png',
     prefill: {
       email: '',
       contact: '',

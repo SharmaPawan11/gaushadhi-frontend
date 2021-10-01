@@ -61,7 +61,7 @@
     grid-auto-flow: row;
     grid-row-gap: 1rem;
     padding: 1.5rem;
-    border: 2px solid #eeeded;
+    border: 2px solid var(--gray-background);
     border-radius: 10px;
     cursor: pointer;
     .wishlist-button {

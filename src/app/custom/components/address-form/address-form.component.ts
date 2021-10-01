@@ -116,8 +116,9 @@ export class AddressFormComponent
     forkJoin([countryCodes$, geoLocation$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([countryCodeRes, geoLocationRes]) => {
+        console.log(geoLocationRes)
         this.countries = countryCodeRes;
-        if (geoLocationRes.ip) {
+        if (geoLocationRes?.ip) {
           this.userGeolocationData = geoLocationRes;
           if (!this.city?.dirty) this.city?.setValue(geoLocationRes.city);
           if (!this.province?.dirty)
@@ -128,7 +129,7 @@ export class AddressFormComponent
 
         if (Array.isArray(countryCodeRes) && countryCodeRes.length) {
           const detectedCountry = countryCodeRes.find((country: any) => {
-            return country.code === geoLocationRes.country_code2;
+            return country.code === geoLocationRes?.country_code2;
           });
           if (detectedCountry) {
             if (!this.countryCode?.dirty)

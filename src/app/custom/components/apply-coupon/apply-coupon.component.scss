@@ -29,7 +29,7 @@ button {
   max-width: max-content;
   padding: 0 2rem;
   justify-self: end;
-  background-color: #eee;
+  background-color: var(--primary-background);
   grid-row-start: 1;
   grid-column-start: 2;
 }
