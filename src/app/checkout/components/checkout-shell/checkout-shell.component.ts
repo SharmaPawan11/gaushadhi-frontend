@@ -42,6 +42,8 @@ export class CheckoutShellComponent implements OnInit {
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
           this.currentRoute = event.url.split('/')[2];
+          this.currentRoute = this.currentRoute.split('?')[0];
+          // console.log(this.currentRoute);
           switch (this.currentRoute) {
             case 'shipping-info':
               this.currentStage = 'Shipping Info';

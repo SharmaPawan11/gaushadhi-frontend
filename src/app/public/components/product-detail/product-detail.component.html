@@ -5,20 +5,20 @@
 </div>
 <section class="image-section">
   <div class="current-image-container">
-    <img [src]="selectedAsset.preview" alt="Featured Asset">
+    <img [src]="selectedAsset.preview + '?preset=product-detail'" alt="Featured Asset">
   </div>
   <div class="additional-image-selector">
     <div class="additional-image" *ngFor="let image of productDetails.assets" (click)="selectedAsset={id: image.id, preview: image.preview}" [ngClass]="{'current-image': selectedAsset.id === image.id}">
-      <img [src]="image.preview" alt="Additional Image">
+      <img [src]="image.preview + '?preset=additional-n-cart'" alt="Additional Image">
     </div>
   </div>
 </section>
 <section class="product-details">
   <div class="rating-star-container">
     <mat-icon *ngFor="let i of [1,2,3,4,5]; let idx = index">
-      {{i > 4 ? 'star_outline': 'star'}}
+      {{i > 4 ? 'star_outline': 'star_outline'}}
     </mat-icon>
-    <p class="no-of-ratings">({{'50'}} Ratings & {{'10'}} Reviews)</p>
+    <p class="no-of-ratings">({{'0'}} Ratings & {{'0'}} Reviews)</p>
   </div>
 
   <div class="headings-wishlist-container">
@@ -103,7 +103,7 @@
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon class="tab-icon">reviews</mat-icon>
-        <span matBadge="10" matBadgeOverlap="false">Reviews</span>
+        <span matBadge="0" matBadgeOverlap="false">Reviews</span>
       </ng-template>
       <div class="mat-tab-content">
         There are no reviews for this product yet.

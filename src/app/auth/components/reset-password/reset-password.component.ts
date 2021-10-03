@@ -77,18 +77,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       .resetPassword(this.token, formData)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-        switch (res.__typename) {
-          case 'PasswordResetTokenInvalidError':
-          case 'PasswordResetTokenExpiredError':
-          case 'NativeAuthStrategyError':
-            console.log(res.message);
-            this.requestResetError = res;
-            break;
-          case 'CurrentUser':
-            this.userId = res.id;
-            this.userService.setUserDetails(this.userId);
-            this.snackbarService.openSnackBar('Password successfully changed');
-            this.router.navigate(['../', 'login']);
+        if (res.errorCode) {
+          this.requestResetError = res.message;
+          // this.snackbarService.openSnackBar(res.message, 0);
+        } else if (res.id) {
+          // this.router.navigate([this.redirectUrl || '/']);
+          this.userId = res.id
+          this.userService.setUserId(this.userId);
+          this.snackbarService.openSnackBar('Password successfully changed');
+          this.router.navigate(['account', 'profile']);
         }
       });
   }

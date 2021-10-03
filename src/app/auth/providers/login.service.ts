@@ -8,11 +8,12 @@ import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
 import { UserService } from '../../core/providers/user.service';
 import {notNullOrNotUndefined} from "../../common/utils/not-null-or-not-undefined";
 import {SaveCustomerInfoOnSuccessfulLogin} from "../../core/operators/save-customer-info-on-successful-login";
+import {UpdateOrderDetailsGlobally} from "../../core/operators/update-order-details-globally.operator";
 
 @Injectable()
 export class LoginService {
   LOGIN_MUTATION = gql`
-    mutation (
+    mutation Login(
       $emailAddress: String!
       $password: String!
       $rememberMe: Boolean
@@ -56,7 +57,8 @@ export class LoginService {
   constructor(
     private requestor: RequestorService,
     private userService: UserService,
-    private saveCustomerInfo: SaveCustomerInfoOnSuccessfulLogin
+    private saveCustomerInfo: SaveCustomerInfoOnSuccessfulLogin,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally,
   ) {}
 
   login(
@@ -76,6 +78,7 @@ export class LoginService {
       )
       .pipe(
         map((res) => res.login),
+        this.updateOrderDetailsGlobally.operator(),
         this.saveCustomerInfo.operator(),
         filter(notNullOrNotUndefined)
       );
@@ -90,6 +93,7 @@ export class LoginService {
       }
     }).pipe(
       map((res) => res.authenticate),
+      this.updateOrderDetailsGlobally.operator(),
       this.saveCustomerInfo.operator(),
     );
   }

@@ -1,20 +1,24 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {UserService} from "../../providers/user.service";
 import {Event, Router} from "@angular/router";
+import {ChangePasswordComponent} from "../../../account/components/change-password/change-password.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'gaushadhi-drawer',
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss']
 })
-export class DrawerComponent implements OnInit {
+export class DrawerComponent implements OnInit, OnDestroy {
   @Output() menuButtonClicked = new EventEmitter<boolean>();
   disableParentRipple: boolean = false;
+  isAuthenticated: boolean = false;
+  isAuthenticatedSubscription!: Subscription;
   drawerItems = [
     {
       name: 'products',
       icon: 'inventory',
-      visible: true,
+      visibleTo: 'everyone',
       onClick: () => {
         this.router.navigate(['store', 'products'])
       }
@@ -22,7 +26,7 @@ export class DrawerComponent implements OnInit {
     {
       name: 'account',
       icon: 'account_circle',
-      visible: true,
+      visibleTo: 'logged_in',
       onClick: () => {
         this.router.navigate(['account'])
       },
@@ -68,15 +72,15 @@ export class DrawerComponent implements OnInit {
     {
       name: 'logout',
       icon: 'logout',
-      visible: this.userService.isAuthenticated,
+      visibleTo: 'logged_in',
       onClick: () => {
-        this.userService.logout()
+        this.userService.logout();
       }
     },
     {
       name: 'login',
       icon: 'vpn_key',
-      visible: !this.userService.isAuthenticated,
+      visibleTo: 'logged_out',
       onClick: () => {
         this.router.navigate(['login'])
       }
@@ -84,7 +88,7 @@ export class DrawerComponent implements OnInit {
     {
       name: 'register',
       icon: 'person_add',
-      visible: !this.userService.isAuthenticated,
+      visibleTo: 'logged_out',
       onClick: () => {
         this.router.navigate(['register'])
       }
@@ -97,6 +101,15 @@ export class DrawerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isAuthenticatedSubscription = this.userService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+    })
+  }
+
+  ngOnDestroy() {
+    if (this.isAuthenticatedSubscription) {
+      this.isAuthenticatedSubscription.unsubscribe();
+    }
   }
 
   onToggleExpand(drawerItem: any, e: MouseEvent) {

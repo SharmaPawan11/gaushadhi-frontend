@@ -36,7 +36,14 @@ mat-slide-toggle {
 mat-dialog-actions {
   justify-content: flex-end;
   button:first-of-type {
-    background-color: #f95759;
+    background-color: var(--danger-color);
     color: white;
+  }
+  button:nth-of-type(2) {
+    background-color: var(--primary-background);
+    color: var(--text-color-primary);
+  }
+  button:nth-of-type(2)[disabled] {
+    background-color: var(--disabled-btn-color);
   }
 }

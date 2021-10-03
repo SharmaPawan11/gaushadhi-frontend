@@ -1,64 +1,57 @@
-<button mat-icon-button class="menu-btn" (click)="onMenuButtonClick()" [autofocus]="false">
-  <mat-icon>menu</mat-icon>
-</button>
-<a class="logo" tabindex="-1" [routerLink]="['/']">
-  <img src="assets/images/logo-brown.png" alt="logo" class="logo">
-</a>
-<div class="product-types">
-  <a [routerLink]="['store', 'products']">Skin Care</a>
-  <a [routerLink]="['store', 'products']">Health Care</a>
-  <a [routerLink]="['store', 'products']">Hawan Samagri</a>
+<div class="navbar">
+  <button mat-icon-button class="menu-btn" (click)="onMenuButtonClick()" [autofocus]="false">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a class="logo" tabindex="-1" [routerLink]="['/']">
+    <img src="assets/images/logo-brown.png" alt="logo" class="logo">
+  </a>
+  <div class="product-types">
+    <a [routerLink]="['store', 'products']" (click)="this.collectionService.updateActiveCollections([this.skinCareFacetId])">Skin Care</a>
+    <a [routerLink]="['store', 'products']" (click)="this.collectionService.updateActiveCollections([this.healthCareFacetId])">Health Care</a>
+    <a [routerLink]="['store', 'products']" (click)="this.collectionService.updateActiveCollections([this.hawanSamagriFacetId])">Hawan Samagri</a>
+  </div>
+  <div class="action-bar">
+
+    <!--  <a tabindex="-1" [routerLink]="['store', 'products']">-->
+    <!--    <button mat-icon-button aria-label="Wishlist">-->
+    <!--      <mat-icon>favorite</mat-icon>-->
+    <!--    </button>-->
+    <!--  </a>-->
+
+    <a tabindex="-1" [routerLink]="['/login']" class="auth-action">
+      <button mat-raised-button  *ngIf="!isAuthenticated">
+        Sign in
+      </button>
+    </a>
+
+    <a tabindex="-1" [routerLink]="['/register']" class="auth-action">
+      <button mat-raised-button *ngIf="!isAuthenticated">
+        Register
+      </button>
+    </a>
+
+    <a tabindex="-1" [routerLink]="['store', 'cart']">
+<!--    <a tabindex="-1" [routerLink]="['account', 'profile']">-->
+
+      <button mat-icon-button aria-label="Your Cart" class="cart-button" [matBadge]="itemsInCart">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </a>
+
+    <button mat-button aria-label="Account" *ngIf="isAuthenticated" class="auth-action account-dropdown" (click)="showUserDropdown = !showUserDropdown">
+      <span>
+        <mat-icon>account_circle</mat-icon>
+        <mat-icon>expand_more</mat-icon>
+      </span>
+    </button>
+
+  </div>
 </div>
-<div class="action-bar">
 
-  <a tabindex="-1" [routerLink]="['store', 'products']">
-    <button mat-icon-button aria-label="Wishlist">
-      <mat-icon>favorite</mat-icon>
-    </button>
-  </a>
 
-  <a tabindex="-1" [routerLink]="['store', 'cart']">
-    <button mat-icon-button aria-label="Your Cart">
-      <mat-icon>shopping_cart</mat-icon>
-    </button>
-  </a>
-
-  <a tabindex="-1" [routerLink]="['/login']" class="auth-action">
-    <button mat-stroked-button  *ngIf="!userService.isAuthenticated">
-      Sign in
-    </button>
-  </a>
-
-  <a tabindex="-1" [routerLink]="['/register']" class="auth-action">
-    <button mat-stroked-button *ngIf="!userService.isAuthenticated">
-      Register
-    </button>
-  </a>
-
-<!--  <a>-->
-<!--    <div *ngIf="userService.isAuthenticated" tabindex="-1">-->
-<!--      <h4>Account</h4>-->
-<!--      <mat-icon>keyboard_arrow_down</mat-icon>-->
-<!--    </div>-->
-<!--  </a>-->
+<div class="user-dropdown" [ngClass]="{'show-user-dropdown': showUserDropdown}">
+  <gaushadhi-user-dropdown [userName]="userName" (userDropdownToggle)="showUserDropdown = !showUserDropdown"></gaushadhi-user-dropdown>
 </div>
-<!--<div class="search">-->
-<!--  <input placeholder="Search Products"/>-->
-<!--</div>-->
-<!--<div class="account-auth" tabindex="-1">-->
-<!--  <div class="login-btn" [routerLink]="['/login']" *ngIf="!userService.isAuthenticated">-->
-<!--    Login-->
-<!--  </div>-->
-<!--  <div class="register-btn" [routerLink]="['/register']" *ngIf="!userService.isAuthenticated">-->
-<!--    Register-->
-<!--  </div>-->
-<!--  <div class="account-dropdown" *ngIf="userService.isAuthenticated" tabindex="0">-->
-<!--    <h4>Account</h4>-->
-<!--    <mat-icon>keyboard_arrow_down</mat-icon>-->
-<!--  </div>-->
-<!--</div>-->
 
-<!--<a class="cart" tabindex="0" [routerLink]="['store', 'cart']">-->
-<!--  <mat-icon>shopping_cart</mat-icon>-->
-<!--  <h4>Cart</h4>-->
-<!--</a>-->
+
+

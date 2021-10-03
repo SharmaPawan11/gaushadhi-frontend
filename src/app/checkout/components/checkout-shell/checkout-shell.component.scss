@@ -3,12 +3,7 @@
   display: grid;
   grid-gap: 1rem;
   grid-template-rows: 70px;
-  --background-gradient: #eee;
-  background-image: linear-gradient(
-    to left,
-    rgba(255, 0, 0, 0),
-    var(--background-gradient)
-  );
+  background-color: var(--tertiary-background);
 }
 
 gaushadhi-checkout-stage-indicator {
@@ -31,7 +26,7 @@ gaushadhi-apply-coupon {
   z-index: 1;
   bottom: 0;
   height: 75px;
-  background-color: #eee;
+  background-color: var(--gray-background);
   align-items: center;
   grid-column: 1;
   .price-details {
@@ -47,11 +42,17 @@ gaushadhi-apply-coupon {
     }
   }
 
-  //.place-order-btn {
-  //  button {
-  //    color: white;
-  //  }
-  //}
+  .place-order-btn {
+    button {
+      &:first-of-type {
+        background-color: var(--primary-background);
+        color: var(--text-color-primary)
+      }
+      &:first-of-type[disabled] {
+        background-color: var(--disabled-btn-color);
+      }
+    }
+  }
 }
 
 ::ng-deep .loading-small {
@@ -104,8 +105,7 @@ gaushadhi-apply-coupon {
       }
       .place-order-btn {
         button {
-          font-size: 1.07rem;
-          //color: white;
+          font-size: 1rem;
           padding: 0.5rem 2rem;
           width: 250px;
         }

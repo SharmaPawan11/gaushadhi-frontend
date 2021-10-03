@@ -4,7 +4,7 @@
   <router-outlet></router-outlet>
 </div>
 
-<gaushadhi-apply-coupon *ngIf="currentRoute !== 'order-placed'"></gaushadhi-apply-coupon>
+<!--<gaushadhi-apply-coupon *ngIf="currentRoute !== 'order-placed'"></gaushadhi-apply-coupon>-->
 <gaushadhi-order-price-breakdown #scrollPoint *ngIf="currentRoute !== 'order-placed'"></gaushadhi-order-price-breakdown>
 
 <div class="checkout-cta-btn" *ngIf="currentRoute !== 'order-placed'" >
@@ -13,7 +13,7 @@
     <p> View price details</p>
   </div>
   <div class="place-order-btn">
-    <button mat-raised-button color="primary" (click)="nextCheckoutStep()" [disabled]="nextButtonStatus === 'disabled'">
+    <button mat-raised-button (click)="nextCheckoutStep()" [disabled]="nextButtonStatus === 'disabled'">
       {{ctaRouteMap[currentRoute]| uppercase}}
     </button>
   </div>

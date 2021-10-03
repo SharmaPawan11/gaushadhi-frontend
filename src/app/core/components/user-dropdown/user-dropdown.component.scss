@@ -1,0 +1,32 @@
+:host {
+  color: var(--text-color-primary);
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 1px 1px 5px #a2a2a2;
+}
+
+hr {
+  //border-bottom: 2px solid scale-color(#5f5757, $lightness: 80%);
+  border-bottom: 2px solid var(--scaled-down-text-color);
+  margin: 0 0.5rem;
+}
+
+div {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.account-action {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: bold;
+}

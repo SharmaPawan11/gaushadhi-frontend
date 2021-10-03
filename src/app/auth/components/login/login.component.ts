@@ -18,7 +18,7 @@ import {environment} from "../../../../environments/environment";
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  redirectUrl: string = '/account';
+  redirectUrl: string = '/';
   userId!: string;
   loginError!: ErrorResult;
   loginSubscription!: Subscription;
@@ -58,11 +58,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     const googleScopes = 'scope=https%3A//www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20openid';
     const googleClientId = 'client_id=' + environment.googleClientId;
-    const googleRedirectUri = 'redirect_uri=https://localhost:4200/login';
+    const googleRedirectUri = 'redirect_uri=' + environment.googleRedirectUri;
 
     const facebookScopes = 'scope=public_profile,email';
     const facebookClientId = 'client_id=' + environment.facebookClientId;
-    const facebookRedirectUri = 'redirect_uri=https://localhost:4200/login';
+    const facebookRedirectUri = 'redirect_uri=' + environment.facebookRedirectUri;
 
     this.authService.getSha256Hash(userProfileDetails.email, userProfileDetails.userId, userProfileDetails.name, 'default').then((hash) => {
       this.state = hash;
@@ -114,7 +114,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (res.errorCode) {
             this.snackbarService.openSnackBar(res.message, 0);
           } else if (res.id) {
-            await this.router.navigate([this.redirectUrl || '/']);
+            const redirectUrl = localStorage.getItem('oauthRedirectUrl') || '/';
+            localStorage.removeItem('oauthRedirectUrl');
+            await this.router.navigateByUrl(redirectUrl);
           } else {
             this.snackbarService.openSnackBar('Server error, Please contact support at support@gaushadhi.com');
             this.removeOAuthParams();
@@ -165,12 +167,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   onGoogleSignIn() {
     window.open(this.googleSignInUrl, '_self');
     localStorage.setItem('googleSignInState', this.state);
+    localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
     localStorage.removeItem('facebookSignInState');
   }
 
   onFacebookSignIn() {
     window.open(this.facebookSignInUrl, '_self');
     localStorage.setItem('facebookSignInState', this.state);
+    localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
     localStorage.removeItem('googleSignInState');
   }
 

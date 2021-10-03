@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  border: 1px solid #eee;
+  border: 1px solid var(--gray-background);
   padding: 1rem;
   cursor: pointer;
   gap: 0.5rem;
@@ -16,7 +16,7 @@
 
 .hover-feedback {
   &:hover {
-    background-color: #e9faf5;
+    background-color: var(--secondary-background);
   }
 }
 
@@ -26,13 +26,13 @@
   right: 0;
   width: 0;
   height: 0;
-  border-top: 50px solid #4dd392;
+  border-top: 50px solid var(--primary-background);
   border-left: 50px solid transparent;
   mat-icon {
     position: absolute;
     top: -46px;
     right: 2px;
-    color: white;
+    color: var(--text-color-primary);
   }
 }
 
@@ -44,9 +44,9 @@
   flex-direction: column;
   padding: 1rem;
   box-shadow: 0 1px 1px #adaaaa;
-  border: 1px solid #eee;
+  border: 1px solid var(--gray-background);
   &:hover {
-    background-color: #eee;
+    background-color: var(--gray-background);
     cursor: pointer;
   }
 }
@@ -89,13 +89,20 @@ address {
     }
     &:first-of-type {
       //padding-left: 0;
-      background-color: #f95759;
+      background-color: var(--danger-color);
       color: white;
+    }
+    &:nth-of-type(2) {
+      background-color: var(--primary-background);
+      color: var(--text-color-primary)
+    }
+    &:nth-of-type(2)[disabled] {
+      background-color: var(--disabled-btn-color);
     }
   }
 }
 
 .selected-card {
-  background-color: #e9faf5;
-  border: 2px solid #aad8c6;
+  background-color: var(--secondary-background);
+  border: 2px solid var(--primary-background);
 }

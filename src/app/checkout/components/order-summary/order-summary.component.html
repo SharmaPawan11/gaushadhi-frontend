@@ -33,7 +33,7 @@
     <div class="cart-items" *ngIf="orderDetails ; else loading">
       <div class="cart-item" *ngFor="let line of orderDetails.lines; trackBy: identify">
         <div class="image-container">
-          <img [src]=line.featuredAsset.preview alt="Product-Image">
+          <img [src]="line.featuredAsset.preview + '?preset=additional-n-cart'" alt="Product-Image">
         </div>
         <div class="description">
           <p>{{line.productVariant.name}}</p>

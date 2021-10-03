@@ -1,19 +1,32 @@
-:host {
+.navbar {
   display: grid;
   grid-template-columns: auto 144px 1fr auto;
   padding: 1rem;
   align-items: center;
 }
+//.cart-button {
+//  background-color: var(--primary-background);
+//}
 
-.menu-btn {
-
+.account-dropdown {
+  position: relative;
+  top: 1px;
+  padding: 0.5rem 0;
+  border-radius: 100vh;
+  background-color: var(--secondary-background);
+  span {
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .logo {
   width: 100%;
 }
 
-.auth-action, .product-types {
+.auth-action, .product-types, .user-dropdown {
   display: none;
 }
 
@@ -30,7 +43,8 @@ a {
 }
 
 @media screen and (min-width: 768px) {
-  :host {
+
+  .navbar {
     grid-template-columns: 1rem 144px 1rem 1fr auto;
     grid-gap: 1rem;
   }
@@ -40,22 +54,25 @@ a {
   }
 
   .product-types {
+    grid-column-start: 4;
     display: flex;
     gap: 2rem;
     align-items: center;
     justify-content: center;
     color: var(--text-color-primary);
+    flex-wrap: wrap;
   }
 
   .action-bar {
     display: flex;
     gap: 1rem;
     grid-column-start: 5;
+    align-items: center;
     .auth-action {
       display: inline;
     }
-    button[mat-stroked-button] {
-      background-color: var(--primary-background);
+    button[mat-stroked-button], button[mat-raised-button] {
+      //background-color: var(--primary-background);
       font-weight: bold;
       height: 2.5rem;
       color: black;
@@ -67,7 +84,22 @@ a {
     grid-column-start: 2;
   }
 
-  .product-types {
-    grid-column-start: 4;
+  .user-dropdown {
+    position: relative;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    gaushadhi-user-dropdown {
+      position: absolute;
+      z-index: 2;
+    }
   }
+
+  .show-user-dropdown {
+    display: flex;
+  }
+}
+
+::ng-deep .mat-badge-content {
+  background: var(--secondary-background);
+  color: red;
 }

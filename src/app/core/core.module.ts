@@ -26,6 +26,8 @@ import {FormatPriceModule} from "../custom/pipes/format-price/format-price.modul
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { DrawerComponent } from './components/drawer/drawer.component';
 import {MatRippleModule} from "@angular/material/core";
+import {MatBadgeModule} from "@angular/material/badge";
+import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -37,23 +39,25 @@ import {MatRippleModule} from "@angular/material/core";
     LandingHeroComponent,
     LandingPagePopularItemsComponent,
     DrawerComponent,
+    UserDropdownComponent,
   ],
-  imports: [
-    // Angular
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterModule,
-    MatIconModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatSidenavModule,
-    FormatPriceModule,
-    MatRippleModule
-  ],
+    imports: [
+        // Angular
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterModule,
+        MatIconModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatSidenavModule,
+        FormatPriceModule,
+        MatRippleModule,
+        MatBadgeModule
+    ],
   exports: [
     BrowserModule,
     BrowserAnimationsModule,

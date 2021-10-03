@@ -4,7 +4,7 @@
   grid-template-columns: 0.5fr 1.5rem 1fr 1.5rem 1fr 1.5rem 0.5fr;
 
   hr {
-    border-top: 1px dashed red;
+    border-top: 1px dashed var(--primary-background);
     grid-row: 1;
     align-self: center;
     position: relative;
@@ -12,7 +12,7 @@
   }
 
   .hr__done {
-    border-top: 1px solid red;
+    border-top: 1px solid var(--primary-background);
   }
 
   .step {
@@ -53,7 +53,7 @@
   }
 
   .current_step {
-    color: #ffa52d;
+    color: var(--primary-background);
   }
 
   .coming_step {

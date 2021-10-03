@@ -20,6 +20,7 @@
   h4 {
     font-weight: 500;
     font-size: 0.9rem;
+    text-align: center;
   }
   .img-container {
     img {
@@ -35,8 +36,8 @@
     color: #8e8e8e;
   }
   .manage-order-btn {
-    color: white;
-    background-color: #7716ec;
+    color: var(--text-color-primary);
+    background-color: var(--primary-background);
     width: 250px;
     height: 40px;
   }

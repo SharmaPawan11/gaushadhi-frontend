@@ -9,6 +9,7 @@ import { CheckoutService } from '../../providers/checkout.service';
 import {
   UpdateOrderDetailsGlobally
 } from "../../../core/operators/update-order-details-globally.operator";
+import {UserProfile, UserService} from "../../../core/providers/user.service";
 
 @Component({
   selector: 'gaushadhi-order-review',
@@ -20,7 +21,11 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   //TODO: GodLike Error Handling
   //TODO: Coupon Codes
   destroy$: Subject<boolean> = new Subject<boolean>();
-  customerDetails: any;
+  customerDetails: UserProfile = {
+    customerName: '',
+    customerEmail: '',
+    customerPhNo: ''
+  };
   orderDetails: any;
   couponCodeInput = new FormControl('', [Validators.required]);
   appliedCoupons: Set<string> = new Set();
@@ -29,12 +34,13 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
     private razorpayService: RazorpayService,
-    private route: ActivatedRoute,
     private checkoutService: CheckoutService,
+    private userService: UserService,
+    private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private router: Router,
     private zone: NgZone,
-    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally,
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +52,10 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
       this.orderDetails = res;
     });
 
-    this.customerDetails = {
-      contact: localStorage.getItem('customerPhNo') || undefined,
-      name: localStorage.getItem('customerName'),
-      email: localStorage.getItem('customerEmail'),
-    };
+    this.userService.userProfile$.pipe(takeUntil(this.destroy$))
+      .subscribe((userProfileData) => {
+        this.customerDetails = userProfileData;
+    })
 
     this.checkoutService.onNext$
       .pipe(takeUntil(this.destroy$))
@@ -103,9 +108,9 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
       const Razorpay = this.razorpayService.Razorpay;
       this.razorpayService.razorpayOrderId = razorpayOrderId;
       this.razorpayService.razorpayPrefill = {
-        contact: this.customerDetails.contact,
-        email: this.customerDetails.email,
-        name: this.customerDetails.name,
+        contact: this.customerDetails.customerPhNo,
+        email: this.customerDetails.customerEmail,
+        name: this.customerDetails.customerName,
       };
       this.razorpayService.razorpaySuccessCallback =
         this.onRazorpayPaymentSuccess.bind(this);
@@ -126,7 +131,8 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
     this.cd.detectChanges();
     this.orderService
       .addRazorpayPaymentToOrder(metadata)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$))
       .subscribe((res) => {
         switch (res.__typename) {
           case 'PaymentFailedError':
@@ -137,10 +143,13 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
             break;
           case 'Order':
             console.log('PAYMENT SUCCESSFUL');
-            console.log(res);
+            this.orderService.refreshOrderDetails();
             this.zone.run(() => {
               this.router.navigate(['..', 'order-placed'], {
-                relativeTo: this.route
+                relativeTo: this.route,
+                queryParams: {
+                  order_id: this.orderDetails.code
+                }
               });
             })
         }

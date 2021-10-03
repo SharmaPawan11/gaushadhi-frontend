@@ -10,6 +10,10 @@ import {
 } from "../operators/on-error-change-order-state-then-retry.operator";
 import {SnackbarService} from "./snackbar.service";
 import {SetDefaultShippingOnFirstItemAdd} from "../operators/set-default-shipping-on-first-item-add";
+import {EMPTY, of} from "rxjs";
+import {UserService} from "./user.service";
+import {Router} from "@angular/router";
+import {notNullOrNotUndefined} from "../../common/utils/not-null-or-not-undefined";
 
 @Injectable({
   providedIn: 'root',
@@ -64,9 +68,16 @@ export class CartService {
     private orderService: OrderService,
     private snackbarService: SnackbarService,
     private onErrorChangeStateThenRetry: OnErrorChangeOrderStateThenRetry,
+    private userService: UserService,
+    private router: Router
   ) {}
 
   addToCart(productVariantId: string | number, quantity: number) {
+    if (!this.userService.isAuthenticated) {
+      this.snackbarService.openSnackBar('You must be signed-in in order to add item to cart', 0);
+      this.router.navigate(['login']);
+      return of(EMPTY);
+    }
     //TODO: Handle error cases
     return this.requestor
       .mutate<AddToCart.Mutation>(this.ADD_ITEM_TO_CART_MUTATION, {
@@ -76,6 +87,7 @@ export class CartService {
       .pipe(
         map((res) => res.addItemToOrder),
         this.onErrorChangeStateThenRetry.operator('AddingItems'),
+        filter(notNullOrNotUndefined),
         tap((res) => {
           switch (res?.__typename) {
             case 'OrderModificationError':
@@ -90,6 +102,13 @@ export class CartService {
   }
 
   adjustOrderItemQuantity(orderLineId: number | string, quantity: number) {
+    console.log(this.userService.isAuthenticated);
+    if (!this.userService.isAuthenticated) {
+      this.snackbarService.openSnackBar('You must be signed-in in order to change quantity', 0);
+      this.router.navigate(['login']);
+      return of(EMPTY);
+    }
+
     return this.requestor
       .mutate(this.ADJUST_ORDER_LINE_MUTATION, {
         orderLineId,
@@ -98,6 +117,7 @@ export class CartService {
       .pipe(
         map((res) => res.adjustOrderLine),
         this.onErrorChangeStateThenRetry.operator('AddingItems'),
+        filter(notNullOrNotUndefined),
         tap((res) => {
           if (res?.__typename === 'InsufficientStockError') {
            this.snackbarService.openSnackBar(res.message);
@@ -106,4 +126,5 @@ export class CartService {
 
       );
   }
+
 }

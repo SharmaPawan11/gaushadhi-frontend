@@ -3,7 +3,7 @@
 </div>
 <div class="breakdown-container" *ngIf="orderDetails; else loading">
   <div class="breakdown-item">
-    <p>Price (3 items)</p>
+    <p>Price ({{orderDetails.totalQuantity}} items)</p>
     <p>{{totalUnitPrice | formatPrice : 'INR':'symbol'}}</p>
   </div>
   <div class="breakdown-item">

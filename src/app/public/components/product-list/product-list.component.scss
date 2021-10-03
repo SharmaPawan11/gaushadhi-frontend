@@ -10,8 +10,9 @@
   font-size: 0.9rem;
   outline: 1px solid #bdbdbd;
 }
+
 .search-result-label {
-  color: #b3b3b3;
+  color: var(--text-color-primary);
   word-spacing: 0.125rem;
   font-size: 0.9rem;
   span {
@@ -38,8 +39,12 @@
     min-width: max-content;
     border-radius: 18px;
     cursor: pointer;
-    background-color: #3f9b51;
-    color: white;
+    color: var(--text-color-primary);
+    outline: 1px solid var(--primary-background);
+  }
+
+  .sort-button-filled {
+    background-color: var(--primary-background);
   }
 }
 
@@ -56,7 +61,7 @@
     grid-auto-flow: row;
     grid-row-gap: 1rem;
     padding: 1.5rem;
-    border: 2px solid #eeeded;
+    border: 2px solid var(--gray-background);
     border-radius: 10px;
     cursor: pointer;
     .wishlist-button {
@@ -122,23 +127,29 @@
           font-weight: 600;
         }
       }
+      //.add-to-cart-btn {
+      //  font-size: 0.75rem;
+      //  font-weight: 500;
+      //  padding: 0.6rem 0.8rem 0.6rem 0.8rem;
+      //  border: 2px solid #eeeded;
+      //  border-radius: 15px;
+      //  cursor: pointer;
+      //  transition: box-shadow 200ms ease-in, background-color 200ms ease-in;
+      //  background-color: var(--primary-background);
+      //  &:hover {
+      //    box-shadow: 0.5px 0.5px 0.5px 0.5px #ddd,
+      //      -0.5px -0.5px 0.5px 0.5px #ddd;
+      //  }
+      //  &:active {
+      //    background-color: unset;
+      //    box-shadow: none;
+      //  }
+      //}
       .add-to-cart-btn {
-        font-size: 0.75rem;
-        font-weight: 500;
-        padding: 0.6rem 0.8rem 0.6rem 0.8rem;
-        border: 2px solid #eeeded;
+        background-color: var(--primary-background);
+        font-size: 0.8rem;
         border-radius: 15px;
-        cursor: pointer;
-        transition: box-shadow 200ms ease-in, background-color 200ms ease-in;
-        &:hover {
-          background-color: #ddd;
-          box-shadow: 0.5px 0.5px 0.5px 0.5px #ddd,
-            -0.5px -0.5px 0.5px 0.5px #ddd;
-        }
-        &:active {
-          background-color: unset;
-          box-shadow: none;
-        }
+        padding: 0 0.75rem;
       }
     }
     .stock-indicator-container {

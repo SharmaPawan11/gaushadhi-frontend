@@ -3,16 +3,23 @@
 @font-face {
   font-family: Varela;
   src: url(assets/fonts/VarelaRound-Regular.ttf) format("opentype");
+  font-display: swap;
 }
 
 html,
 body {
   --primary-background: rgb(235,194,110);
   --secondary-background: rgb(255,233,187);
-  --tertiary-background: #e95420;
+  --tertiary-background: #fafafa;
+  --gray-background: #eee;
   --text-color-primary: #5f5757;
+  --scaled-down-text-color: #e0dddd;
+  --danger-color: #f95759;
+  --disabled-btn-color: rgba(0,0,0,.12);
   height: 100%;
 }
+
+
 body {
   margin: 0;
   //font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -24,7 +31,7 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: Varela, Roboto, "Helvetica Neue", sans-serif;
+  font-family: Varela, sans-serif;
 }
 
 .slider-header {

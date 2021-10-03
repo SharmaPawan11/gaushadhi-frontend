@@ -8,6 +8,7 @@ import { LandingPageComponent } from './core/components/landing-page/landing-pag
 import { CategoryComponent } from './core/components/category/category.component';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {PreloadWithDelayStrategy} from "./core/providers/preload-strategy/preload-with-delay-strategy";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import {MatSidenavModule} from "@angular/material/sidenav";
   ],
     imports: [
         CoreModule,
-        RouterModule.forRoot(routes),
+        RouterModule.forRoot(routes, {
+          preloadingStrategy: PreloadWithDelayStrategy
+        }),
         MatIconModule,
         MatSidenavModule,
     ],
