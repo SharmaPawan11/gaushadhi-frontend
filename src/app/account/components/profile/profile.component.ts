@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
+import {UserService} from "../../../core/providers/user.service";
 
 @Component({
   selector: 'gaushadhi-profile',
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,12 @@ export class ProfileComponent implements OnInit {
         if (res.__typename === 'Customer') {
           this.userProfileForm.markAsPristine();
           this.snackbarService.openSnackBar('Profile updated successfully');
+          this.userService.updateUserProfile({
+            customerName: res.firstName + ' ' + res.lastName,
+            customerPhNo: res.phoneNumber,
+            customerEmail: this.userProfileData.emailAddress
+          })
+          console.log(res);
         }
       });
   }

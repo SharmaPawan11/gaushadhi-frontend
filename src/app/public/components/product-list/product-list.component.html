@@ -14,12 +14,12 @@
 
 <div class="product-grid">
   <ng-container *ngFor="let product of paginatedProducts">
-    <a class="product" *ngIf="product.variants.length && !loading else loadingTemplate" [routerLink]="['./', product.slug]">
+    <a class="product" *ngIf="product.variants.length && !loading else loadingTemplate" (click)="onClickProduct(product.slug)">
       <div class="wishlist-button">
         <mat-icon>favorite</mat-icon>
       </div>
       <div class="img-container">
-        <img [src]=product.featuredAsset?.preview alt="Featured Asset">
+        <img [src]="product.featuredAsset?.preview + '?preset=product-list'" alt="Featured Asset">
       </div>
       <p class="brand-name">{{product.variants[0]?.sku | uppercase}}</p>
       <h4>{{product.name}}</h4>
@@ -41,7 +41,7 @@
 <!--        <div class="add-to-cart-btn">-->
 <!--          Add to cart-->
 <!--        </div>-->
-        <button mat-raised-button class="add-to-cart-btn">
+        <button mat-raised-button class="add-to-cart-btn" (click)="onAddToCart(product, $event)">
           Add to cart
         </button>
       </div>

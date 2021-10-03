@@ -7,7 +7,7 @@
   <div class="order-breakdown">
     <div class="order-items">
       <div class="order-item" *ngFor="let line of orderDetails.lines">
-        <img [src]=line.featuredAsset?.preview alt="product-image">
+        <img [src]="line.featuredAsset?.preview + '?preset=additional-n-cart'" alt="product-image">
         <div class="product-info">
           <p>{{line.productVariant?.name}}</p>
           <p>{{line.productVariant?.sku}}</p>

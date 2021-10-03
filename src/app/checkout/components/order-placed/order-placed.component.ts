@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'gaushadhi-order-placed',
@@ -6,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-placed.component.scss'],
 })
 export class OrderPlacedComponent implements OnInit {
-  constructor() {}
+  orderId: string = '';
 
-  ngOnInit(): void {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.orderId = this.route.snapshot.queryParams.order_id;
+  }
 }

@@ -65,12 +65,15 @@ export class OrderService {
           console.log(err);
           return of(null);
         }),
-        filter(notNullOrNotUndefined)
+        // filter(notNullOrNotUndefined)
       )
       .subscribe((res) => {
-        if (res.__typename === 'Order') {
+        if (res && res.__typename === 'Order') {
+          console.log(res);
           const { __typename, ...orderDetails } = res;
           this.currentOrderDetails.next(orderDetails);
+        } else {
+          this.currentOrderDetails.next(null);
         }
       });
   }

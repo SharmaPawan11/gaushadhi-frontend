@@ -5,7 +5,7 @@
       <div class="cart-items-container">
         <div class="cart-item" *ngFor="let line of orderDetails.lines; trackBy:identify">
           <div class="img-container">
-            <img [src]=line.featuredAsset.preview alt="Product-Image">
+            <img [src]="line.featuredAsset.preview + '?preset=additional-n-cart'" alt="Product-Image">
           </div>
           <h4 class="variant-name">{{line.productVariant.name}}</h4>
           <p class="brand-name">{{line.productVariant.sku}}</p>

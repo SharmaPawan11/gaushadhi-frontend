@@ -12,12 +12,13 @@ import {
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import {map} from "rxjs/operators";
+import {SnackbarService} from "../snackbar.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountGuard implements CanLoad, CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private snackbarService: SnackbarService) {}
 
   canLoad(
     route: Route,
@@ -27,7 +28,7 @@ export class AccountGuard implements CanLoad, CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.userService.isAuthenticated) {
+    if (this.userService.isAuthenticated$) {
       return true;
     } else {
       return this.router.createUrlTree(['login']);
@@ -52,6 +53,7 @@ export class AccountGuard implements CanLoad, CanActivate {
     return this.userService.isAuthenticated$.pipe(
       map((isAuthenticated) => {
         if (!isAuthenticated) {
+          this.snackbarService.openSnackBar('Please Sign in first');
           return this.router.createUrlTree(['login'], {
             queryParams: {
               redirectTo: state.url

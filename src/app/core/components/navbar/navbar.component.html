@@ -33,7 +33,7 @@
     <a tabindex="-1" [routerLink]="['store', 'cart']">
 <!--    <a tabindex="-1" [routerLink]="['account', 'profile']">-->
 
-      <button mat-icon-button aria-label="Your Cart" class="cart-button">
+      <button mat-icon-button aria-label="Your Cart" class="cart-button" [matBadge]="itemsInCart">
         <mat-icon>shopping_cart</mat-icon>
       </button>
     </a>
@@ -50,7 +50,7 @@
 
 
 <div class="user-dropdown" [ngClass]="{'show-user-dropdown': showUserDropdown}">
-  <gaushadhi-user-dropdown (userDropdownToggle)="showUserDropdown = !showUserDropdown"></gaushadhi-user-dropdown>
+  <gaushadhi-user-dropdown [userName]="userName" (userDropdownToggle)="showUserDropdown = !showUserDropdown"></gaushadhi-user-dropdown>
 </div>
 
 

@@ -13,7 +13,8 @@ export class UpdateOrderDetailsGlobally {
     return <T>(source: Observable<T>) => {
       return source.pipe(
         tap((res:any) => {
-          if (res?.__typename === 'Order' || res?.__typename === 'RazorpayOrderIdSuccess' || res?.__typename === 'InsufficientStockError') {
+          console.log(res);
+          if (res?.__typename === 'Order' || res?.__typename === 'RazorpayOrderIdSuccess' || res?.__typename === 'InsufficientStockError' || res.__typename === 'CurrentUser') {
             this.orderService.refreshOrderDetails();
           }
         })

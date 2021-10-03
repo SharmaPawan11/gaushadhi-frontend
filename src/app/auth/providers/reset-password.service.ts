@@ -8,6 +8,8 @@ import {
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
+import {SaveCustomerInfoOnSuccessfulLogin} from "../../core/operators/save-customer-info-on-successful-login";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +48,9 @@ export class ResetPasswordService {
     ${ERROR_RESULT_FRAGMENT}
   `;
 
-  constructor(private requestor: RequestorService) {}
+  constructor(private requestor: RequestorService,
+              private saveCustomerInfo: SaveCustomerInfoOnSuccessfulLogin
+  ) {}
 
   requestResetPassword(emailAddress: string) {
     const requestResetPasswordMutationVariable = {
@@ -60,7 +64,7 @@ export class ResetPasswordService {
       .pipe(map((res) => res.requestPasswordReset));
   }
 
-  resetPassword(token: string, newPassword: string) {
+  resetPassword(token: string, newPassword: string): Observable<any> {
     const resetPasswordMutationVariable = {
       token,
       password: newPassword,
@@ -71,6 +75,7 @@ export class ResetPasswordService {
         this.RESET_PASSWORD_MUTATION,
         resetPasswordMutationVariable
       )
-      .pipe(map((res) => res.resetPassword));
+      .pipe(map((res) => res.resetPassword),
+        this.saveCustomerInfo.operator());
   }
 }

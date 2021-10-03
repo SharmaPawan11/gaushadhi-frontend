@@ -3,7 +3,7 @@
   <div class="order-card" *ngIf="!order.active">
     <div class="line-1">
       <div class="images" *ngIf="order.lines.length ; else emptyCart">
-        <img [src]=line?.featuredAsset?.preview *ngFor="let line of order.lines ; trackBy identify" alt="product-image">
+        <img [src]="line?.featuredAsset?.preview + '?preset=additional-n-cart'" *ngFor="let line of order.lines ; trackBy identify" alt="product-image">
       </div>
       <ng-template #emptyCart>
         <div class="empty-cart-text">
@@ -11,9 +11,9 @@
         </div>
       </ng-template>
       <div class="actions">
-        <button mat-button *ngIf="order.state === 'PaymentSettled'">{{'Track Order' | uppercase}}</button>
+<!--        <button mat-button *ngIf="order.state === 'PaymentSettled'">{{'Track Order' | uppercase}}</button>-->
         <button mat-button [routerLink]="[order.code]">{{'View Details' | uppercase}}</button>
-        <button mat-button *ngIf="order.state === 'PaymentSettled'" class="cancel-btn">{{'Cancel Order' | uppercase}}</button>
+<!--        <button mat-button *ngIf="order.state === 'PaymentSettled'" class="cancel-btn">{{'Cancel Order' | uppercase}}</button>-->
       </div>
     </div>
     <div class="line-2">

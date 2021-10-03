@@ -7,10 +7,13 @@
   }
 }
 
-.section-heading {
+.section-heading, .category-heading {
   font-size: 0.95rem;
   font-weight: 500;
   color: #34373d;
+}
+
+.category-heading {
   padding-bottom: 0.5rem;
 }
 

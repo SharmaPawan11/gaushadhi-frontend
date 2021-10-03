@@ -7,42 +7,55 @@ import { HttpClient } from '@angular/common/http';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { SnackbarService } from './snackbar.service';
+
+export type UserProfile = {
+  customerName: string | null;
+  customerEmail: string | null;
+  customerPhNo: string | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
 
-  isAuthenticated = new BehaviorSubject<boolean>(this.hasAuthToken);
-  isAuthenticated$ = this.isAuthenticated.asObservable();
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasAuthToken);
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  isAuthenticated: boolean = false;
+  private userProfile = new BehaviorSubject<UserProfile>({
+    customerName: localStorage.getItem('customerName'),
+    customerEmail: localStorage.getItem('customerEmail'),
+    customerPhNo: localStorage.getItem('customerPhNo')
+  });
+  userProfile$ = this.userProfile.asObservable();
 
   constructor(
     private requestor: RequestorService,
     private httpClient: HttpClient,
     private router: Router,
-    private snackbarService: SnackbarService,
-    private route: ActivatedRoute
-  ) {}
+    private snackbarService: SnackbarService
+  ) {
+    this.updateIsAuthenticated();
+  }
 
   get hasAuthToken(): boolean {
     const authToken = localStorage.getItem('authToken');
-    console.log(!!authToken);
     return !!authToken;
+  }
 
-    // return this.requestor.query<GetActiveCustomer.Query>(GET_ACTIVE_CUSTOMER, {
-    //   includeAddress: false,
-    //   includeProfile: true,
-    //   includeOrder: false,
-    // }).pipe(map((res) => res.activeCustomer),
-    //         map((res) => {
-    //           return !!(res && res.id);
-    //         }))
+  updateUserProfile(userProfileData: UserProfile) {
+    this.userProfile.next(userProfileData);
+    localStorage.setItem('customerName', userProfileData.customerName || '');
+    localStorage.setItem('customerEmail', userProfileData.customerEmail || '');
+    localStorage.setItem('customerPhNo', userProfileData.customerPhNo || '');
   }
 
   updateIsAuthenticated() {
-    this.isAuthenticated.next(this.hasAuthToken);
+    this.isAuthenticatedSubject.next(this.hasAuthToken);
+    this.isAuthenticated = this.hasAuthToken;
   }
 
-  setUserDetails(userId: string) {
+  setUserId(userId: string) {
     localStorage.setItem('userId', userId);
     this.updateIsAuthenticated();
   }
@@ -51,7 +64,8 @@ export class UserService {
     return {
       name: localStorage.getItem('customerName'),
       email: localStorage.getItem('customerEmail'),
-      userId: localStorage.getItem('userId')
+      userId: localStorage.getItem('userId'),
+      phNo: localStorage.getItem('customerPhNo')
     }
   }
 
@@ -76,7 +90,7 @@ export class UserService {
           this.removeUserDetails();
           // this.router.navigateByUrl(this.router.url);
           this.snackbarService.openSnackBar('You have been logged out.');
-          // this.router.navigate(['']);
+          this.router.navigate(['']);
         }
       });
   }

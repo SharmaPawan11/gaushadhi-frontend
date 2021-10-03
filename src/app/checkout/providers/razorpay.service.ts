@@ -3,6 +3,12 @@ import { Subject } from 'rxjs';
 import {ScriptService} from "../../core/providers/script.service";
 import {environment} from "../../../environments/environment";
 
+type razorpayPrefill = {
+  email: string | undefined,
+  contact: string | undefined,
+  name: string | undefined
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -96,12 +102,17 @@ export class RazorpayService {
     this._razorpayOptions.order_id = orderId;
   }
 
-  set razorpayPrefill(prefill: {
-    email: string;
-    contact: string;
-    name: string;
-  }) {
-    this._razorpayOptions.prefill = prefill;
+  set razorpayPrefill({
+    email,
+    contact,
+    name,
+  }: {email: string | null, contact: string | null, name: string | null}) {
+    email = email || '';
+    contact = contact || '';
+    name = name || '';
+    this._razorpayOptions.prefill = {
+      email, contact, name
+    };
   }
 
   set razorpaySuccessCallback(cb: (metadata: Object) => void) {

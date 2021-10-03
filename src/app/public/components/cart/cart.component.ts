@@ -9,10 +9,11 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../core/providers/order.service';
 import { Observable, Subject } from 'rxjs';
 import { CartService } from '../../../core/providers/cart.service';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import {filter, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {
   UpdateOrderDetailsGlobally
 } from "../../../core/operators/update-order-details-globally.operator";
+import {notNullOrNotUndefined} from "../../../common/utils/not-null-or-not-undefined";
 
 @Component({
   selector: 'gaushadhi-cart',

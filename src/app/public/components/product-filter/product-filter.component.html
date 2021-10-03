@@ -1,6 +1,6 @@
 <div class="section-heading">Filter</div>
 <div class="categories">
-  <p class="section-heading">Categories</p>
+  <p class="category-heading">Categories</p>
   <form [formGroup]="categorySelectForm" *ngIf="categorySelectForm">
     <mat-checkbox *ngFor="let category of allCategories" [formControlName]="category.slug">
       {{category.name}}

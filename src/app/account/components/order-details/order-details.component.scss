@@ -1,4 +1,5 @@
 .order-id {
+  align-items: center;
   padding: 1rem;
   background-color: white;
   margin: 0 1rem 1rem 1rem;
@@ -6,6 +7,7 @@
   gap: 0.5rem;
   font-size: 1.2rem;
   outline: 1px solid #e0e0e0;
+  flex-wrap: wrap;
   p:first-of-type {
     color: #b2b2b2;
   }

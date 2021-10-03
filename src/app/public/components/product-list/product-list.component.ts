@@ -4,6 +4,10 @@ import {Subject, Subscription} from "rxjs";
 import {map, takeUntil} from "rxjs/operators";
 import {ProductService} from "../../../core/providers/product.service";
 import {CollectionService} from "../../../core/providers/collection.service";
+import {CartService} from "../../../core/providers/cart.service";
+import {SnackbarService} from "../../../core/providers/snackbar.service";
+import {UpdateOrderDetailsGlobally} from "../../../core/operators/update-order-details-globally.operator";
+import {SetDefaultShippingOnFirstItemAdd} from "../../../core/operators/set-default-shipping-on-first-item-add";
 
 @Component({
   selector: 'gaushadhi-product-list',
@@ -26,7 +30,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private collectionService: CollectionService
+    private collectionService: CollectionService,
+    private cartService: CartService,
+    private snackbarService: SnackbarService,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally,
+    private setDefaultShippingOnFirstItemAdd: SetDefaultShippingOnFirstItemAdd
   ) {}
 
   ngOnInit(): void {
@@ -144,5 +152,29 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   updatePagination() {
     this.paginatedProducts = this.paginate(this.filteredProducts, this.skip, this.take);
+  }
+
+  onAddToCart(product: any, e: MouseEvent) {
+    const productId = product.variants[0].id;
+    e.stopPropagation();
+    this.cartService.addToCart(productId, 1)
+      .pipe(this.updateOrderDetailsGlobally.operator(),
+        this.setDefaultShippingOnFirstItemAdd.operator())
+      .subscribe((res) => {
+      switch (res?.__typename) {
+        case 'Order':
+          this.snackbarService.openSnackBar(
+            `1 item(s) has been added to your cart`
+          );
+          break;
+      }
+    })
+  }
+
+  onClickProduct(slug: string) {
+    console.log(slug);
+    this.router.navigate(['./', slug], {
+      relativeTo: this.route
+    })
   }
 }

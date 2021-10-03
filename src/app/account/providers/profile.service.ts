@@ -30,16 +30,12 @@ export class ProfileService {
   UPDATE_CUSTOMER_PROFILE_MUTATION = gql`
     mutation UpdateCustomerDetails(
       $updateCustomerInput: UpdateCustomerInput!
-      $hasUpdatedTitle: Boolean!
-      $hasUpdatedFirstName: Boolean!
-      $hasUpdatedLastName: Boolean!
-      $hasUpdatedPhoneNumber: Boolean!
     ) {
       updateCustomer(input: $updateCustomerInput) {
-        title @include(if: $hasUpdatedTitle)
-        firstName @include(if: $hasUpdatedFirstName)
-        lastName @include(if: $hasUpdatedLastName)
-        phoneNumber @include(if: $hasUpdatedPhoneNumber)
+        title
+        firstName
+        lastName
+        phoneNumber
       }
     }
   `;
@@ -106,17 +102,7 @@ export class ProfileService {
         includeOrder: false,
       })
       .pipe(
-        map((res) => res.activeCustomer),
-        tap((res) => {
-          if (res?.emailAddress) {
-            localStorage.setItem('customerName', res.firstName + res.lastName);
-            localStorage.setItem('customerEmail', res.emailAddress);
-            localStorage.setItem(
-              'customerPhNo',
-              (res as any).phoneNumber || undefined
-            );
-          }
-        })
+        map((res) => res.activeCustomer)
       );
   }
 
@@ -125,10 +111,10 @@ export class ProfileService {
   ): Observable<any> {
     const updateProfileMutationVariable: any = {
       updateCustomerInput: {},
-      hasUpdatedTitle: false,
-      hasUpdatedFirstName: false,
-      hasUpdatedLastName: false,
-      hasUpdatedPhoneNumber: false,
+      // hasUpdatedTitle: false,
+      // hasUpdatedFirstName: false,
+      // hasUpdatedLastName: false,
+      // hasUpdatedPhoneNumber: false,
     };
 
     updatedControls.forEach((updatedControl) => {
@@ -136,20 +122,20 @@ export class ProfileService {
         updatedControl.fieldEdited
       ] = updatedControl.fieldNewValue;
 
-      switch (updatedControl.fieldEdited) {
-        case 'firstName':
-          updateProfileMutationVariable.hasUpdatedFirstName = true;
-          break;
-        case 'lastName':
-          updateProfileMutationVariable.hasUpdatedLastName = true;
-          break;
-        case 'phoneNumber':
-          updateProfileMutationVariable.hasUpdatedPhoneNumber = true;
-          break;
-        case 'title':
-          updateProfileMutationVariable.hasUpdatedTitle = true;
-          break;
-      }
+      // switch (updatedControl.fieldEdited) {
+      //   case 'firstName':
+      //     updateProfileMutationVariable.hasUpdatedFirstName = true;
+      //     break;
+      //   case 'lastName':
+      //     updateProfileMutationVariable.hasUpdatedLastName = true;
+      //     break;
+      //   case 'phoneNumber':
+      //     updateProfileMutationVariable.hasUpdatedPhoneNumber = true;
+      //     break;
+      //   case 'title':
+      //     updateProfileMutationVariable.hasUpdatedTitle = true;
+      //     break;
+      // }
     });
 
     return this.requestor
