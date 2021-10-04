@@ -14,7 +14,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
       this.category = param.productCategory;
-      console.log(this.category);
+      // console.log(this.category);
       setTimeout(() => {
         this.router.navigate(['../gaming'], {
           relativeTo: this.route,

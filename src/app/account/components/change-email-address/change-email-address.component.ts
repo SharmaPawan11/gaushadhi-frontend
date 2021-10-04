@@ -73,7 +73,7 @@ export class ChangeEmailAddressComponent implements OnInit, OnDestroy {
           case 'EmailAddressConflictError':
           case 'InvalidCredentialsError':
           case 'NativeAuthStrategyError':
-            console.log(res.message);
+            // console.log(res.message);
             this.requestChangeError = res;
             break;
           case 'Success':

@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import { RequestorService } from './requestor.service';
 import {SignOut} from '../../common/vendure-types';
-import { catchError, map, share, take } from 'rxjs/operators';
+import {catchError, map, share, take, tap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { SnackbarService } from './snackbar.service';
+import {UpdateOrderDetailsGlobally} from "../operators/update-order-details-globally.operator";
 
 export type UserProfile = {
   customerName: string | null;
@@ -33,7 +34,8 @@ export class UserService {
     private requestor: RequestorService,
     private httpClient: HttpClient,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private updateOrderDetailsGlobally: UpdateOrderDetailsGlobally
   ) {
     this.updateIsAuthenticated();
   }
@@ -84,7 +86,8 @@ export class UserService {
     `;
     this.requestor
       .mutate<SignOut.Mutation>(LOGOUT_MUTATION)
-      .pipe(map((res) => res.logout))
+      .pipe(map((res) => res.logout),
+        this.updateOrderDetailsGlobally.operator())
       .subscribe((res) => {
         if (res.success) {
           this.removeUserDetails();
@@ -98,6 +101,7 @@ export class UserService {
   getUserGeolocationDetails(): Observable<any> {
     return this.httpClient.get('https://api.ipgeolocation.io/ipgeo?apiKey=9b8be2367db840ebb4fd0aa856dbbaff&fields=country_code2,zipcode,state_prov,city').pipe(
       catchError((error) => of(null)),
+      tap(console.log),
       share()
     );
   }

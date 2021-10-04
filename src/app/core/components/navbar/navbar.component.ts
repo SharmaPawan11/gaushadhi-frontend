@@ -32,8 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(public userService: UserService,
               public collectionService: CollectionService,
-              private orderService: OrderService,
-              private navigationService: NavigationService) {}
+              private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.userService.isAuthenticated$
@@ -50,10 +49,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.userName = userProfileData.customerName;
     })
 
-    this.orderService.currentOrderDetails$.pipe(takeUntil(this.destroy$),
-      filter(notNullOrNotUndefined)
+    this.orderService.currentOrderDetails$.pipe(
+      takeUntil(this.destroy$)
     ).subscribe((res) => {
-      this.itemsInCart = res.totalQuantity;
+      if (res) {
+        this.itemsInCart = res.totalQuantity;
+      } else {
+        this.itemsInCart = 0;
+      }
     });
 
     this.collectionService.allCollections$.pipe(takeUntil(this.destroy$)).subscribe((collections) => {

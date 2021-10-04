@@ -22,10 +22,7 @@ export class LandingPagePopularItemsComponent implements OnInit, OnDestroy {
       this.featuredProduct = res.items.find((product: any) => {
         return product.variants[0].customFields.is_featured === true;
       })
-      console.log(this.featuredProduct.variants[0].customFields.strikethrough_price, this.featuredProduct.variants[0].priceWithTax )
       this.discountPercentage = +this.featuredProduct.variants[0].customFields.strikethrough_price - +(this.featuredProduct.variants[0].priceWithTax / 100)
-      console.log(this.discountPercentage)
-
       this.popularProducts = res.items.filter((product: any) => {
         return product.id !== this.featuredProduct.id
       })

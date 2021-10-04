@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit {
             customerPhNo: res.phoneNumber,
             customerEmail: this.userProfileData.emailAddress
           })
-          console.log(res);
+          // console.log(res);
         }
       });
   }

@@ -61,7 +61,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (res?.__typename === 'NativeAuthStrategyError') {
-          console.log(res.message);
+          // console.log(res.message);
         } else if (res?.__typename === 'Success') {
           this.resetEmailSentSuccessfully = true;
         }

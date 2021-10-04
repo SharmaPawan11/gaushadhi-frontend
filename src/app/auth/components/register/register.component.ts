@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         switch (res.__typename) {
           case 'MissingPasswordError':
           case 'NativeAuthStrategyError':
-            console.log(res.message);
+            // console.log(res.message);
             this.registrationError = res;
             break;
           case 'Success':
