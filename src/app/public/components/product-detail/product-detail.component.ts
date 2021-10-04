@@ -23,7 +23,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   productDetails!: GetProductDetail.Product;
   selectedAsset!: { id: string; preview: string };
-  selectedVariant!: GetProductDetail.Variants;
+  selectedVariant!: any;
 
   productSpecifications: any;
   //   = {

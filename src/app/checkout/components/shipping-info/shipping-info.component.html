@@ -17,7 +17,7 @@
     formControlName="shippingMethod">
     <div class="shipmment-method-container">
       <mat-radio-button class="example-radio-button" *ngFor="let method of eligibleShipmentMethods" [value]="method" >
-        <gaushadhi-shipment-method-card [method]="method" [isSelected]="shippingMethod?.value.id === method.id"></gaushadhi-shipment-method-card>
+        <gaushadhi-shipment-method-card [method]="method" [isSelected]="shippingMethod?.value?.id === method?.id"></gaushadhi-shipment-method-card>
       </mat-radio-button>
     </div>
   </mat-radio-group>

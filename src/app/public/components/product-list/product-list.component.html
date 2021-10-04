@@ -15,9 +15,9 @@
 <div class="product-grid">
   <ng-container *ngFor="let product of paginatedProducts">
     <a class="product" *ngIf="product.variants.length && !loading else loadingTemplate" (click)="onClickProduct(product.slug)">
-      <div class="wishlist-button">
-        <mat-icon>favorite</mat-icon>
-      </div>
+<!--      <div class="wishlist-button">-->
+<!--        <mat-icon>favorite</mat-icon>-->
+<!--      </div>-->
       <div class="img-container">
         <img [src]="product.featuredAsset?.preview + '?preset=product-list'" alt="Featured Asset">
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="action-bar">
         <div class="price-container">
-          <p class="strikethrough-price">{{100 | currency: 'INR': 'symbol'}}</p>
+          <p class="strikethrough-price">{{product.variants[0]?.customFields?.strikethrough_price | currency: 'INR': 'symbol'}}</p>
           <p>{{product.variants[0]?.priceWithTax | formatPrice: 'INR': 'symbol'}}</p>
         </div>
 <!--        <div class="add-to-cart-btn">-->

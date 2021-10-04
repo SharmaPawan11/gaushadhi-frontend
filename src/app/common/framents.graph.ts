@@ -408,6 +408,9 @@ export const PRODUCT_VARIANT_FRAGMENT = gql`
       languageCode
       name
     }
+    customFields {
+      strikethrough_price
+    }
   }
 `;
 
