@@ -16,20 +16,20 @@
     </div>
     <div class="col-2">
 
-      <div class="item-card">
+      <div class="item-card" *ngIf="featuredProduct && featuredProduct?.variants" [routerLink]="['store', 'products', featuredProduct.slug]">
         <div class="image-sale-row">
           <div class="featured-item-image">
-            <img src="assets/images/Soap_featured.webp" alt="Featured Product">
+            <img [src]="featuredProduct.featuredAsset.preview + '?preset=additional-n-cart'" alt="Featured Product">
           </div>
           <span class="sale-sticker">
-          10% off
+          {{this.discountPercentage}}% off
           </span>
         </div>
         <div class="name-price-row">
-          <h5>Gaushadhi Bathing Soap</h5>
+          <h5>{{featuredProduct?.name}}</h5>
           <div class="price-rating-container">
 
-            <p>{{'10000.00' | formatPrice:'INR':'symbol'}}</p>
+            <p>{{ featuredProduct?.variants[0].priceWithTax | formatPrice:'INR':'symbol'}}</p>
 
             <div class="rating">
               <p>0</p>
@@ -40,7 +40,7 @@
 
           </div>
         </div>
-        <a [routerLink]="['']">
+        <a [routerLink]="['store', 'products', featuredProduct.slug]">
           <button mat-flat-button>
             Buy Now
             <mat-icon>arrow_right_alt</mat-icon>
@@ -49,90 +49,40 @@
       </div>
 
     </div>
-    <div class="item-card additional-items">
-      <div class="image-sale-row">
-        <div class="featured-item-image">
-          <img src="assets/images/Soap_featured.webp" alt="Featured Product">
-        </div>
-      </div>
-      <div class="name-price-row">
-        <h5>Gaushadhi Bathing Soap</h5>
-        <div class="price-rating-container">
-
-          <p>{{'10000.00' | formatPrice:'INR':'symbol'}}</p>
-
-          <div class="rating">
-            <p>0</p>
-            <mat-icon>
-              star
-            </mat-icon>
+    <ng-container *ngIf="popularProducts && popularProducts.length">
+      <ng-container  *ngFor="let product of popularProducts; let idx = index">
+        <div class="item-card additional-items" *ngIf="idx < 3" [routerLink]="['store', 'products', product.slug]">
+          <div class="image-sale-row">
+            <div class="featured-item-image" *ngIf="product && product.featuredAsset">
+              <img [src]="product.featuredAsset.preview + '?preset=additional-n-cart'" alt="Featured Product">
+            </div>
           </div>
+          <div class="name-price-row">
+            <h5>{{product?.name}}</h5>
+            <div class="price-rating-container">
 
-        </div>
-      </div>
-      <a [routerLink]="['']">
-        <button mat-flat-button>
-          Buy Now
-          <mat-icon>arrow_right_alt</mat-icon>
-        </button>
-      </a>
-    </div>
-    <div class="item-card additional-items">
-      <div class="image-sale-row">
-        <div class="featured-item-image">
-          <img src="assets/images/Soap_featured.webp" alt="Featured Product">
-        </div>
-      </div>
-      <div class="name-price-row">
-        <h5>Gaushadhi Bathing Soap</h5>
-        <div class="price-rating-container">
+              <p>{{product?.variants[0].priceWithTax | formatPrice:'INR':'symbol'}}</p>
 
-          <p>{{'10000.00' | formatPrice:'INR':'symbol'}}</p>
+              <div class="rating">
+                <p>0</p>
+                <mat-icon>
+                  star
+                </mat-icon>
+              </div>
 
-          <div class="rating">
-            <p>0</p>
-            <mat-icon>
-              star
-            </mat-icon>
+            </div>
           </div>
-
+          <a [routerLink]="['store', 'products', product.slug]">
+            <button mat-flat-button>
+              Buy Now
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </a>
         </div>
-      </div>
-      <a [routerLink]="['']">
-        <button mat-flat-button>
-          Buy Now
-          <mat-icon>arrow_right_alt</mat-icon>
-        </button>
-      </a>
-    </div>
-    <div class="item-card additional-items">
-      <div class="image-sale-row">
-        <div class="featured-item-image">
-          <img src="assets/images/Soap_featured.webp" alt="Featured Product">
-        </div>
-      </div>
-      <div class="name-price-row">
-        <h5>Gaushadhi Bathing Soap</h5>
-        <div class="price-rating-container">
 
-          <p>{{'10000.00' | formatPrice:'INR':'symbol'}}</p>
+      </ng-container>
 
-          <div class="rating">
-            <p>0</p>
-            <mat-icon>
-              star
-            </mat-icon>
-          </div>
-
-        </div>
-      </div>
-      <a [routerLink]="['']">
-        <button mat-flat-button>
-          Buy Now
-          <mat-icon>arrow_right_alt</mat-icon>
-        </button>
-      </a>
-    </div>
+    </ng-container>
   </div>
 
 </div>

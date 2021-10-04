@@ -152,6 +152,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   updatePagination() {
     this.paginatedProducts = this.paginate(this.filteredProducts, this.skip, this.take);
+    console.log(this.paginatedProducts);
   }
 
   onAddToCart(product: any, e: MouseEvent) {

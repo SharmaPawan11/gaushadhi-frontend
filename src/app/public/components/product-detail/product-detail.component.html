@@ -26,15 +26,15 @@
       {{productDetails.name}}
     </h3>
     <p>Bathing Soap</p>
-    <div class="wishlist-button">
-      <mat-icon>favorite</mat-icon>
-    </div>
+<!--    <div class="wishlist-button">-->
+<!--      <mat-icon>favorite</mat-icon>-->
+<!--    </div>-->
   </div>
 
   <div class="price-container__desktop">
     <p>Price:</p>
     <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
-    <p>{{'120' | currency: 'INR': 'symbol'}}</p>
+    <p>{{selectedVariant.customFields?.strikethrough_price | currency: 'INR': 'symbol'}}</p>
   </div>
 
   <div class="action-bar">
@@ -77,27 +77,29 @@
         FAQs
       </ng-template>
       <div class="mat-tab-content">
-        <mat-accordion>
+        There are no FAQs for this product yet.
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Lorem ipsum dolor sit amet ?
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, quo.</p>
-          </mat-expansion-panel>
+        <!--        <mat-accordion>-->
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, quia.
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam beatae consequuntur id impedit laborum minus, nesciunt nulla quidem temporibus voluptate..</p>
-          </mat-expansion-panel>
+<!--          <mat-expansion-panel>-->
+<!--            <mat-expansion-panel-header>-->
+<!--              <mat-panel-title>-->
+<!--                Lorem ipsum dolor sit amet ?-->
+<!--              </mat-panel-title>-->
+<!--            </mat-expansion-panel-header>-->
+<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, quo.</p>-->
+<!--          </mat-expansion-panel>-->
 
-        </mat-accordion>
+<!--          <mat-expansion-panel>-->
+<!--            <mat-expansion-panel-header>-->
+<!--              <mat-panel-title>-->
+<!--                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, quia.-->
+<!--              </mat-panel-title>-->
+<!--            </mat-expansion-panel-header>-->
+<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam beatae consequuntur id impedit laborum minus, nesciunt nulla quidem temporibus voluptate..</p>-->
+<!--          </mat-expansion-panel>-->
+
+<!--        </mat-accordion>-->
       </div>
     </mat-tab>
     <mat-tab>

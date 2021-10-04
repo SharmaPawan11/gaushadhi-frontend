@@ -63,9 +63,35 @@ export class ProductService {
             priceWithTax
             stockLevel
             sku
+            customFields {
+              strikethrough_price
+            }
           }
           collections {
             id
+          }
+        }
+      }
+    }
+  `
+
+  GET_POPULAR_PRODUCTS = gql `
+    query getPopularProducts {
+      products {
+        items {
+          id
+          name
+          slug
+          featuredAsset {
+            id
+            preview
+          }
+          variants {
+            priceWithTax
+            customFields{
+              strikethrough_price
+              is_featured
+            }
           }
         }
       }
@@ -104,5 +130,11 @@ export class ProductService {
       }).pipe(
         map((res) => res.products)
       );
+  }
+
+  getPopularProducts() {
+    return this.requestor.query(this.GET_POPULAR_PRODUCTS).pipe(
+      map((res) => res.products)
+    )
   }
 }
