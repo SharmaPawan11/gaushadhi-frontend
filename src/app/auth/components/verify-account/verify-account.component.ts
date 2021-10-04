@@ -35,7 +35,7 @@ export class VerifyAccountComponent implements OnInit, OnDestroy {
       this.verifySubscription = this.verifyService
         .verify(token, password)
         .subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.errorCode) {
             this.progressState = 'verificationFinished';
             this.loginError = res.message;

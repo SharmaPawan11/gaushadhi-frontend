@@ -69,7 +69,6 @@ export class OrderService {
       )
       .subscribe((res) => {
         if (res && res.__typename === 'Order') {
-          console.log(res);
           const { __typename, ...orderDetails } = res;
           this.currentOrderDetails.next(orderDetails);
         } else {
@@ -79,6 +78,7 @@ export class OrderService {
   }
 
   refreshOrderDetails(resTypename: string = 'Order') {
+    console.log('refreshing');
     this.refreshOrderDetails$.next(resTypename);
   }
 

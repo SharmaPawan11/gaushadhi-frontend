@@ -118,7 +118,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         this.onRazorpayManualClose.bind(this);
       const rzp = new Razorpay(this.razorpayService.razorpayOptions);
       rzp.on('payment.failed', (response: any) => {
-        console.log(response);
+        // console.log(response);
       });
       rzp.open();
     } catch (e) {
@@ -182,11 +182,11 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
           case 'CouponCodeExpiredError':
           case 'CouponCodeInvalidError':
           case 'CouponCodeLimitError':
-            console.log(res);
+            // console.log(res);
             break;
           case 'Order':
             this.appliedCoupons.add(this.couponCodeInput.value);
-            console.log(res);
+            // console.log(res);
         }
       });
   }
@@ -196,7 +196,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
       .removeCouponFromOrder(couponCode)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         this.appliedCoupons.delete(couponCode);
       });
   }

@@ -111,12 +111,12 @@ export class AddressFormComponent
     }
 
     const countryCodes$ = this.addressService.getCountryCodes().pipe(take(1));
-    const geoLocation$ = this.userService.getUserGeolocationDetails();
+    const geoLocation$ = this.userService.getUserGeolocationDetails().pipe(take(1));
+    const userProfile$ = this.userService.userProfile$.pipe(take(1));
 
-    forkJoin([countryCodes$, geoLocation$])
+    forkJoin([countryCodes$, geoLocation$, userProfile$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([countryCodeRes, geoLocationRes]) => {
-        console.log(geoLocationRes)
+      .subscribe(([countryCodeRes, geoLocationRes, userProfile]) => {
         this.countries = countryCodeRes;
         if (geoLocationRes?.ip) {
           this.userGeolocationData = geoLocationRes;
@@ -125,6 +125,14 @@ export class AddressFormComponent
             this.province?.setValue(geoLocationRes.state_prov);
           if (!this.postalCode?.dirty)
             this.postalCode?.setValue(geoLocationRes.zipcode);
+        }
+
+        if (userProfile.customerName) {
+          this.fullName?.setValue(userProfile.customerName);
+        }
+
+        if (userProfile.customerPhNo) {
+          this.phoneNumber?.setValue(userProfile.customerPhNo);
         }
 
         if (Array.isArray(countryCodeRes) && countryCodeRes.length) {

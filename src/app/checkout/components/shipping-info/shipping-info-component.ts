@@ -33,6 +33,7 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
   currentFormStatus: string = 'INVALID';
   editedIndex: number = -1;
   updatedAddress: any;
+  hasDefaultAddress = false;
 
   get shippingAddress() {
     return this.shippingInfoForm.get('shippingAddress');
@@ -63,6 +64,7 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
       : [];
     this.customerAddresses.forEach((address) => {
       if (address.defaultShippingAddress) {
+        this.hasDefaultAddress = true;
         this.shippingAddress?.setValue(address);
       }
     });
@@ -148,6 +150,9 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
           this.customerAddresses = this.customerAddresses.filter((address) => {
             return address.id !== addressId;
           });
+          if (this.customerAddresses.length === 0) {
+            this.hasDefaultAddress = false;
+          }
           this.shippingAddress?.setErrors({ required: true });
           this.snackbarService.openSnackBar('Address deleted successfully');
         }
@@ -187,6 +192,9 @@ export class ShippingInfoComponent implements OnInit, OnDestroy {
           if (res.updatedAt) {
             this.customerAddresses.push(res);
             this.snackbarService.openSnackBar('Address added successfully');
+            if (!this.hasDefaultAddress) {
+              this.shippingAddress?.setValue(res);
+            }
           } else {
             if (this.updatedAddress.countryCode) {
               this.updatedAddress.country = {

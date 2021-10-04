@@ -29,10 +29,10 @@ export class DefaultInterceptor implements HttpInterceptor {
       tap(
         (event) => {
           if (event instanceof HttpResponse) {
-            if (req.body.operationName === 'Login' ||
-                req.body.operationName === 'Authenticate' ||
-                req.body.operationName === 'ResetPassword' ||
-                req.body.operationName === 'VerifyCustomerAccount') {
+            if (req.body?.operationName === 'Login' ||
+                req.body?.operationName === 'Authenticate' ||
+                req.body?.operationName === 'ResetPassword' ||
+                req.body?.operationName === 'VerifyCustomerAccount') {
               this.checkForAuthToken(event);
             }
             this.notifyOnError(event);
@@ -52,7 +52,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   private notifyOnError(response: HttpResponse<any> | HttpErrorResponse) {
     if (response instanceof HttpErrorResponse) {
       if (response.status === 0) {
-        console.log(response);
+        // console.log(response);
         this.displayErrorNotification('Could not connect to server!');
       } else {
         this.displayErrorNotification(response.toString());

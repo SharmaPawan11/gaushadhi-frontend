@@ -18,7 +18,7 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.orders = this.route.snapshot.data['ordersList'].orders.items
-    console.log(this.orders);
+    // console.log(this.orders);
   }
 
   identify(index: number, orderLine: any): number {

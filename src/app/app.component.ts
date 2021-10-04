@@ -23,6 +23,7 @@ export class AppComponent {
     ).subscribe(e => {
       const splittedUrl = router.url.split('/');
       const lastUrlSegment = splittedUrl[splittedUrl.length - 1];
+      // console.log(lastUrlSegment)
       if (!lastUrlSegment.includes('products')) {
         viewportScroller.scrollToPosition([0, 0]);
       }
