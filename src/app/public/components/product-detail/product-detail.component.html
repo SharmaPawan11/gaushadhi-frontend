@@ -116,7 +116,7 @@
 
 <div class="buy-bar">
   <div class="price-container">
-    <p class="strikethrough-price">{{'120' | formatPrice: 'INR': 'symbol'}}</p>
+    <p class="strikethrough-price">{{selectedVariant.customFields?.strikethrough_price | currency: 'INR': 'symbol'}}</p>
     <h2>{{selectedVariant.priceWithTax | formatPrice: 'INR': 'symbol'}}</h2>
   </div>
   <div class="quantity-container">
