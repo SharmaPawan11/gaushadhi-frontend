@@ -20,7 +20,7 @@ import {PreloadWithDelayStrategy} from "./core/providers/preload-strategy/preloa
     imports: [
         CoreModule,
         RouterModule.forRoot(routes, {
-          // preloadingStrategy: PreloadWithDelayStrategy,
+          preloadingStrategy: PreloadWithDelayStrategy,
           scrollPositionRestoration: 'top'
         }),
         MatIconModule,
