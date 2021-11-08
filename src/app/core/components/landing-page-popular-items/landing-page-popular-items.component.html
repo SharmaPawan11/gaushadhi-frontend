@@ -22,7 +22,7 @@
             <img [src]="featuredProduct.featuredAsset.preview + '?preset=additional-n-cart'" alt="Featured Product">
           </div>
           <span class="sale-sticker">
-          {{this.discountPercentage}}% off
+          {{this.discountPercentage.toFixed(2)}}% off
           </span>
         </div>
         <div class="name-price-row">
@@ -32,7 +32,7 @@
             <p>{{ featuredProduct?.variants[0].priceWithTax | formatPrice:'INR':'symbol'}}</p>
 
             <div class="rating">
-              <p>0</p>
+              <p>0 reviews</p>
               <mat-icon>
                 star
               </mat-icon>
@@ -64,7 +64,7 @@
               <p>{{product?.variants[0].priceWithTax | formatPrice:'INR':'symbol'}}</p>
 
               <div class="rating">
-                <p>0</p>
+                <p>0 reviews</p>
                 <mat-icon>
                   star
                 </mat-icon>

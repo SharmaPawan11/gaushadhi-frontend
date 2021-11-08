@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import { RequestorService } from '../../core/providers/requestor.service';
 import {
-  GetEligibleShippingMethods,
-  SetShippingMethod,
+  Mutation,
+  Query
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -42,15 +42,15 @@ export class ShippingService {
 
   constructor(private requestor: RequestorService) {}
 
-  getEligibleShippingMethods() {
+  getEligibleShippingMethods(): Observable<Query["eligibleShippingMethods"]> {
     return this.requestor
-      .query<GetEligibleShippingMethods.Query>(this.ELIGIBLE_SHIPPING_METHODS)
+      .query(this.ELIGIBLE_SHIPPING_METHODS)
       .pipe(map((res) => res.eligibleShippingMethods));
   }
 
-  setOrderShippingMethod(shippingMethodId: string | number) {
+  setOrderShippingMethod(shippingMethodId: string | number): Observable<Mutation["setOrderShippingMethod"]> {
     return this.requestor
-      .mutate<SetShippingMethod.Mutation>(this.SET_ORDER_SHIPPING_METHOD, {
+      .mutate(this.SET_ORDER_SHIPPING_METHOD, {
         shippingMethodId,
       })
       .pipe(map((res) => res.setOrderShippingMethod));

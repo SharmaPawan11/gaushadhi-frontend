@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 
 import {
-  ChangeEmailAddress,
-  ChangePassword,
-  GetAccountOverview,
-  UpdateCustomerDetails,
-  VerifyChangeEmailAddress,
+  Mutation, Query
 } from '../../common/vendure-types';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -16,7 +12,6 @@ import {
   ERROR_RESULT_FRAGMENT,
   SUCCESS_FRAGMENT,
 } from '../../common/framents.graph';
-import UpdateCustomerPassword = ChangePassword.UpdateCustomerPassword;
 
 export type updatedControl = {
   fieldEdited: string;
@@ -94,9 +89,9 @@ export class ProfileService {
 
   constructor(private requestor: RequestorService) {}
 
-  getProfileData(): Observable<any> {
+  getProfileData(): Observable<Query["activeCustomer"]> {
     return this.requestor
-      .query<GetAccountOverview.Query>(GET_ACTIVE_CUSTOMER, {
+      .query(GET_ACTIVE_CUSTOMER, {
         includeAddress: false,
         includeProfile: true,
         includeOrder: false,
@@ -108,7 +103,7 @@ export class ProfileService {
 
   updateCustomerProfile(
     updatedControls: Array<updatedControl>
-  ): Observable<any> {
+  ): Observable<Mutation["updateCustomer"]> {
     const updateProfileMutationVariable: any = {
       updateCustomerInput: {},
       // hasUpdatedTitle: false,
@@ -139,7 +134,7 @@ export class ProfileService {
     });
 
     return this.requestor
-      .mutate<UpdateCustomerDetails.Mutation, UpdateCustomerDetails.Variables>(
+      .mutate(
         this.UPDATE_CUSTOMER_PROFILE_MUTATION,
         updateProfileMutationVariable
       )
@@ -152,35 +147,32 @@ export class ProfileService {
   }: {
     password: string;
     newEmailAddress: string;
-  }) {
+  }): Observable<Mutation["requestUpdateCustomerEmailAddress"]> {
     const requestEmailUpdateMutationVariable: any = {
       password,
       newEmailAddress,
     };
 
     return this.requestor
-      .mutate<ChangeEmailAddress.Mutation>(
+      .mutate(
         this.REQUEST_EMAIL_ADDRESS_UPDATE_MUTATION,
         requestEmailUpdateMutationVariable
       )
       .pipe(map((res) => res.requestUpdateCustomerEmailAddress));
   }
 
-  changeEmail(token: string) {
+  changeEmail(token: string): Observable<Mutation["updateCustomerEmailAddress"]>{
     return this.requestor
-      .mutate<
-        VerifyChangeEmailAddress.Mutation,
-        VerifyChangeEmailAddress.Variables
-      >(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, { token })
+      .mutate(this.VERIFY_CHANGE_EMAIL_ADDRESS_MUTATION, { token })
       .pipe(map((res) => res.updateCustomerEmailAddress));
   }
 
   changePassword({
     currentPassword,
     newPassword,
-  }: Record<'currentPassword' | 'newPassword', string>) {
+  }: Record<'currentPassword' | 'newPassword', string>): Observable<Mutation["updateCustomerPassword"]> {
     return this.requestor
-      .mutate<ChangePassword.Mutation>(this.CHANGE_PASSWORD_MUTATION, {
+      .mutate(this.CHANGE_PASSWORD_MUTATION, {
         currentPassword,
         newPassword,
       })

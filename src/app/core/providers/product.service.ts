@@ -7,9 +7,10 @@ import {
   PRODUCT_VARIANT_FRAGMENT,
   TAX_RATE_FRAGMENT,
 } from '../../common/framents.graph';
-import {GetProductDetail, ProductList, Query} from '../../common/vendure-types';
+import { Query } from '../../common/vendure-types';
 import { filter, map } from 'rxjs/operators';
 import { notNullOrNotUndefined } from '../../common/utils/not-null-or-not-undefined';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -99,9 +100,9 @@ export class ProductService {
   `
   constructor(private requestor: RequestorService) {}
 
-  getProductDetails(productSlug: string) {
+  getProductDetails(productSlug: string): Observable<Query["product"]> {
     return this.requestor
-      .query<GetProductDetail.Query>(this.GET_PRODUCT_DETAILS, {
+      .query(this.GET_PRODUCT_DETAILS, {
         productSlug,
       })
       .pipe(

@@ -76,7 +76,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.resetService
       .resetPassword(this.token, formData)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.errorCode) {
           this.requestResetError = res.message;
           // this.snackbarService.openSnackBar(res.message, 0);

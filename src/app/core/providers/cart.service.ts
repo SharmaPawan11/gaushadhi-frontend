@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestorService } from './requestor.service';
 import { gql } from 'apollo-angular';
-import { AddToCart } from '../../common/vendure-types';
 import {map, tap, filter, retry, catchError, take} from 'rxjs/operators';
 import { CART_FRAGMENT, ORDER_FRAGMENT } from '../../common/framents.graph';
 import { OrderService } from './order.service';
@@ -10,10 +9,11 @@ import {
 } from "../operators/on-error-change-order-state-then-retry.operator";
 import {SnackbarService} from "./snackbar.service";
 import {SetDefaultShippingOnFirstItemAdd} from "../operators/set-default-shipping-on-first-item-add";
-import {EMPTY, of} from "rxjs";
+import {EMPTY, Observable, of} from "rxjs";
 import {UserService} from "./user.service";
 import {Router} from "@angular/router";
 import {notNullOrNotUndefined} from "../../common/utils/not-null-or-not-undefined";
+import {Mutation} from "../../common/vendure-types";
 
 @Injectable({
   providedIn: 'root',
@@ -72,15 +72,15 @@ export class CartService {
     private router: Router
   ) {}
 
-  addToCart(productVariantId: string | number, quantity: number) {
+  addToCart(productVariantId: string | number, quantity: number): Observable<Mutation["addItemToOrder"] | never>{
     if (!this.userService.isAuthenticated) {
       this.snackbarService.openSnackBar('You must be signed-in in order to add item to cart', 0);
       this.router.navigate(['login']);
-      return of(EMPTY);
+      return EMPTY;
     }
     //TODO: Handle error cases
     return this.requestor
-      .mutate<AddToCart.Mutation>(this.ADD_ITEM_TO_CART_MUTATION, {
+      .mutate(this.ADD_ITEM_TO_CART_MUTATION, {
         productVariantId,
         quantity,
       })

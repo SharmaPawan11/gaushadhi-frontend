@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import { RequestorService } from './requestor.service';
-import {SignOut} from '../../common/vendure-types';
-import {catchError, map, share, take, tap} from 'rxjs/operators';
+import { catchError, map, share, take, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
-import {UpdateOrderDetailsGlobally} from "../operators/update-order-details-globally.operator";
+import { UpdateOrderDetailsGlobally } from "../operators/update-order-details-globally.operator";
 
 export type UserProfile = {
   customerName: string | null;
@@ -76,7 +75,7 @@ export class UserService {
     this.updateIsAuthenticated();
   }
 
-  logout() {
+  logout(){
     const LOGOUT_MUTATION = gql`
       mutation {
         logout {
@@ -85,9 +84,10 @@ export class UserService {
       }
     `;
     this.requestor
-      .mutate<SignOut.Mutation>(LOGOUT_MUTATION)
+      .mutate(LOGOUT_MUTATION)
       .pipe(map((res) => res.logout),
-        this.updateOrderDetailsGlobally.operator())
+        this.updateOrderDetailsGlobally.operator(),
+        take(1))
       .subscribe((res) => {
         if (res.success) {
           this.removeUserDetails();

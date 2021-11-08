@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {AddToCart, Order} from "../../../common/vendure-types";
+import { Order} from "../../../common/vendure-types";
 
 @Component({
   selector: 'gaushadhi-order-list',

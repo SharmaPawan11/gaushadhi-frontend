@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import { RequestorService } from '../../core/providers/requestor.service';
 import {
-  RequestPasswordReset,
+  Mutation,
   RequestPasswordResetResult,
-  ResetPassword,
 } from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
@@ -52,26 +51,26 @@ export class ResetPasswordService {
               private saveCustomerInfo: SaveCustomerInfoOnSuccessfulLogin
   ) {}
 
-  requestResetPassword(emailAddress: string) {
+  requestResetPassword(emailAddress: string): Observable<Mutation["requestPasswordReset"]> {
     const requestResetPasswordMutationVariable = {
       emailAddress,
     };
     return this.requestor
-      .mutate<RequestPasswordReset.Mutation, RequestPasswordReset.Variables>(
+      .mutate(
         this.REQUEST_RESET_PASSWORD_MUTATION,
         requestResetPasswordMutationVariable
       )
       .pipe(map((res) => res.requestPasswordReset));
   }
 
-  resetPassword(token: string, newPassword: string): Observable<any> {
+  resetPassword(token: string, newPassword: string): Observable<Mutation["resetPassword"]> {
     const resetPasswordMutationVariable = {
       token,
       password: newPassword,
     };
 
     return this.requestor
-      .mutate<ResetPassword.Mutation, ResetPassword.Variables>(
+      .mutate(
         this.RESET_PASSWORD_MUTATION,
         resetPasswordMutationVariable
       )

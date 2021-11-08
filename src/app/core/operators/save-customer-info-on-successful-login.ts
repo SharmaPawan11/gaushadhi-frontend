@@ -1,11 +1,10 @@
 import {map, switchMap, tap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";
-import {OrderService} from "../providers/order.service";
-import {GetAccountOverview} from "../../common/vendure-types";
 import {GET_ACTIVE_CUSTOMER} from "../../common/documents.graph";
 import {UserService} from "../providers/user.service";
 import {RequestorService} from "../providers/requestor.service";
+import {Query} from "../../common/vendure-types";
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,7 @@ export class SaveCustomerInfoOnSuccessfulLogin {
             case 'CurrentUser':
               this.userService.setUserId(res.id);
               return this.requestor
-                .query<GetAccountOverview.Query>(GET_ACTIVE_CUSTOMER, {
+                .query(GET_ACTIVE_CUSTOMER, {
                   includeAddress: false,
                   includeProfile: true,
                   includeOrder: false,

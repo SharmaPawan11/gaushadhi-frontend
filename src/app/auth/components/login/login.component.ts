@@ -154,7 +154,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }),
         filter(notNullOrNotUndefined)
       )
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.errorCode) {
           this.loginInProgress = false;
           this.snackbarService.openSnackBar(res.message, 0);
