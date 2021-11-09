@@ -88,7 +88,7 @@
 
   <gaushadhi-confirm-input formControlName="password"></gaushadhi-confirm-input>
 
-  <mat-checkbox formControlName="terms">I agree to platform's <a [routerLink]="">Terms & Conditions</a></mat-checkbox>
+  <mat-checkbox formControlName="terms">I agree to platform's <a [routerLink]="[]">Terms & Conditions</a></mat-checkbox>
   <mat-error *ngIf="terms?.invalid && terms?.dirty" class="terms-error">
     You must agree to terms and conditions before proceeding.
   </mat-error>
