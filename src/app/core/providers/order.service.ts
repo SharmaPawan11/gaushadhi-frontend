@@ -1,14 +1,8 @@
 import {Injectable} from '@angular/core';
 import { RequestorService } from './requestor.service';
 import {
-  AddPayment,
-  ApplyCouponCodeResult,
-  GetActiveOrder,
-  GetEligiblePaymentMethods, GetOrderByCode, GetOrderList,
-  Order, OrderListOptions,
-  SetShippingAddress,
-  TransitionToAddingItems,
-  TransitionToArrangingPayment,
+  ApplyCouponCodeResult, Mutation,
+  Order, OrderListOptions, Query
 } from '../../common/vendure-types';
 import {map, filter, tap, take, catchError} from 'rxjs/operators';
 import {GET_ACTIVE_CUSTOMER, GET_ACTIVE_ORDER} from '../../common/documents.graph';
@@ -78,13 +72,12 @@ export class OrderService {
   }
 
   refreshOrderDetails(resTypename: string = 'Order') {
-    console.log('refreshing');
     this.refreshOrderDetails$.next(resTypename);
   }
 
-  setOrderShippingAddress(shippingAddress: any) {
+  setOrderShippingAddress(shippingAddress: any): Observable<Mutation["setOrderShippingAddress"]> {
     return this.requestor
-      .mutate<SetShippingAddress.Mutation>(
+      .mutate(
         SET_ORDER_SHIPPING_ADDRESS_MUTATION,
         {
           createAddressInput: shippingAddress,
@@ -101,9 +94,9 @@ export class OrderService {
       .pipe(map((res) => res.setOrderBillingAddress));
   }
 
-  requestCurrentOrderDetails() {
+  requestCurrentOrderDetails(): Observable<Query["activeOrder"]> {
     return this.requestor
-      .query<GetActiveOrder.Query>(GET_ACTIVE_ORDER, {
+      .query(GET_ACTIVE_ORDER, {
         includeOrderAddress: true,
         includeSurcharges: false,
         includeDiscounts: true,
@@ -167,9 +160,9 @@ export class OrderService {
       );
   }
 
-  getEligiblePaymentMethods() {
+  getEligiblePaymentMethods(): Observable<Query["eligiblePaymentMethods"]> {
     return this.requestor
-      .query<GetEligiblePaymentMethods.Query>(GET_ELIGIBLE_PAYMENT_METHODS)
+      .query(GET_ELIGIBLE_PAYMENT_METHODS)
       .pipe(
         map((res) => {
           return res.eligiblePaymentMethods;
@@ -177,11 +170,9 @@ export class OrderService {
       );
   }
 
-  transitionOrderState(orderState: 'AddingItems' | 'ArrangingPayment') {
+  transitionOrderState(orderState: 'AddingItems' | 'ArrangingPayment'): Observable<Mutation["transitionOrderToState"]> {
     return this.requestor
-      .mutate<
-        TransitionToArrangingPayment.Mutation | TransitionToAddingItems.Mutation
-      >(TRANSITION_ORDER_STATE_MUTATION, {
+      .mutate(TRANSITION_ORDER_STATE_MUTATION, {
         orderState,
       })
       .pipe(
@@ -201,7 +192,7 @@ export class OrderService {
 
   }
 
-  addRazorpayPaymentToOrder(paymentMetadata: Object) {
+  addRazorpayPaymentToOrder(paymentMetadata: Object): Observable<Mutation["addPaymentToOrder"]> {
     const addPaymentMutationVariable = {
       paymentInput: {
         method: 'razorpay',
@@ -209,15 +200,15 @@ export class OrderService {
       },
     };
     return this.requestor
-      .mutate<AddPayment.Mutation>(
+      .mutate(
         ADD_PAYMENT_TO_ORDER_MUTATION,
         addPaymentMutationVariable
       )
       .pipe(map((res) => res.addPaymentToOrder));
   }
 
-  getOrdersList(orderListOptions: OrderListOptions) {
-    return this.requestor.query<GetOrderList.Query>(GET_ACTIVE_CUSTOMER, {
+  getOrdersList(orderListOptions: OrderListOptions): Observable<Query["activeCustomer"]> {
+    return this.requestor.query(GET_ACTIVE_CUSTOMER, {
       includeOrder: true,
       includeAddress: false,
       includeProfile: false,
@@ -226,8 +217,8 @@ export class OrderService {
       .pipe(map((res) => res.activeCustomer))
   }
 
-  getOrderDetailsByCode(orderCode: string) {
-    return this.requestor.query<GetOrderByCode.Query>(GET_ORDER_DETAILS_BY_CODE, {
+  getOrderDetailsByCode(orderCode: string): Observable<Query["orderByCode"]> {
+    return this.requestor.query(GET_ORDER_DETAILS_BY_CODE, {
       orderCode
     }).pipe(map(res => res.orderByCode))
   }

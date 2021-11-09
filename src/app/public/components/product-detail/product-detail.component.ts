@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {filter, map, takeUntil, tap} from 'rxjs/operators';
 import { notNullOrNotUndefined } from '../../../common/utils/not-null-or-not-undefined';
 import { Subject } from 'rxjs';
-import { GetProductDetail } from '../../../common/vendure-types';
+import { Product } from '../../../common/vendure-types';
 import { CartService } from '../../../core/providers/cart.service';
 import { SnackbarService } from '../../../core/providers/snackbar.service';
 import { OrderService } from '../../../core/providers/order.service';
@@ -21,7 +21,7 @@ import {SetDefaultShippingOnFirstItemAdd} from "../../../core/operators/set-defa
 export class ProductDetailComponent implements OnInit, OnDestroy {
   //TODO: Additional Templating eg. breadcrumbs
   destroy$: Subject<boolean> = new Subject<boolean>();
-  productDetails!: GetProductDetail.Product;
+  productDetails!: Product;
   selectedAsset!: { id: string; preview: string };
   selectedVariant!: any;
 
@@ -69,7 +69,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.productSpecifications = JSON.parse(
           JSON.parse((this.productDetails as any).customFields.specifications)
         );
-        console.log(this.productSpecifications);
       });
   }
 

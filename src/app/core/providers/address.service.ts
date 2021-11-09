@@ -2,12 +2,9 @@ import { Component, Injectable } from '@angular/core';
 import { RequestorService } from './requestor.service';
 import { gql } from 'apollo-angular';
 import {
-  CreateAddress,
   CreateAddressInput,
-  GetAvailableCountries,
-  GetCustomerAddresses,
+  Mutation, Query,
   Success,
-  UpdateAddress,
   UpdateAddressInput,
 } from '../../common/vendure-types';
 import { catchError, map, share, take, tap } from 'rxjs/operators';
@@ -61,9 +58,9 @@ export class AddressService {
 
   constructor(private requestor: RequestorService, private dialog: MatDialog) {}
 
-  addAddress(createAddressDataObject: CreateAddressInput) {
+  addAddress(createAddressDataObject: CreateAddressInput): Observable<Mutation["createCustomerAddress"]> {
     return this.requestor
-      .mutate<CreateAddress.Mutation>(this.ADD_ADDRESS_MUTATION, {
+      .mutate(this.ADD_ADDRESS_MUTATION, {
         customerInput: createAddressDataObject,
       })
       .pipe(map((res) => res.createCustomerAddress));
@@ -77,17 +74,17 @@ export class AddressService {
       .pipe(map((res) => res.deleteCustomerAddress));
   }
 
-  updateAddress(updateAddressDataObject: UpdateAddressInput) {
+  updateAddress(updateAddressDataObject: UpdateAddressInput): Observable<Mutation["updateCustomerAddress"]> {
     return this.requestor
-      .mutate<UpdateAddress.Mutation>(this.UPDATE_CUSTOMER_ADDRESS_MUTATION, {
+      .mutate(this.UPDATE_CUSTOMER_ADDRESS_MUTATION, {
         updateAddressInput: updateAddressDataObject,
       })
       .pipe(map((res) => res.updateCustomerAddress));
   }
 
-  getAddresses() {
+  getAddresses(): Observable<Query["activeCustomer"]> {
     return this.requestor
-      .query<GetCustomerAddresses.Query>(GET_ACTIVE_CUSTOMER, {
+      .query(GET_ACTIVE_CUSTOMER, {
         includeAddress: true,
         includeProfile: false,
         includeOrder: false,
@@ -95,9 +92,9 @@ export class AddressService {
       .pipe(map((res) => res.activeCustomer?.addresses));
   }
 
-  getCountryCodes() {
+  getCountryCodes(): Observable<Query["availableCountries"]> {
     return this.requestor
-      .query<GetAvailableCountries.Query>(this.GET_AVAILABLE_COUNTRIES)
+      .query(this.GET_AVAILABLE_COUNTRIES)
       .pipe(
         map((res) => res.availableCountries),
         catchError((err) => of(null)),

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ScriptService} from "../../core/providers/script.service";
+import sha256 from 'crypto-js/sha256';
 
 @Injectable({
   providedIn: 'root'
@@ -43,15 +44,17 @@ export class AuthService {
   }
 
   async rawStringToSha256Hash(rawString: string) {
-    const msgBuffer = new TextEncoder().encode(rawString);
+    // const msgBuffer = new TextEncoder().encode(rawString);
+    //
+    // // hash the message
+    // const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    //
+    // // convert ArrayBuffer to Array
+    // const hashArray = Array.from(new Uint8Array(hashBuffer));
+    //
+    // // convert bytes to hex string
+    // return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
 
-    // hash the message
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-    // convert ArrayBuffer to Array
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-    // convert bytes to hex string
-    return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+    return sha256(rawString).toString();
   }
 }

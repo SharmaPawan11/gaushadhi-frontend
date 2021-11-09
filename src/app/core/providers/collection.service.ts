@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {gql} from "apollo-angular";
 import {RequestorService} from "./requestor.service";
-import {GetCollections} from "../../common/vendure-types";
 import {map} from "rxjs/operators";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+import {Query} from "../../common/vendure-types";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,7 @@ export class CollectionService {
     private requestor: RequestorService
   ) {
     this.getAllCollections().subscribe((collections) => {
-      collections.items.forEach((collection) => {
+      collections.items.forEach((collection: any) => {
         this.categorySlugIdMap.set(collection.slug, collection.id);
         this.categorySlugReverseMap.set(collection.id, collection.slug);
       })
@@ -45,8 +45,8 @@ export class CollectionService {
     })
   }
 
-  private getAllCollections() {
-    return this.requestor.query<GetCollections.Query>(this.GET_ALL_COLLECTIONS)
+  private getAllCollections(): Observable<Query["collections"]> {
+    return this.requestor.query(this.GET_ALL_COLLECTIONS)
       .pipe(map((res) => res.collections))
   }
 

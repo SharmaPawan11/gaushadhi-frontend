@@ -12,12 +12,14 @@ import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 import {SnackbarService} from "../snackbar.service";
+import {LOCAL_STORAGE} from "@ng-web-apis/common";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(@Inject(PLATFORM_ID) private platformId: any, private snackbarService: SnackbarService) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private snackbarService: SnackbarService, @Inject(LOCAL_STORAGE) private localStorage: Storage
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -96,7 +98,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     ) {
       const authToken = response.headers.get('vendure-auth-token');
       if (authToken) {
-        localStorage.setItem('authToken', authToken);
+        this.localStorage.setItem('authToken', authToken);
       }
     }
   }

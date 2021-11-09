@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { LoginService } from '../../providers/login.service';
 import {of, Subscription} from 'rxjs';
 import { CurrentUser, ErrorResult } from '../../../common/vendure-types';
@@ -11,6 +11,8 @@ import {AuthService} from "../../providers/auth.service";
 import {SnackbarService} from "../../../core/providers/snackbar.service";
 import {notNullOrNotUndefined} from "../../../common/utils/not-null-or-not-undefined";
 import {environment} from "../../../../environments/environment";
+import {LOCAL_STORAGE} from '@ng-web-apis/common';
+
 
 @Component({
   selector: 'gaushadhi-login',
@@ -52,7 +54,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private domSanitizer: DomSanitizer,
     private authService: AuthService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    @Inject(LOCAL_STORAGE) private localStorage: Storage
   ) {
     const userProfileDetails = this.userService.getUserProfileDetails();
 
@@ -85,12 +88,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (code && !hasError) {
       this.loginInProgress = true;
 
-      const isGoogleSignIn = !!localStorage.getItem('googleSignInState');
-      const isFacebookSignIn = !!localStorage.getItem('facebookSignInState');
+      const isGoogleSignIn = !!this.localStorage.getItem('googleSignInState');
+      const isFacebookSignIn = !!this.localStorage.getItem('facebookSignInState');
       let provider = undefined;
 
       if (isGoogleSignIn) {
-        if (localStorage.getItem('googleSignInState') !== state) {
+        if (this.localStorage.getItem('googleSignInState') !== state) {
           this.snackbarService.openSnackBar('Invalid Google Auth-code', 0);
           this.loginInProgress = false;
           this.removeOAuthParams();
@@ -100,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
 
       if (isFacebookSignIn) {
-        if (localStorage.getItem('facebookSignInState') !== state) {
+        if (this.localStorage.getItem('facebookSignInState') !== state) {
           this.snackbarService.openSnackBar('Invalid Facebook Auth-code', 0);
           this.loginInProgress = false;
           this.removeOAuthParams();
@@ -114,8 +117,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (res.errorCode) {
             this.snackbarService.openSnackBar(res.message, 0);
           } else if (res.id) {
-            const redirectUrl = localStorage.getItem('oauthRedirectUrl') || '/';
-            localStorage.removeItem('oauthRedirectUrl');
+            const redirectUrl = this.localStorage.getItem('oauthRedirectUrl') || '/';
+            this.localStorage.removeItem('oauthRedirectUrl');
             await this.router.navigateByUrl(redirectUrl);
           } else {
             this.snackbarService.openSnackBar('Server error, Please contact support at support@gaushadhi.com');
@@ -154,7 +157,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }),
         filter(notNullOrNotUndefined)
       )
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.errorCode) {
           this.loginInProgress = false;
           this.snackbarService.openSnackBar(res.message, 0);
@@ -166,16 +169,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onGoogleSignIn() {
     window.open(this.googleSignInUrl, '_self');
-    localStorage.setItem('googleSignInState', this.state);
-    localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
-    localStorage.removeItem('facebookSignInState');
+    this.localStorage.setItem('googleSignInState', this.state);
+    this.localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
+    this.localStorage.removeItem('facebookSignInState');
   }
 
   onFacebookSignIn() {
     window.open(this.facebookSignInUrl, '_self');
-    localStorage.setItem('facebookSignInState', this.state);
-    localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
-    localStorage.removeItem('googleSignInState');
+    this.localStorage.setItem('facebookSignInState', this.state);
+    this.localStorage.setItem('oauthRedirectUrl', this.redirectUrl);
+    this.localStorage.removeItem('googleSignInState');
   }
 
   removeOAuthParams() {

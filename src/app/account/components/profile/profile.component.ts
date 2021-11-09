@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
           this.snackbarService.openSnackBar('Profile updated successfully');
           this.userService.updateUserProfile({
             customerName: res.firstName + ' ' + res.lastName,
-            customerPhNo: res.phoneNumber,
+            customerPhNo: res.phoneNumber || '',
             customerEmail: this.userProfileData.emailAddress
           })
           // console.log(res);

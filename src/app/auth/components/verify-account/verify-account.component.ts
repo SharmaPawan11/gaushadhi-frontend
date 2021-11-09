@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ErrorResult, Verify } from '../../../common/vendure-types';
+import { ErrorResult } from '../../../common/vendure-types';
 import { VerifyService } from '../../providers/verify.service';
 import { Subscription } from 'rxjs';
 

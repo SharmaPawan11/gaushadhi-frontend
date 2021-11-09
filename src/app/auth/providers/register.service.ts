@@ -1,9 +1,10 @@
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
-import { Register, RegisterCustomerInput } from '../../common/vendure-types';
+import {Mutation, RegisterCustomerInput} from '../../common/vendure-types';
 import { map } from 'rxjs/operators';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class RegisterService {
@@ -21,9 +22,9 @@ export class RegisterService {
   `;
   constructor(private requestor: RequestorService) {}
 
-  registerUser(registerDataObject: RegisterCustomerInput) {
+  registerUser(registerDataObject: RegisterCustomerInput): Observable<Mutation["registerCustomerAccount"]> {
     return this.requestor
-      .mutate<Register.Mutation>(this.REGISTER_USER_MUTATION, {
+      .mutate(this.REGISTER_USER_MUTATION, {
         registerCustomerInput: registerDataObject,
       })
       .pipe(map((res) => res.registerCustomerAccount));

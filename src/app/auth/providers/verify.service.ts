@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
-import { Verify } from '../../common/vendure-types';
 import {filter, map} from 'rxjs/operators';
 import { gql } from 'apollo-angular';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
@@ -39,7 +38,7 @@ export class VerifyService {
       password: password || '',
     };
     return this.requestor
-      .mutate<Verify.Mutation, Verify.Variables>(
+      .mutate(
         this.VERIFY_MUTATION,
         verifyMutationVariable
       )

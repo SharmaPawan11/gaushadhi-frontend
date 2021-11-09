@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RequestorService } from '../../core/providers/requestor.service';
 import { gql } from 'apollo-angular';
-import { GetAccountOverview, SignIn } from '../../common/vendure-types';
+import {Mutation} from '../../common/vendure-types';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { ERROR_RESULT_FRAGMENT } from '../../common/framents.graph';
@@ -65,14 +65,14 @@ export class LoginService {
     emailAddress: string,
     password: string,
     rememberMe?: boolean
-  ): Observable<any> {
+  ): Observable<Mutation["login"]> {
     const loginMutationVariable = {
       emailAddress,
       password,
       rememberMe: rememberMe || false,
     };
     return this.requestor
-      .mutate<SignIn.Mutation, SignIn.Variables>(
+      .mutate(
         this.LOGIN_MUTATION,
         loginMutationVariable
       )
