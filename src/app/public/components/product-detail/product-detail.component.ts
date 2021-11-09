@@ -69,7 +69,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         this.productSpecifications = JSON.parse(
           JSON.parse((this.productDetails as any).customFields.specifications)
         );
-        console.log(this.productSpecifications);
       });
   }
 

@@ -72,7 +72,6 @@ export class OrderService {
   }
 
   refreshOrderDetails(resTypename: string = 'Order') {
-    console.log('refreshing');
     this.refreshOrderDetails$.next(resTypename);
   }
 

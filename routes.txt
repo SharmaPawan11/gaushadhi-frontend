@@ -1,0 +1,7 @@
+/
+/store/products
+/store/products/gaushadhi-bathing-soap
+/store/products/gaushadhi-dant-manjan
+/store/products/gaushadhi-hawan-tikiya
+/store/products/gaushadhi-hawan-sticks
+/store/products/gaushadhi-gomaya-dhoop

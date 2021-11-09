@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import {Inject, NgModule, Optional, SkipSelf} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APOLLO_OPTIONS } from 'apollo-angular';
@@ -28,6 +28,7 @@ import { DrawerComponent } from './components/drawer/drawer.component';
 import {MatRippleModule} from "@angular/material/core";
 import {MatBadgeModule} from "@angular/material/badge";
 import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
+import {LOCAL_STORAGE} from "@ng-web-apis/common";
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
+      useFactory: (httpLink: HttpLink, localStorage: Storage) => {
         return {
           cache: new InMemoryCache(),
           link: ApolloLink.from([
@@ -98,7 +99,7 @@ import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.
           // }
         };
       },
-      deps: [HttpLink],
+      deps: [HttpLink, LOCAL_STORAGE],
     },
   ],
 })
